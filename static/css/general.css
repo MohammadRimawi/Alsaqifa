@@ -1,0 +1,248 @@
+/*General*/
+
+
+
+@font-face {
+    font-family: "The_Sans_Arabic";
+    src: url("../assets/fonts/TheSansPlain.ttf");
+}
+
+@font-face {
+    font-family: "The_Sans_Arabic";
+    src: url("../assets/fonts/TheSansBold.otf");
+    font-weight: bold;
+}
+
+
+* {
+    font-family: The_Sans_Arabic; 
+    font-size:14px;
+    
+}
+
+body {
+    margin: 0;
+    /* height: 2000px; */
+}
+
+#nav_header {
+    width: 100%;
+    height: 300px;
+    background-color: #D5D4E0;
+    
+    white-space: nowrap;
+    text-align: center;
+}
+
+.sticky_show{
+    top: 0px !important;
+}
+
+.expand li{
+    display: block !important;
+}
+.shrink{
+
+}
+
+#nav_menu {
+    z-index: 999;
+    width: 100%;
+    height: 60px;
+    max-height: fit-content;
+    border: 0px solid #1E3661;
+    text-align: center;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    position: sticky !important;
+    top: -64px;
+    background-color: white;
+    
+    box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+    -webkit-box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+    -moz-box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+    /* overflow: hidden; */
+    position: relative;
+    transition: top .3s ease-in-out;
+}
+
+#nav_menu ul {
+    padding: 0;
+    width: 100%;
+    margin-top: 7px;
+}
+
+#nav_menu li {
+    display: inline-block;
+    margin: auto 30px;
+    height: fit-content;
+    padding: 3px 0px;
+   
+    border: 0px solid #1E3661;
+
+    transition: ease-in-out 100ms;
+
+}
+
+#nav_menu li a{
+    font-size: 20px !important;
+}
+
+
+a {
+    text-decoration: none;
+    color: #1E3661;
+}
+
+#nav_menu li:hover {
+
+    border-bottom-width: 3px;
+    /* font-weight: bold; */
+}
+
+#nav_menu li.active {
+    border: 0px solid #1E3661;
+    border-bottom-width: 3px;
+    /* border-top-width: 2px; */
+    font-weight: bold;
+}
+
+#nav_menu li>span {
+    visibility: hidden;
+}
+
+#nav_menu li.active>span {
+    visibility: visible;
+}
+
+.helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+#nav_header img {
+    vertical-align: middle;
+    max-height: 250px;
+
+}
+#nav_control{
+    position: absolute;
+    display: none;
+}
+
+
+
+  
+@media (max-width: 1200px) {
+   
+
+    #nav_menu {
+ 
+        height: 50px;
+        overflow: hidden;
+        transition: top .3s ease-in-out,height .3s ease-in-out;
+
+       
+    }
+    #nav_menu li {
+        display: none;
+        position: relative;
+        
+    }
+    #nav_menu .active{
+        display: block;
+        border-width: 0px !important;
+        /* position: sticky; */
+        /* top: 0; */
+    }
+
+
+
+    #nav_control{
+    
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    /* background-color: blue; */
+    margin: 0;
+    font-size: 30px;
+    right: 0;
+    cursor: pointer;
+        
+    }
+
+    #nav_menu.expand{
+        height: 250px !important;
+    }
+    
+}
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+
+    right: 0;
+    background-color: #033855db;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+  }
+  
+  .sidenav a{
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #ffffff;
+    display: block;
+    width: fit-content;
+    transition: 0.3s;
+    white-space: nowrap;
+  }
+  
+  .sidenav li {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    width: fit-content;
+    transition: 0.3s;
+    white-space: nowrap;
+
+   
+   
+    border: 0px solid #818181;
+    transition: ease-in-out 100ms;
+  }
+  
+  .sidenav a:hover,.sidenav li:hover ,.sidenav li.active{
+    color: #f1f1f1;
+
+    border-bottom-width: 3px;
+  }
+  
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+
+  #side_nav_back{
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+
+    right: 0;
+    background-color: rgba(17, 17, 17, 0.563);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+  }

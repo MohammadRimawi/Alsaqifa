@@ -1,0 +1,22 @@
+<nav>
+    <div id="nav_header">
+        <span class="helper"></span><a href="\"><img src="{{url_for('static', filename='assets/images/logo.svg')}}" height=350px /></a>
+    </div>
+</nav>
+<div id="nav_menu" >
+    <div id="nav_control" onclick="openNav()">☰</div>
+    <ul>
+        {% for page in Menu.menu %}
+        <li class="{% if Menu.menu[page].link == Menu.active %}active{% endif %}"><span>★ </span><a href="{{ Menu.menu[page].link }}">{{ Menu.menu[page].name }}</a><span> ★</span></li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div id ="side_nav_back" onclick="openNav()"></div>
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="openNav()">&times;</a>
+    {% for page in Menu.menu %}
+    <li class="{% if Menu.menu[page].link == Menu.active %}active{% endif %}"><a href="{{ Menu.menu[page].link }}">{{ Menu.menu[page].name }}</a></li>
+    {% endfor %}
+  </div>
+  

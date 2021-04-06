@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    {% assets "general.css" %}<link rel="stylesheet" href="{{ ASSET_URL }}">{% endassets %}
+    {% assets "home.css" %}<link rel="stylesheet" href="{{ ASSET_URL }}">{% endassets %}
+
+    {% assets "slider.js" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
+    {% assets "general.js" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
+
+    
+      
+  
+
+
+</head>
+
+<body onload="shuffle()">
+   {% include 'header.html' %}
+
+    <div id="main">
+
+        
+        <div class="item">
+            <div class="previous" onclick="previous(this)">
+                <span ><</span>
+            </div>
+            <div class="next" onclick="next(this)">
+                <span >></span>
+            </div> 
+            <div class="slider shuffle">
+                    <a href="#">
+                        <div class="card card-descriptive">
+                            <div class="card_img">
+                                <img src="ERTaFf3XYAEYQqs.jpg" alt="">
+                            </div>
+                            <p>
+                                لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو لار سيت أميت
+                                ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور...
+                            </p>
+                        </div>
+                    </a>
+                <div class="card card-descriptive">
+
+                </div>
+                <div class="card card-descriptive">
+
+                </div>
+                <div class="card card-descriptive">
+
+                </div>
+
+
+                
+            </div>
+           
+        </div>
+
+
+        <div class="item">
+            <div class="previous" onclick="previous(this)">
+                <span><</span>
+            </div> 
+            <div class="next" onclick="next(this)">
+                <span>></span>
+            </div>
+                <div class="slider shuffle" id="s">
+                    <a href="#">
+                        <div class="card card-brief">
+                            <div class="card_img">
+                                <img src="ERTaFf3XYAEYQqs.jpg" alt="">
+                            </div>
+                            <p>
+                                لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو لار سيت أميت
+                                ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور...
+                            </p>
+                        </div>
+                    </a>
+                <div class="card card-brief">
+
+                </div>
+                <div class="card card-brief">
+
+                </div>
+                <div class="card card-brief">
+
+                </div>
+                <div class="card card-brief">
+
+                </div>
+                <div class="card card-brief">
+
+                </div>
+                <div class="card card-brief">
+
+                </div>
+                <div class="card card-brief">
+
+                </div>
+                <div class="card card-brief">
+
+                </div>
+                <div class="card card-brief">
+
+                </div>
+
+
+                
+            </div>
+        </div>
+
+    
+        <div class="item" style="width: 90%;">
+            <a class="spreaker-player" href="https://www.spreaker.com/show/v_317" data-resource="show_id=3128564" data-theme="light" data-autoplay="false" data-playlist="show" data-width="100%" data-height="500px">Listen to "اغانينا" on Spreaker.</a><script async src="https://widget.spreaker.com/widgets.js"></script>
+        </div>
+    
+    </div>
+</body>
+
+</html>

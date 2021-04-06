@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /*General*/
+
+
+        @font-face {
+            font-family: "The_Sans_Arabic";
+            src: url("../assets/fonts/TheSansPlain.ttf");
+        }
+
+        @font-face {
+            font-family: "The_Sans_Arabic";
+            src: url("../assets/fonts/TheSansBold.otf");
+            font-weight: bold;
+        }
+
+        * {
+            font-family: The_Sans_Arabic;
+        }
+
+        body {
+            margin: 0;
+            /* height: 2000px; */
+        }
+
+        #nav_header {
+            width: 100%;
+            height: 300px;
+            background-color: #D5D4E0;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        #nav_menu {
+            z-index: 999;
+            width: 100%;
+            height: 60px;
+            border: 0px solid #1E3661;
+            text-align: center;
+            border-top-width: 2px;
+            border-bottom-width: 2px;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            background-color: white;
+
+            box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+            -webkit-box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+            -moz-box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+        }
+
+        #nav_menu ul {
+            padding: 0;
+            width: 100%;
+            margin-top: 7px;
+        }
+
+        #nav_menu li {
+            display: inline-block;
+            margin: auto 50px;
+            height: fit-content;
+            padding: 3px 0px;
+            font-size: 20px;
+            border: 0px solid #1E3661;
+            
+            transition: ease-in-out 100ms;
+
+        }
+
+        a {
+            text-decoration: none;
+            color: #1E3661;
+        }
+
+        #nav_menu li:hover {
+           
+            border-bottom-width: 3px;
+            /* font-weight: bold; */
+        }
+
+        #nav_menu li.active {
+            border: 0px solid #1E3661;
+            border-bottom-width: 3px;
+            /* border-top-width: 2px; */
+            font-weight: bold;
+        }
+
+        #nav_menu li>span {
+            visibility: hidden;
+        }
+
+        #nav_menu li.active>span {
+            visibility: visible;
+        }
+
+        .helper {
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+        }
+
+        #nav_header img {
+            vertical-align: middle;
+            max-height: 250px;
+
+        }
+
+        /* home */
+
+        #main {
+            width: 80%;
+            background-color: #F7F7F7;
+            height: 2000px;
+            margin: auto;
+        }
+
+        .item {
+
+            margin: auto;
+            padding-top: 30px;
+            width: 90%;
+        }
+
+        .card {
+            width: 300px;
+            height: 400px;
+            background-color: white;
+            margin: 30px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            overflow: hidden;
+
+            box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+            -webkit-box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+            -moz-box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+
+            transition: ease-in-out 200ms;
+            transform-origin: bottom;
+
+            border: 4px solid white;
+            
+        }
+
+        .card:hover {
+            transform: scale(1.04);
+            border-width: 3px;
+            border-color: #1E3661;
+        }
+
+        .next,
+        .previous {
+            text-align: center;
+            vertical-align: middle;
+            display: inline;
+        }
+
+        .card_img>img {
+            width: 100%;
+            object-fit: cover;
+            height: 250px;
+        }
+
+        p {
+            text-overflow: ellipsis;
+            direction: rtl;
+            white-space: normal;
+            overflow: hidden;
+            margin: 0;
+            padding: 5px 20px;
+
+        }
+        iframe{
+            box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+            -webkit-box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+            -moz-box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+  
+        }
+        .slider{
+            width: 100%;
+            overflow: auto;
+            overflow-y: hidden;
+            margin: 0 auto;
+            white-space: nowrap
+        }
+
+        .slider::-webkit-scrollbar {
+        width: 9px;
+        height: 9px;
+        }
+        .slider::-webkit-scrollbar-thumb {
+        background: #c7ceff;
+        border-radius: 15px;
+        }
+        .slider::-webkit-scrollbar-thumb:hover{
+        background: #b0b9ff;
+        }
+        .slider::-webkit-scrollbar-track{
+        background: #ffffff;
+        border-radius: 2px;
+        box-shadow: inset 7px 10px 12px #f0f0f0;
+        }
+    </style>
+
+<script>
+    function next(){
+        
+        const ele = document.getElementById('s');
+        for(i=1;i<332;i++){ 
+            setTimeout(() => {  
+                console.log(i);
+                // slee p(1ms)
+                ele.scrollLeft+=2;
+                
+             }, 100);
+        }
+
+    }
+
+    </script>
+</head>
+
+<body>
+
+
+    <div id="main">
+        <div class="item">
+            <div class="previous">
+                < </div> 
+            <div class="slider">
+                    <a href="#">
+                        <div class="card">
+                            <div class="card_img">
+                                <img src="ERTaFf3XYAEYQqs.jpg" alt="">
+                            </div>
+                            <p>
+                                لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو لار سيت أميت
+                                ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور...
+                            </p>
+                        </div>
+                    </a>
+                <div class="card">
+
+                </div>
+                <div class="card">
+
+                </div>
+                <div class="card">
+
+                </div>
+
+
+                
+            </div>
+            <div class="next">
+                <span class="helper" onclick="next()">></span>
+            </div>
+        </div>
+
+
+        <div class="item">
+            <div class="previous">
+                < </div> 
+            <div class="slider" id="s">
+                    <a href="#">
+                        <div class="card">
+                            <div class="card_img">
+                                <img src="ERTaFf3XYAEYQqs.jpg" alt="">
+                            </div>
+                            <p>
+                                لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو لار سيت أميت
+                                ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور...
+                            </p>
+                        </div>
+                    </a>
+                <div class="card">
+
+                </div>
+                <div class="card">
+
+                </div>
+                <div class="card">
+
+                </div>
+                <div class="card">
+
+                </div>
+                <div class="card">
+
+                </div>
+                <div class="card">
+
+                </div>
+                <div class="card">
+
+                </div>
+                <div class="card">
+
+                </div>
+                <div class="card">
+
+                </div>
+
+
+                
+            </div>
+            <div class="next">
+                <span class="helper">></span>
+            </div>
+        </div>
+
+    
+        <div class="item" style="width: 90%;">
+            <a class="spreaker-player" href="https://www.spreaker.com/show/v_317" data-resource="show_id=3128564" data-theme="light" data-autoplay="false" data-playlist="show" data-width="100%" data-height="500px">Listen to "اغانينا" on Spreaker.</a><script async src="https://widget.spreaker.com/widgets.js"></script>
+        </div>
+    
+    </div>
+</body>
+
+</html>

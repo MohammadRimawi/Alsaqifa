@@ -1,0 +1,105 @@
+/*General*/
+
+
+@font-face {
+    font-family: "The_Sans_Arabic";
+    src: url("../assets/fonts/TheSansPlain.ttf");
+}
+
+@font-face {
+    font-family: "The_Sans_Arabic";
+    src: url("../assets/fonts/TheSansBold.otf");
+    font-weight: bold;
+}
+
+* {
+    font-family: The_Sans_Arabic;
+}
+
+body {
+    margin: 0;
+    /* height: 2000px; */
+}
+
+#nav_header {
+    width: 100%;
+    height: 300px;
+    background-color: #D5D4E0;
+    
+    white-space: nowrap;
+    text-align: center;
+}
+
+#nav_menu {
+    z-index: 999;
+    width: 100%;
+    height: 60px;
+    border: 0px solid #1E3661;
+    text-align: center;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: white;
+
+    box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+    -webkit-box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+    -moz-box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+}
+
+#nav_menu ul {
+    padding: 0;
+    width: 100%;
+    margin-top: 7px;
+}
+
+#nav_menu li {
+    display: inline-block;
+    margin: auto 50px;
+    height: fit-content;
+    padding: 3px 0px;
+    font-size: 20px;
+    border: 0px solid #1E3661;
+
+    transition: ease-in-out 100ms;
+
+}
+
+a {
+    text-decoration: none;
+    color: #1E3661;
+}
+
+#nav_menu li:hover {
+
+    border-bottom-width: 3px;
+    /* font-weight: bold; */
+}
+
+#nav_menu li.active {
+    border: 0px solid #1E3661;
+    border-bottom-width: 3px;
+    /* border-top-width: 2px; */
+    font-weight: bold;
+}
+
+#nav_menu li>span {
+    visibility: hidden;
+}
+
+#nav_menu li.active>span {
+    visibility: visible;
+}
+
+.helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+#nav_header img {
+    vertical-align: middle;
+    max-height: 250px;
+
+}
