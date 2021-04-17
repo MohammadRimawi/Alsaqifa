@@ -1,31 +1,12 @@
 from flask import Flask, render_template, request, session
 from flask_assets import Environment, Bundle
-# from flask_sqlalchemy import SQLAlchemy
-from flask_mysqldb import MySQL
 import mysql.connector
-
-
 
 app = Flask(__name__)
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:00000000@localhost/Alsaqifa'
-# db = SQLAlchemy(app)
-
- 
-# app.config['MYSQL_HOST'] = 'localhost'
-# app.config['MYSQL_USER'] = 'root'
-# app.config['MYSQL_PASSWORD'] = '00000000'
-# app.config['MYSQL_DB'] = 'Alsaqifa'
-
-# mysql = MySQL(app)
 
 db = mysql.connector.connect(host = "localhost",user="root",passwd="",database = "Alsaqifa")
-# class User(db.Model):
-#     __tablename__="users"
-#     user_id = db.Column("user_id",db.Integer,primary_key=True)
-#     full_name = db.Column("full_name",db.String(100))
-#     image_url = db.Column("image_url",db.String(100))
-#     title = db.Column("title",db.String(100))
+
 
 css = Bundle('css/general.css', output = "gen/main.css")
 
@@ -40,6 +21,21 @@ assets = Environment(app)
 
 assets.register(bundles)
 
+class Card:
+    def __init__(self,title,description,image_url):
+        self.title = title
+        self.description = description
+        self.image_url = image_url
+        
+
+class Widget:
+    widgets = []
+    def __init__(self,widget_title,cards,descriptive=False,shuffle=True):
+        self.widget_title=widget_title
+        self.cards=cards
+        self.descriptive = descriptive
+        self.shuffle=shuffle
+
 
 class Menu:
     menu={}
@@ -47,8 +43,7 @@ class Menu:
     def __init__(self,name,link):
         self.name=name
         self.link=link
-    
-    
+        
     @staticmethod
     def load_menu():
         Menu.menu["/registration"]=(Menu("تسجيل دخول","/registration"))
@@ -61,6 +56,34 @@ class Menu:
 
 @app.route('/')
 def index():
+
+    Widget.widgets=[]
+    Widget.widgets.append(Widget(
+        widget_title="w1",
+        cards=[
+            Card(title="test1",description="Hello this is test",image_url="noimage"),
+            Card(title="test1",description="Hello this is test",image_url="noimage"),
+            Card(title="test1",description="Hello this is test",image_url="noimage"),
+            # Card(title="test1",description="Hello this is test",image_url="noimage"),
+            # Card(title="test1",description="Hello this is test",image_url="noimage"),
+        ],
+        descriptive=False
+    ))
+
+    Widget.widgets.append(Widget(
+        widget_title="w2",
+        cards=[
+            Card(title="test1",description="Hello this is test",image_url="noimage"),
+            Card(title="test1",description="Hello this is test",image_url="noimage"),
+            Card(title="test1",description="Hello this is test",image_url="noimage"),
+            Card(title="test1",description="Hello this is test",image_url="noimage"),
+            Card(title="test1",description="Hello this is test",image_url="noimage"),
+            Card(title="test1",description="Hello this is test",image_url="noimage"),
+            Card(title="test1",description="Hello this is test",image_url="noimage"),
+        ],
+        descriptive=True
+    ))
+
     cur = db.cursor()
     cur.execute("select * from users where user_id = 1")
     for i in cur:
@@ -74,7 +97,7 @@ def index():
     # print(str(rv))
     # cur.close()
     Menu.active="/"
-    return render_template("index.html",Menu=Menu)
+    return render_template("index.html",Menu=Menu,Widget=Widget)
 
 @app.route('/registration')
 def registration():
