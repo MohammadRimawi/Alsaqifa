@@ -13,8 +13,8 @@ function next(elm,user=1){
 
         var temp = ele.scrollLeft ;
         
-        var card = ele.getElementsByClassName("card")[0];
-        ele.getElementsByClassName("card")[0].remove();
+        var card = ele.getElementsByClassName("card")[0].parentElement;
+        ele.getElementsByClassName("card")[0].parentElement.remove();
         ele.append(card);
             
         // ele.scrollLeft= temp-200;
@@ -62,8 +62,8 @@ function previous(elm,user=1){
 
         var temp = ele.scrollLeft+offset;
         var cards = ele.getElementsByClassName("card");
-        var card = cards[cards.length-1];
-        ele.getElementsByClassName("card")[cards.length-1].remove();
+        var card = cards[cards.length-1].parentElement;
+        ele.getElementsByClassName("card")[cards.length-1].parentElement.remove();
         ele.prepend(card);
 
         ele.scrollLeft+= offset;

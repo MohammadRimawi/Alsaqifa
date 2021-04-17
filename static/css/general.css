@@ -246,3 +246,8 @@ a {
     transition: 0.5s;
     padding-top: 60px;
   }
+
+  .widget-title{
+      font-size: 30px;
+      font-weight: bold;
+  }

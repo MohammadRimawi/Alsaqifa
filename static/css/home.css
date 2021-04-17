@@ -52,8 +52,8 @@
     .previous {
         position: absolute;
         display: inline;
-        height: 80%;
-        top: 11%;
+        height: 66%;
+        top: 25%;
         cursor: pointer;
         transition: background-color 0.5s ease-in-out;
         width: 70px;

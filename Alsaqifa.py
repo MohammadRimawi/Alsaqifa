@@ -24,6 +24,7 @@ assets.register(bundles)
 class Card:
     def __init__(self,title,description,image_url):
         self.title = title
+        self.link = ""
         self.description = description
         self.image_url = image_url
         
@@ -56,16 +57,17 @@ class Menu:
 
 @app.route('/')
 def index():
-
+    filler= "لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو لار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور..."
     Widget.widgets=[]
     Widget.widgets.append(Widget(
         widget_title="w1",
         cards=[
-            Card(title="test1",description="Hello this is test",image_url="noimage"),
-            Card(title="test1",description="Hello this is test",image_url="noimage"),
-            Card(title="test1",description="Hello this is test",image_url="noimage"),
-            # Card(title="test1",description="Hello this is test",image_url="noimage"),
-            # Card(title="test1",description="Hello this is test",image_url="noimage"),
+            Card(title="test1",description=filler,image_url="noimage"),
+            Card(title="test2",description=filler,image_url="noimage"),
+            Card(title="test3",description=filler,image_url="noimage"),
+            Card(title="test1",description=filler,image_url="noimage"),
+            Card(title="test1",description=filler,image_url="noimage"),
+            Card(title="test1",description=filler,image_url="noimage"),
         ],
         descriptive=False
     ))
@@ -73,13 +75,13 @@ def index():
     Widget.widgets.append(Widget(
         widget_title="w2",
         cards=[
-            Card(title="test1",description="Hello this is test",image_url="noimage"),
-            Card(title="test1",description="Hello this is test",image_url="noimage"),
-            Card(title="test1",description="Hello this is test",image_url="noimage"),
-            Card(title="test1",description="Hello this is test",image_url="noimage"),
-            Card(title="test1",description="Hello this is test",image_url="noimage"),
-            Card(title="test1",description="Hello this is test",image_url="noimage"),
-            Card(title="test1",description="Hello this is test",image_url="noimage"),
+            Card(title="test1",description=filler,image_url="noimage"),
+            Card(title="test2",description=filler,image_url="noimage"),
+            Card(title="test3",description=filler,image_url="noimage"),
+            Card(title="test4",description=filler,image_url="noimage"),
+            Card(title="test5",description=filler,image_url="noimage"),
+            Card(title="test6",description=filler,image_url="noimage"),
+            Card(title="test7",description=filler,image_url="noimage"),
         ],
         descriptive=True
     ))
