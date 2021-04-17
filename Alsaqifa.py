@@ -1,20 +1,31 @@
 from flask import Flask, render_template, request, session
 from flask_assets import Environment, Bundle
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
+from flask_mysqldb import MySQL
+import mysql.connector
 
 
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:123456@mysql/Alsaqifa'
-db = SQLAlchemy(app)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:00000000@localhost/Alsaqifa'
+# db = SQLAlchemy(app)
 
-class User(db.Model):
-    __tablename__="users"
-    id = db.Column("user_id",db.Integer,primary_key=True)
-    name = db.Column("full_name",db.String(100))
-    imageURL = db.Column("image_url",db.String(100))
-    title = db.Column("title",db.String(100))
+ 
+# app.config['MYSQL_HOST'] = 'localhost'
+# app.config['MYSQL_USER'] = 'root'
+# app.config['MYSQL_PASSWORD'] = '00000000'
+# app.config['MYSQL_DB'] = 'Alsaqifa'
+
+# mysql = MySQL(app)
+
+db = mysql.connector.connect(host = "localhost",user="root",passwd="",database = "Alsaqifa")
+# class User(db.Model):
+#     __tablename__="users"
+#     user_id = db.Column("user_id",db.Integer,primary_key=True)
+#     full_name = db.Column("full_name",db.String(100))
+#     image_url = db.Column("image_url",db.String(100))
+#     title = db.Column("title",db.String(100))
 
 css = Bundle('css/general.css', output = "gen/main.css")
 
@@ -50,6 +61,18 @@ class Menu:
 
 @app.route('/')
 def index():
+    cur = db.cursor()
+    cur.execute("select * from users where user_id = 1")
+    for i in cur:
+        print(i)
+    cur.close()
+        
+    # # # User.query.filter_by(id=1)
+    # # mysql.connection.commit()
+    # cur.execute('''SELECT * FROM users''')
+    # rv = cur.fetchall()
+    # print(str(rv))
+    # cur.close()
     Menu.active="/"
     return render_template("index.html",Menu=Menu)
 
@@ -67,7 +90,5 @@ def posts(title):
 
 if __name__ == '__main__':
     Menu.load_menu()
-    User.query.filter_by(id=1).first()
-
-
+ 
     app.run(host = '0.0.0.0', debug = True)
