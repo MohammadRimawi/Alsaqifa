@@ -24,14 +24,18 @@
                 <p>
                     {% if item.descriptive %}
                      <p>
-                         {{card.title}} 
+                        {% autoescape false %} 
+                        {{card.title}} 
+                        {% endautoescape %} 
                      </p>
                      <p>
                          {{card.description}} 
                      </p>
                     {% else %}
                     <p>
+                        {% autoescape false %} 
                         {{card.title}} 
+                        {% endautoescape %}
                     </p>
                     <p>
                         {{card.description}} 
