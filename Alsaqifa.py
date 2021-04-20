@@ -5,7 +5,7 @@ import mysql.connector
 app = Flask(__name__)
 
 
-db = mysql.connector.connect(host = "localhost",user="root",passwd="",database = "Alsaqifa")
+db = mysql.connector.connect(host = "localhost",user="root",passwd="000000",database = "Alsaqifa")
 
 
 css = Bundle('css/general.css', output = "gen/main.css")
