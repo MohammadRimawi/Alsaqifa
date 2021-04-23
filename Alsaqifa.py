@@ -50,7 +50,7 @@ class Menu:
         Menu.menu["/registration"]=(Menu("تسجيل دخول","/registration"))
         Menu.menu["#1"]=(Menu("البرامج الاذاعية","#"))
         Menu.menu["/"]=(Menu("الصفحة الرئيسية","/"))
-        Menu.menu["#2"]=(Menu("البرامج الاذاعية","#"))
+        Menu.menu["/podcast"]=(Menu("البرامج الاذاعية","/podcast"))
         Menu.menu["#3"]=(Menu("البرامج الاذاعية","#"))
 
 
@@ -110,6 +110,12 @@ def registration():
 def posts(title):
     Menu.active="" 
     return render_template("posts.html",title=title,Menu=Menu)
+
+@app.route("/podcast/<playlist>")
+def podcast(playlist):
+    Menu.active="/podcast" 
+    return render_template("podcast.html",playlist=playlist,Menu=Menu)
+
 
 
 
