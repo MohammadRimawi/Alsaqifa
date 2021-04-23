@@ -75,7 +75,7 @@ def index():
     Widget.widgets.append(Widget(
         widget_title="w2",
         cards=[
-            Card(title="test1",description=filler,image_url="noimage"),
+            Card(title="<strong>test1</strong>",description=filler,image_url="noimage"),
             Card(title="test2",description=filler,image_url="noimage"),
             Card(title="test3",description=filler,image_url="noimage"),
             Card(title="test4",description=filler,image_url="noimage"),
