@@ -21,6 +21,14 @@ assets = Environment(app)
 
 assets.register(bundles)
 
+
+def parse(s):
+    new_s=[]
+    for i in range(len(s)): 
+        if s[i]=='-':new_s.append(' ')
+        else: new_s.append(s[i])
+    return "".join(new_s)
+
 class Card:
     def __init__(self,title,description,image_url):
         self.title = title
@@ -116,10 +124,61 @@ def podcast(playlist):
     Menu.active="/podcast" 
     return render_template("podcast.html",playlist=playlist,Menu=Menu)
 
+@app.route("/playlist/<p>")
+def playlist(p):
+    p = parse(p)
+    print(str(p),"***************************************************************")
+    cur = db.cursor(dictionary=True)
+    playlist_name_sql = "select * from playlists where name = '"+p+"'"
+    print(playlist_name_sql)
+    cur.execute(playlist_name_sql)
+    playlist_name_result = list(cur)
+    print(playlist_name_result)
+    # print(playlist_name_result[0]['id'])
+    # **************************************
+    # TO DO:
+    # if does no exist
+    # **************************************
+
+    playlists_tracks_sql = "select * from playlists_tracks where playlist_id = "+str(playlist_name_result[0]['id'])
+    # print(sql,"**********************")
+    try:
+        cur.execute(playlists_tracks_sql)
+
+        playlists_tracks_results = list(cur)
+        
+        tracks_list=[]
+        
+        for i in playlists_tracks_results:
+            
+            tracks_list.append(str(i['track_id']))
+            pass
+    except:
+        # return "something went wrong!"
+        pass
+
+    tracks_sql = "SELECT * FROM tracks WHERE id in ("+', '.join(tracks_list)+")"
+    # print(', '.join(tracks_list))
+    cur.execute(tracks_sql)
+
+    tracks_results = list(cur)
+
+    print(tracks_results)
+    cur.close()
+            # {
+            # "track": 2,
+            # "name": "The Forsaken - Broadwing Studio (Final Mix)",
+            # "duration": "8:30",
+            # "file": "{{ url_for('static', filename='audio/audioblocks-escaping-forever_BwdtBTFiS_NWM') }}",
+            # "image": "{{ url_for('static', filename='/assets/images/ERTaFf3XYAEYQqs.jpg') }}",
+            # }
+    # Menu.active="/podcast" 
+    return render_template("playlist.html",p=p,Menu=Menu,tracks_results=tracks_results)
+
 
 
 
 if __name__ == '__main__':
     Menu.load_menu()
- 
-    app.run(host = '0.0.0.0', debug = True)
+    # print(parse("Hello-test"))
+    app.run(host = '0.0.0.0',debug=True)

@@ -1,12 +1,19 @@
-<link rel="stylesheet" href="https://cdn.plyr.io/3.6.2/plyr.css">
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.2/plyr.css">
+   
+    <!-- undifiend GET request here -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5media/1.1.8/html5media.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.2/plyr.min.js"></script>
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5media/1.1.8/html5media.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    {% assets "general.css" %}<link rel="stylesheet" href="{{ ASSET_URL }}">{% endassets %}
+    {% assets "home.css" %}<link rel="stylesheet" href="{{ ASSET_URL }}">{% endassets %}
+
 <style>
     /* Font Family
 ================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap"); */
 
 
 /* Global Styles
@@ -15,14 +22,15 @@
 html,body {
 -webkit-font-smoothing:antialiased;
 -webkit-text-size-adjust:100%;
-background-color:#0665a2;
-color:#fff;
+background-color:#d6d6d6;
+/* color:#fff; */
 font-size:1rem;
 font-family:"Source Sans Pro", arial, sans-serif;
 font-weight:400;
 letter-spacing:.025rem;
 line-height:1.618;
-padding:1rem 0;
+/* padding:1rem 0; */
+margin: 0;
 }
 
 *,::before,::after {
@@ -38,18 +46,22 @@ box-sizing:border-box;
 /* Setup
 ================================================== */
 
-.container { position:relative; margin:0 auto; max-width:800px; width:100%; }
+.container { 
+    position:relative;
+    /* margin:0 auto; */
+    /* max-width:800px; */
+    width:100%; }
 .column { width:inherit; }
 
 
 /* Typography / Links
 ================================================== */
-
+/* 
 p { color:#fff; display:block; font-size:.9rem; font-weight:400; margin:0 0 2px; }
 
 a,a:visited { color:#8cc3e6; outline:0; text-decoration:underline; }
 a:hover,a:focus { color:#bbdef5; }
-p a,p a:visited { line-height:inherit; }
+p a,p a:visited { line-height:inherit; } */
 
 
 /* Misc.
@@ -75,44 +87,21 @@ audio {
 display:none;
 }
 
-#audiowrap,
-#plwrap {
-margin:0 auto;
+.plyr__controls{
+/* color */
+text-align: end;
 }
 
-#tracks {
-font-size:0;
-position:relative;
-text-align:center;
-}
-
-#nowPlay {
-display:block;
-font-size:0;
-}
-
-#nowPlay span {
-display:inline-block;
-font-size:1.05rem;
-vertical-align:top;
-}
-
-#nowPlay span#npAction {
-padding:21px;
-width:30%;
-}
-
-#nowPlay span#npTitle {
-padding:21px;
-text-align:right;
-width:70%;
+.plyr{
+    height: fit-content !important;
 }
 
 #plList li {
 cursor:pointer;
 display:block;
 margin:0;
-padding:21px 0;
+border-bottom: grey 1px solid;
+/* padding:10px 0; */
 }
 
 #plList li:hover {
@@ -124,58 +113,50 @@ position:relative;
 }
 
 .plTitle {
-left:50px;
+left:70px;
 overflow:hidden;
 position:absolute;
 right:65px;
 text-overflow:ellipsis;
-top:0;
+top:13px;
+text-align: right;
 white-space:nowrap;
+direction: rtl;
 }
 
 .plNum {
 padding-left:21px;
 width:25px;
+display: none;
 }
 
 .plLength {
 padding-left:21px;
 position:absolute;
-right:21px;
-top:0;
+/* right:21px; */
+top:13px;
 }
+.plImg{
+    position: relative;
+    left: calc(100% - 50px);
+}
+.plImg img{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    right: 0;
+    /* margin-left: 21px; */
+}
+
 
 .plSel,
 .plSel:hover {
 background-color:rgba(0, 0, 0, .1);
-color:#fff;
+/* color:#fff; */
 cursor:default !important;
 }
 
-#tracks a {
-border-radius:3px;
-color:#fff;
-cursor:pointer;
-display:inline-block;
-font-size:2.3rem;
-height:40px;
-line-height:.2;
-margin:0 5px 30px;
-padding:12px;
-text-decoration:none;
-transition:background .3s ease;
-}
 
-#tracks a:hover,
-#tracks a:active {
-background-color:rgba(0, 0, 0, .1);
-color:#fff;
-}
-
-#tracks a::-moz-focus-inner {
-border:0;
-padding:0;
-}
 
 
 /* Plyr Overrides
@@ -184,9 +165,9 @@ padding:0;
 .plyr--audio .plyr__controls {
 background-color:transparent;
 border:none;
-color:#fff;
-font-family:"Source Sans Pro", arial, sans-serif;
-padding:20px 20px 20px 13px;
+/* color:#fff; */
+/* font-family:"Source Sans Pro", arial, sans-serif; */
+/* padding:20px 20px 20px 13px; */
 width:100%;
 }
 
@@ -195,6 +176,7 @@ a.plyr__controls__item.plyr__control:hover,
 .plyr--audio .plyr__controls button.tab-focus:focus,
 .plyr__play-large {
 background-color:rgba(0, 0, 0, .1);
+color: black !important;
 }
 
 .plyr__progress--played,
@@ -241,14 +223,20 @@ jQuery(function ($) {
         // initialize plyr
         var player = new Plyr('#audio1', {
             controls: [
-                'restart',
-                'play',
+                // 'restart',
+                // 'play',
                 'progress',
                 'current-time',
                 'duration',
                 'mute',
                 'volume',
-                'download'
+                // 'settings',
+                
+                
+                // 'rewind',
+                // 'play',
+                // 'fast-forward',
+                // 'download'
             ]
         });
         // initialize playlist and controls
@@ -256,199 +244,45 @@ jQuery(function ($) {
             playing = false,
             mediaPath = '',
             extension = '',
-            tracks = [{
-                "track": 1,
-                "name": "All This Is - Joe L.'s Studio",
-                "duration": "1:39",
-                "file": "{{ url_for('static', filename='/audio/deep-thoughts-full_G10GtE4O_NWM') }}"
-            }, {
-                "track": 2,
-                "name": "The Forsaken - Broadwing Studio (Final Mix)",
-                "duration": "8:30",
-                "file": "BS_TF"
-            }, {
-                "track": 3,
-                "name": "All The King's Men - Broadwing Studio (Final Mix)",
-                "duration": "5:01",
-                "file": "BS_ATKM"
-            }, {
-                "track": 4,
-                "name": "The Forsaken - Broadwing Studio (First Mix)",
-                "duration": "8:31",
-                "file": "BSFM_TF"
-            }, {
-                "track": 5,
-                "name": "All The King's Men - Broadwing Studio (First Mix)",
-                "duration": "5:05",
-                "file": "BSFM_ATKM"
-            }, {
-                "track": 6,
-                "name": "All This Is - Alternate Cuts",
-                "duration": "2:48",
-                "file": "AC_ATI"
-            }, {
-                "track": 7,
-                "name": "All The King's Men (Take 1) - Alternate Cuts",
-                "duration": "5:44",
-                "file": "AC_ATKMTake_1"
-            }, {
-                "track": 8,
-                "name": "All The King's Men (Take 2) - Alternate Cuts",
-                "duration": "5:26",
-                "file": "AC_ATKMTake_2"
-            }, {
-                "track": 9,
-                "name": "Magus - Alternate Cuts",
-                "duration": "5:46",
-                "file": "AC_M"
-            }, {
-                "track": 10,
-                "name": "The State Of Wearing Address (fucked up) - Alternate Cuts",
-                "duration": "5:25",
-                "file": "AC_TSOWAfucked_up"
-            }, {
-                "track": 11,
-                "name": "Magus - Popeye's (New Years '04 - '05)",
-                "duration": "5:53",
-                "file": "PNY04-05_M"
-            }, {
-                "track": 12,
-                "name": "On The Waterfront - Popeye's (New Years '04 - '05)",
-                "duration": "4:40",
-                "file": "PNY04-05_OTW"
-            }, {
-                "track": 13,
-                "name": "Trance - Popeye's (New Years '04 - '05)",
-                "duration": "13:15",
-                "file": "PNY04-05_T"
-            }, {
-                "track": 14,
-                "name": "The Forsaken - Popeye's (New Years '04 - '05)",
-                "duration": "8:12",
-                "file": "PNY04-05_TF"
-            }, {
-                "track": 15,
-                "name": "The State Of Wearing Address - Popeye's (New Years '04 - '05)",
-                "duration": "7:02",
-                "file": "PNY04-05_TSOWA"
-            }, {
-                "track": 16,
-                "name": "Magus - Popeye's (Valentine's Day '05)",
-                "duration": "5:43",
-                "file": "PVD_M"
-            }, {
-                "track": 17,
-                "name": "Trance - Popeye's (Valentine's Day '05)",
-                "duration": "10:45",
-                "file": "PVD_T"
-            }, {
-                "track": 18,
-                "name": "The State Of Wearing Address - Popeye's (Valentine's Day '05)",
-                "duration": "5:36",
-                "file": "PVD_TSOWA"
-            }, {
-                "track": 19,
-                "name": "All This Is - Smith St. Basement (01/08/04)",
-                "duration": "2:48",
-                "file": "SSB01_08_04_ATI"
-            }, {
-                "track": 20,
-                "name": "Magus - Smith St. Basement (01/08/04)",
-                "duration": "5:46",
-                "file": "SSB01_08_04_M"
-            }, {
-                "track": 21,
-                "name": "Beneath The Painted Eye - Smith St. Basement (06/06/03)",
-                "duration": "13:07",
-                "file": "SSB06_06_03_BTPE"
-            }, {
-                "track": 22,
-                "name": "Innocence - Smith St. Basement (06/06/03)",
-                "duration": "5:16",
-                "file": "SSB06_06_03_I"
-            }, {
-                "track": 23,
-                "name": "Magus - Smith St. Basement (06/06/03)",
-                "duration": "5:46",
-                "file": "SSB06_06_03_M"
-            }, {
-                "track": 24,
-                "name": "Madness Explored - Smith St. Basement (06/06/03)",
-                "duration": "4:51",
-                "file": "SSB06_06_03_ME"
-            }, {
-                "track": 25,
-                "name": "The Forsaken - Smith St. Basement (06/06/03)",
-                "duration": "8:43",
-                "file": "SSB06_06_03_TF"
-            }, {
-                "track": 26,
-                "name": "All This Is - Smith St. Basement (12/28/03)",
-                "duration": "3:00",
-                "file": "SSB12_28_03_ATI"
-            }, {
-                "track": 27,
-                "name": "Magus - Smith St. Basement (12/28/03)",
-                "duration": "6:09",
-                "file": "SSB12_28_03_M"
-            }, {
-                "track": 28,
-                "name": "Madness Explored - Smith St. Basement (12/28/03)",
-                "duration": "5:05",
-                "file": "SSB12_28_03_ME"
-            }, {
-                "track": 29,
-                "name": "Trance - Smith St. Basement (12/28/03)",
-                "duration": "12:32",
-                "file": "SSB12_28_03_T"
-            }, {
-                "track": 30,
-                "name": "The Forsaken - Smith St. Basement (12/28/03)",
-                "duration": "8:56",
-                "file": "SSB12_28_03_TF"
-            }, {
-                "track": 31,
-                "name": "All This Is (Take 1) - Smith St. Basement (Nov. '03)",
-                "duration": "4:55",
-                "file": "SSB___11_03_ATITake_1"
-            }, {
-                "track": 32,
-                "name": "All This Is (Take 2) - Smith St. Basement (Nov. '03)",
-                "duration": "5:45",
-                "file": "SSB___11_03_ATITake_2"
-            }, {
-                "track": 33,
-                "name": "Beneath The Painted Eye (Take 1) - Smith St. Basement (Nov. '03)",
-                "duration": "14:05",
-                "file": "SSB___11_03_BTPETake_1"
-            }, {
-                "track": 34,
-                "name": "Beneath The Painted Eye (Take 2) - Smith St. Basement (Nov. '03)",
-                "duration": "13:25",
-                "file": "SSB___11_03_BTPETake_2"
-            }, {
-                "track": 35,
-                "name": "The Forsaken (Take 1) - Smith St. Basement (Nov. '03)",
-                "duration": "8:37",
-                "file": "SSB___11_03_TFTake_1"
-            }, {
-                "track": 36,
-                "name": "The Forsaken (Take 2) - Smith St. Basement (Nov. '03)",
-                "duration": "8:36",
-                "file": "SSB___11_03_TFTake_2"
-            }],
+
+            tracks = [
+                {% for track in tracks_results %}
+                {
+                    "id": "{{track['id']}}",
+                    "name": "{{track['name']}}",
+                    "duration": "{{track['duration']}}",
+                    "track_url": "{{ url_for('static', filename=track['track_url']) }}",
+                    "image_url": "{{ url_for('static', filename=track['image_url']) }}",
+                },
+                {% endfor %}
+            ],
+            // tracks = [{
+            //     "id": 1,
+            //     "name": "كونسيكتيتور أدايبا ر أدايبا يسكينج أليايت,سيت دو أيوسمود تيم  ر أدايبا يسكينج أليايت,سيت دو أيوسمود تيم يسكينج أليايت,سيت دو أيوسمود تيمبو",
+            //     "duration": "1:39",
+            //     "track_url": "{{ url_for('static', filename='/audio/deep-thoughts-full_G10GtE4O_NWM') }}",
+            //     "image_url": "{{ url_for('static', filename='/assets/images/ERTaFf3XYAEYQqs.jpg') }}",
+            // }, {
+            //     "id": 2,
+            //     "name": "The Forsaken - Broadwing Studio (Final Mix)",
+            //     "duration": "8:30",
+            //     "track_url": "{{ url_for('static', filename='audio/audioblocks-escaping-forever_BwdtBTFiS_NWM') }}",
+            //     "image_url": "{{ url_for('static', filename='/assets/images/ERTaFf3XYAEYQqs.jpg') }}",
+            // },],
             buildPlaylist = $.each(tracks, function(key, value) {
-                var trackNumber = value.track,
+                var trackNumber = value.id,
                     trackName = value.name,
-                    trackDuration = value.duration;
+                    trackDuration = value.duration,
+                    trackImage = value.image_url;
                 if (trackNumber.toString().length === 1) {
                     trackNumber = '0' + trackNumber;
                 }
                 $('#plList').append('<li> \
                     <div class="plItem"> \
                         <span class="plNum">' + trackNumber + '.</span> \
-                        <span class="plTitle">' + trackName + '</span> \
                         <span class="plLength">' + trackDuration + '</span> \
+                        <span class="plTitle">' + trackName + '</span> \
+                        <span class="plImg"><img src=\"'+trackImage+'\"> </span>\
                     </div> \
                 </li>');
             }),
@@ -466,8 +300,12 @@ jQuery(function ($) {
                 if ((index + 1) < trackCount) {
                     index++;
                     loadTrack(index);
+                    $('#btnPlay').addClass('fa-pause');
+                    $('#btnPlay').removeClass('fa-play');
                     audio.play();
                 } else {
+                    $('#btnPlay').removeClass('fa-pause');
+                    $('#btnPlay').addClass('fa-play');
                     audio.pause();
                     index = 0;
                     loadTrack(index);
@@ -478,12 +316,18 @@ jQuery(function ($) {
                     index--;
                     loadTrack(index);
                     if (playing) {
+                        $('#btnPlay').addClass('fa-pause');
+                        $('#btnPlay').removeClass('fa-play');
+
                         audio.play();
                     }
                 } else {
-                    audio.pause();
+                    // $('#btnPlay').removeClass('fa-pause');
+                    // $('#btnPlay').addClass('fa-play');
+                    // audio.pause();
+                    console.log("else")
                     index = 0;
-                    loadTrack(index);
+                    // loadTrack(index);
                 }
             }),
             btnNext = $('#btnNext').on('click', function () {
@@ -491,12 +335,37 @@ jQuery(function ($) {
                     index++;
                     loadTrack(index);
                     if (playing) {
+                        $('#btnPlay').addClass('fa-pause');
+                        $('#btnPlay').removeClass('fa-play');
+
                         audio.play();
                     }
                 } else {
-                    audio.pause();
-                    index = 0;
-                    loadTrack(index);
+                    // $('#btnPlay').removeClass('fa-pause');
+                    // $('#btnPlay').addClass('fa-play');
+                    // audio.pause();
+                    // index = 0;
+                    // loadTrack(index);
+                }
+            }),
+            btnPlay = $('#btnPlay').on('click', function () {
+                console.log("TESST")
+
+                // if ((index + 1) < trackCount) {
+                    // index++;
+                    // loadTrack(index);
+                    if (playing) {
+                        $('#btnPlay').removeClass('fa-pause');
+                        $('#btnPlay').addClass('fa-play');
+                        audio.pause();
+                    }
+                    else {
+                        $('#btnPlay').addClass('fa-pause');
+                        $('#btnPlay').removeClass('fa-play');
+
+                        audio.play();
+                    // index = 0;
+                    // loadTrack(index);
                 }
             }),
             li = $('#plList li').on('click', function () {
@@ -508,9 +377,10 @@ jQuery(function ($) {
             loadTrack = function (id) {
                 $('.plSel').removeClass('plSel');
                 $('#plList li:eq(' + id + ')').addClass('plSel');
+                $('#imgsrc').attr("src",tracks[id].image_url);
                 npTitle.text(tracks[id].name);
                 index = id;
-                audio.src = mediaPath + tracks[id].file + extension;
+                audio.src = mediaPath + tracks[id].track_url + extension;
                 updateDownload(id, audio.src);
             },
             updateDownload = function (id, source) {
@@ -520,6 +390,8 @@ jQuery(function ($) {
             },
             playTrack = function (id) {
                 loadTrack(id);
+                $('#btnPlay').addClass('fa-pause');
+                $('#btnPlay').removeClass('fa-play');
                 audio.play();
             };
         extension = audio.canPlayType('audio/mpeg') ? '.mp3' : audio.canPlayType('audio/ogg') ? '.ogg' : '';
@@ -530,33 +402,286 @@ jQuery(function ($) {
         var noSupport = $('#audio1').text();
         $('.container').append('<p class="no-support">' + noSupport + '</p>');
     }
+
+
 });
 
 </script>
+<style>
+    #image{
+        width: 210px;
+        height: 210px;
+        background-color: brown;
+        margin: auto;
+        overflow: hidden;
+    }
+    #imgsrc{
+        --w: 100%;
+        width: var(--w);
+        height: var(--w);
+        object-fit: cover;
+        
+    }
 
 
+    .plyr__controls{
+        display: block;
+    }
+    .plyr__time{
+        display: inline !important;
+        width: fit-content !important;
+    }
+
+
+  
+    #plList{
+        padding: 0;
+    }
+
+    #btnPrev, #btnNext {
+    width: 40px;
+    height: 40px;
+    color: #666666;
+    font-size: 20px;
+    text-decoration: none;
+    background-color: whitesmoke;
+    padding-top: 10px;
+    border-radius: 50%;
+    margin: 0 5px;
+    /* margin-top: 10px; */
+    box-shadow: 0 3px 6px rgb(33 33 33 / 10%), 0 3px 12px rgb(33 33 33 / 15%);
+    transform: scale(1);
+    transition: color , transform .3s ease;
+}
+
+    #btnPlay{
+        transform: scale(1);
+        transition: color , transform .3s ease;
+
+        width: 60px;
+        height: 60px;
+        color: rgba(211, 3, 32, 0.95);
+        font-size: 20px;
+        text-decoration: none;
+        background-color: whitesmoke;
+        padding-top: 20px;
+        border-radius: 50%;  
+        margin: 0 5px ; 
+        box-shadow: 0 3px 6px rgb(33 33 33 / 10%), 0 3px 12px rgb(33 33 33 / 15%);
+    }
+    #btnPlay.fa-play{
+        padding-left: 4px;
+    }
+    #btnPlay.fa-pause{
+        padding-left: 1px;
+    }
+    #btnPlay:hover,#btnPrev:hover,#btnNext:hover{
+        color: rgba(211, 3, 32, 0.95);
+        transform: scale(1.1);
+        transition: color , transform .3s ease;
+    }
+
+  
+    .shrink #image{
+        width: 100%;
+        height: 200px;
+    }
+
+    .shrink #audiowrap{
+        height: 100%;
+        float: left;
+        max-width: 40%;
+        display: inline-block;
+        width: 100%;
+        padding-top: 0;
+    }
+
+    #plwrap {
+    background-color: white;
+    max-height: calc(100% - 210px);
+    overflow-y: scroll;
+    margin:0 auto;
+    }
+
+    .shrink #plwrap{
+        background-color: grey;
+        height: 100%;
+        display: list-item;
+        max-height: none;
+        max-width: 60%;
+        float: left;
+        overflow: overlay;
+        width: 100%;
+    }
+
+    #plList{
+        /* overflow: scroll; */
+        /* height: 100%; */
+    }
+
+    #mainwrap.shrink{
+        height: 100%;
+        width: 100%;
+        background-color: green;
+    }
+
+
+    #plwrap::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+    }
+    #plwrap::-webkit-scrollbar-thumb {
+    background: #c7ceff;
+    border-radius: 15px;
+    }
+    #plwrap::-webkit-scrollbar-thumb:hover{
+    background: #b0b9ff;
+    }
+    #plwrap::-webkit-scrollbar-track{
+    background: #ffffff;
+    border-radius: 2px;
+    box-shadow: inset 7px 10px 12px #f0f0f0;
+    }
+
+    #left{
+        width: calc(100% - 210px);
+        display: inline-block;
+        float: left;
+        height: 100%;
+        padding: 20px;
+    }
+    #right{
+        width: var(--w);
+        display: inline-block;
+        height: 100%;
+        float: right;
+    }
+
+    #audiowrap {
+        /* background: rgb(0,212,255);
+background: linear-gradient(180deg, rgba(0,212,255,0) 0%, rgba(0,212,255,1) 100%); */
+
+        color: black !important;
+        background-color: white;
+        /* background-color: blue; */
+        margin:0 auto;
+        /* padding: 20px 0; */
+        height: 210px;
+        border-bottom: 3px solid red;
+        overflow: hidden;
+
+       
+    }
+    #npTitle{
+        /* margin: auto; */
+        /* display: block; */
+        width: 100%;
+        font-weight: bold;
+        color: rgba(211, 3, 32, 0.95);
+        word-break: break-word;
+        direction: rtl;
+        overflow: hidden;
+        display: -webkit-box;
+        height: 45px;
+        text-overflow:ellipsis;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+    #npTitle::-webkit-scrollbar {
+        width: 0px;
+    }
+    .plyr__progress__container,.plyr__volume{
+        width: 100%;
+        
+        /* margin: auto !important; */
+    }
+    /********************************************************/
+    .plyr__volume{
+        float: right;
+    }
+    
+    #audio_controls {
+        font-size:0;
+        position:relative;
+        text-align:center;
+        width: fit-content;
+    }
+    #audio_controls_wrap{
+        text-align: -webkit-right;
+        margin-top: 15px;
+    }
+    
+    @media (max-width:600px) {
+        #audiowrap{
+            height: 250px;
+        }
+        #plwrap {
+            max-height: calc(100% - 250px);
+        }
+        #mainwrap{
+            /* background-color: gray; */
+        }
+        #right{
+            display: none;
+        }
+        #left{
+            width: 100%;
+        }
+        #audio_controls_wrap{
+            text-align: -webkit-center;
+        }
+
+        #npTitle{
+            text-align: center;
+            height: 45px;
+            /* white-space: nowrap; */
+
+        }
+        .plyr__controls,.plyr__volume{
+            text-align: center;
+            float: none;
+            margin: auto !important;
+        }
+        .plTitle,.plLength{
+            font-size: 8pt;
+            top:16px;
+        }
+        
+    }
+</style>
+
+<!-- <h1>{{p}}</h1> -->
     <div class="container">
-        <div class="column add-bottom">
-            <div id="mainwrap">
-                <div id="nowPlay">
-                    <span id="npAction">Paused...</span><span id="npTitle"></span>
-                </div>
+        <div class="column">
+            <div id="mainwrap" class="">
+           
+
                 <div id="audiowrap">
-                    <div id="audio0">
-                        <audio id="audio1" preload controls>Your browser does not support HTML5 Audio! 😢</audio>
+                    <div id= "left">
+                        
+                        <span id="npTitle"></span>
+                        <div id = audio_controls_wrap>
+
+                            <div id="audio_controls" >
+                                <a id="btnPrev" class="fa fa-step-backward"></a>
+                                <a id="btnPlay" class="fa fa-play">  </a>
+                                <a id="btnNext" class="fa fa-step-forward">  </a>
+                            </div>
+                        </div>
+                        <div id="audio0">
+                            <audio id="audio1" preload controls>Your browser does not support HTML5 Audio! 😢</audio>
+                        </div>
                     </div>
-                    <div id="tracks">
-                        <a id="btnPrev">&larr;</a><a id="btnNext">&rarr;</a>
-                    </div>
+                        <div id = "right">
+                            <div id = "image">
+                                <img src="#" alt="" id = "imgsrc">
+                            </div>
+                        </div>
                 </div>
-                <div id="plwrap">
+                <div id="plwrap" >
                     <ul id="plList"></ul>
                 </div>
             </div>
-        </div>
-        <div class="column add-bottom center">
-            <p>Music by <a href="http://www.mythium.net/">Mythium</a></p>
-            <p>Download: <a href="https://archive.org/download/mythium/mythium_vbr_mp3.zip">zip</a> / <a href="https://archive.org/download/mythium/mythium_archive.torrent">torrent</a></p>
         </div>
     </div>
     
