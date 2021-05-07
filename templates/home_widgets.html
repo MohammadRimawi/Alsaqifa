@@ -1,5 +1,8 @@
 {% for item in Widget.widgets %}
-<div class="item">
+<div class="item  {% if editor_mode %} content hide {% endif %}" {% if editor_mode %} style="width: 90%;"{% endif %}>
+    {% if editor_mode %} 
+    <button class="collapsible toolbar"><span class="handle">#</span></button>  
+    {% endif %}
     <a href="tags/{{item.widget_title}}">
         <p class="widget-title">{{item.widget_title}}</p>
     </a>

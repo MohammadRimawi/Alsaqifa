@@ -248,7 +248,7 @@ jQuery(function ($) {
             tracks = [
                 {% for track in tracks_results %}
                 {
-                    "id": "{{track['id']}}",
+                    "id": "{{track['track_id']}}",
                     "name": "{{track['name']}}",
                     "duration": "{{track['duration']}}",
                     "track_url": "{{ url_for('static', filename=track['track_url']) }}",

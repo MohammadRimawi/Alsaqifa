@@ -6,34 +6,209 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
+    <!-- breaking headers -->
     {% assets "general.css" %}<link rel="stylesheet" href="{{ ASSET_URL }}">{% endassets %}
-    {% assets "home.css" %}<link rel="stylesheet" href="{{ ASSET_URL }}">{% endassets %}
-
+    <!-- initial indentatoin -->
+    {% assets "home.css" %}<link rel="stylesheet" href="{{ ASSET_URL }}">{% endassets %} 
     {% assets "slider.js" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
     {% assets "general.js" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
-
     
-      
+    <!-- <link rel="stylesheet" href="../static/modules/ckeditor5/ck5.css"> -->
+    <script src="../static/modules/Sortable-1.13.0/Sortable.js"></script>
+
+    {% assets "ckeditor.css" %}<link rel="stylesheet" href="{{ ASSET_URL }}">{% endassets %} 
+
   
 
+<style>
+    .toolbar{
+        height: 20px;
+        background-color: aqua;
+    }
+</style>
 
+<style>
+    .collapsible {
+      background-color: #777;
+      color: white;
+      cursor: pointer;
+      padding: 18px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 15px;
+    }
+    
+    .collapsible:hover {
+      background-color: #555;
+    }
+    
+    .content {
+      padding: 0 18px;
+      max-height: 50px;
+      overflow: hidden;
+      transition: max-height 0.2s ease-out;
+      background-color: #f1f1f1;
+    }
+
+    .hide *{
+        display:none;
+    }
+    .toolbar{
+        display:block !important;
+    }
+    .handle{
+        display:inline !important;
+    }
+    .editor{
+        width: 90%;
+        margin: auto;
+    }
+    </style>
 </head>
 
 <body onload="shuffle()">
    {% include 'header.html' %}
 
-    <div id="main">
+    <div id="main"  >
 
+        <div class="item  {% if editor_mode %} content hide {% endif %}" {% if editor_mode %} style="width: 90%;"{% endif %}>
+            {% if editor_mode %} 
+            <button class="collapsible toolbar"><span class="handle">#</span></button>  
+            {% endif %}
+<div class="editor ck-content">
+<h2>Bilingual Personality Disorder</h2>
+<figure class="image"><img src="https://c.cksource.com/a/1/img/docs/sample-image-bilingual-personality-disorder.jpg">
+<figcaption>One language, one person.</figcaption>
+</figure>
+<p>
+This may be the first time you hear about this made-up disorder but
+it actually isn’t so far from the truth. Even the studies that were conducted almost half a century show that
+<strong>the language you speak has more effects on you than you realise</strong>.
+</p>
+<p>
+One of the very first experiments conducted on this topic dates back to 1964.
+<a href="https://www.researchgate.net/publication/9440038_Language_and_TAT_content_in_bilinguals">In the experiment</a>
+designed by linguist Ervin-Tripp who is an authority expert in psycholinguistic and sociolinguistic studies,
+adults who are bilingual in English in French were showed series of pictures and were asked to create 3-minute stories.
+In the end participants emphasized drastically different dynamics for stories in English and French.
+</p>
+<p>
+Another ground-breaking experiment which included bilingual Japanese women married to American men in San Francisco were
+asked to complete sentences. The goal of the experiment was to investigate whether or not human feelings and thoughts
+are expressed differently in <strong>different language mindsets</strong>.
+<Here>is a sample from the the experiment:</Here>
+</p>
+<figure class="table">
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>English</th>
+<th>Japanese</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Real friends should</td>
+<td>Be very frank</td>
+<td>Help each other</td>
+</tr>
+<tr>
+<td>I will probably become</td>
+<td>A teacher</td>
+<td>A housewife</td>
+</tr>
+<tr>
+<td>When there is a conflict with family</td>
+<td>I do what I want</td>
+<td>It's a time of great unhappiness</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<p>
+More recent <a href="https://books.google.pl/books?id=1LMhWGHGkRUC">studies</a> show, the language a person speaks affects
+their cognition, behaviour, emotions and hence <strong>their personality</strong>.
+This shouldn’t come as a surprise
+<a href="https://en.wikipedia.org/wiki/Lateralization_of_brain_function">since we already know</a> that different regions
+of the brain become more active depending on the person’s activity at hand. Since structure, information and especially
+<strong>the culture</strong> of languages varies substantially and the language a person speaks is an essential element of daily life.
+</p>
+</div>
+<button type="submit">submit</button>
+</div>
         {% include 'home_widgets.html' %}
     
     
-        <div class="item" style="width: 90%;">
-            <a class="spreaker-player" href="https://www.spreaker.com/show/v_317" data-resource="show_id=3128564" data-theme="light" data-autoplay="false" data-playlist="show" data-width="100%" data-height="500px">Listen to "اغانينا" on Spreaker.</a><script async src="https://widget.spreaker.com/widgets.js"></script>
+        <div class="item  {% if editor_mode %} content hide {% endif %}" {% if editor_mode %} style="width: 90%;"{% endif %}>
+            {% if editor_mode %} 
+            <button class="collapsible toolbar"><span class="handle">#</span></button>  
+            {% endif %}
+           <div class="">
+               <a class="spreaker-player" href="https://www.spreaker.com/show/v_317" data-resource="show_id=3128564" data-theme="light" data-autoplay="false" data-playlist="show" data-width="100%" data-height="500px">Listen to "اغانينا" on Spreaker.</a><script async src="https://widget.spreaker.com/widgets.js"></script>
+            </div>
         </div>
-        <div class="item" style="width: 90%;">
-            <iframe src="/playlist/Test-playlist" width="100%" height="600" style="border:none;">
+        <div class="item  {% if editor_mode %} content hide {% endif %}" {% if editor_mode %} style="width: 90%;"{% endif %}>
+            {% if editor_mode %} 
+            <button class="collapsible toolbar"><span class="handle">#</span></button>  
+            {% endif %}
+            <iframe src="/playlist/Test-playlist" width="100%" height="800" style="border:none;">
             </iframe>    
         </div>
+
+        
+        
+        {% if editor_mode %} 
+
+        {% include 'ckeditor_run.html' %}
+
+        {% endif %}
+    </div>
+
+        {% if editor_mode %} 
+        
+        <script>
+            var el = document.getElementById('main');
+            var sortable = new Sortable(el, {
+                animation: 150,
+                handle: '.handle', // handle's class
+                ghostClass: 'blue-background-class'
+            });            
+        </script>
+
+
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+          if(this.parentNode.classList.contains("hide")==true){
+              this.parentNode.classList.toggle("hide");
+              this.classList.toggle("active");
+              
+            }
+            else{
+                timer = setTimeout(()=>{
+                    this.parentNode.classList.toggle("hide");
+                    clearTimeout(timer)
+                },200);
+                this.classList.toggle("active");
+            }
+            
+            var content = this.parentNode;
+            if (content.style.maxHeight){
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } 
+        });
+        
+    }
+    </script>
+    {% endif %}
     </body>
 </html>

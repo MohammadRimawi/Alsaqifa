@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, session
 from flask_assets import Environment, Bundle
 import mysql.connector
 
+from utility import *
+
 app = Flask(__name__)
 
 
@@ -15,6 +17,7 @@ bundles = {
     "general.css": Bundle('css/general.css', output = "gen/general.css"),
     "general.js": Bundle('javascript/general.js', output = "gen/general.js"),
     "home.css": Bundle('css/home.css', output = "gen/home.css"),
+     "home.css": Bundle('modules/ckeditor5/ckeditor.css', output = "gen/ckeditor.css"),
 }
 
 assets = Environment(app)
@@ -22,12 +25,6 @@ assets = Environment(app)
 assets.register(bundles)
 
 
-def parse(s):
-    new_s=[]
-    for i in range(len(s)): 
-        if s[i]=='-':new_s.append(' ')
-        else: new_s.append(s[i])
-    return "".join(new_s)
 
 class Card:
     def __init__(self,title,description,image_url):
@@ -58,9 +55,11 @@ class Menu:
         Menu.menu["/registration"]=(Menu("تسجيل دخول","/registration"))
         Menu.menu["#1"]=(Menu("البرامج الاذاعية","#"))
         Menu.menu["/"]=(Menu("الصفحة الرئيسية","/"))
-        Menu.menu["/podcast"]=(Menu("البرامج الاذاعية","/podcast"))
+        Menu.menu["/podcasts"]=(Menu("البرامج الاذاعية","/podcasts"))
         Menu.menu["#3"]=(Menu("البرامج الاذاعية","#"))
 
+editor_mode = True
+editor_mode = False
 
 
 @app.route('/')
@@ -100,14 +99,8 @@ def index():
         print(i)
     cur.close()
         
-    # # # User.query.filter_by(id=1)
-    # # mysql.connection.commit()
-    # cur.execute('''SELECT * FROM users''')
-    # rv = cur.fetchall()
-    # print(str(rv))
-    # cur.close()
     Menu.active="/"
-    return render_template("index.html",Menu=Menu,Widget=Widget)
+    return render_template("index.html",Menu=Menu,Widget=Widget,editor_mode=editor_mode)
 
 @app.route('/registration')
 def registration():
@@ -119,66 +112,66 @@ def posts(title):
     Menu.active="" 
     return render_template("posts.html",title=title,Menu=Menu)
 
-@app.route("/podcast/<playlist>")
+@app.route("/podcasts",defaults={'playlist': None})
+@app.route("/podcasts/<playlist>")
 def podcast(playlist):
-    Menu.active="/podcast" 
+    Menu.active="/podcasts" 
+    
+    if playlist == None:
+        playlist="no playlist"
+        
     return render_template("podcast.html",playlist=playlist,Menu=Menu)
 
-@app.route("/playlist/<p>")
-def playlist(p):
-    p = parse(p)
-    print(str(p),"***************************************************************")
-    cur = db.cursor(dictionary=True)
-    playlist_name_sql = "select * from playlists where name = '"+p+"'"
-    print(playlist_name_sql)
-    cur.execute(playlist_name_sql)
-    playlist_name_result = list(cur)
-    print(playlist_name_result)
-    # print(playlist_name_result[0]['id'])
-    # **************************************
-    # TO DO:
-    # if does no exist
-    # **************************************
+@app.route("/tags/<tag>")
+def tags(tag):
+    return "umm ahhh<br>we didn't finish this page yet!<br><img src='/static//assets/images/whoops.gif'>"
 
-    playlists_tracks_sql = "select * from playlists_tracks where playlist_id = "+str(playlist_name_result[0]['id'])
-    # print(sql,"**********************")
+@app.route("/test")
+def test():
+    return render_template("test.html")
+    
+@app.route("/playlist/<playlist_name>")
+def playlist(playlist_name):
+
+    playlist_name = parse_in(playlist_name)
+
     try:
-        cur.execute(playlists_tracks_sql)
-
-        playlists_tracks_results = list(cur)
+        cur = db.cursor(dictionary=True)
         
-        tracks_list=[]
+        playlist_name_sql = "select * from playlists where name = '"+playlist_name+"'"
+        cur.execute(playlist_name_sql)
+        playlist_name_result = list(cur)
         
-        for i in playlists_tracks_results:
+        if len(playlist_name_result)>0:
             
-            tracks_list.append(str(i['track_id']))
-            pass
+            playlists_tracks_sql = "select * from playlists_tracks where playlist_id = "+str(playlist_name_result[0]['playlist_id'])    
+            cur.execute(playlists_tracks_sql)
+
+            playlists_tracks_results = list(cur)
+            
+            tracks_list=[]
+            
+            for i in playlists_tracks_results:
+                
+                tracks_list.append(str(i['track_id']))
+
+            
+            tracks_sql = "SELECT * FROM tracks WHERE track_id in ("+', '.join(tracks_list)+")"
+            cur.execute(tracks_sql)
+
+            tracks_results = list(cur)
+
+            cur.close()
+
+            return render_template("playlist.html",playlist_name=playlist_name,Menu=Menu,tracks_results=tracks_results)
+        else: 
+            cur.close()
+            return "whoops!, we didn't find playlist called "+playlist_name
     except:
-        # return "something went wrong!"
-        pass
-
-    tracks_sql = "SELECT * FROM tracks WHERE id in ("+', '.join(tracks_list)+")"
-    # print(', '.join(tracks_list))
-    cur.execute(tracks_sql)
-
-    tracks_results = list(cur)
-
-    print(tracks_results)
-    cur.close()
-            # {
-            # "track": 2,
-            # "name": "The Forsaken - Broadwing Studio (Final Mix)",
-            # "duration": "8:30",
-            # "file": "{{ url_for('static', filename='audio/audioblocks-escaping-forever_BwdtBTFiS_NWM') }}",
-            # "image": "{{ url_for('static', filename='/assets/images/ERTaFf3XYAEYQqs.jpg') }}",
-            # }
-    # Menu.active="/podcast" 
-    return render_template("playlist.html",p=p,Menu=Menu,tracks_results=tracks_results)
-
-
+        cur.close()
+        return "oh no!, something went wrong while getting your playlist called "+playlist_name
 
 
 if __name__ == '__main__':
     Menu.load_menu()
-    # print(parse("Hello-test"))
     app.run(host = '0.0.0.0',debug=True)
