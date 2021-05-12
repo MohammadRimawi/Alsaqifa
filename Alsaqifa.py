@@ -1,13 +1,16 @@
-from flask import Flask, render_template, request, session
+import json
+from flask import Flask, render_template, request, session, jsonify
 from flask_assets import Environment, Bundle
 import mysql.connector
-
+import requests
 from utility import *
+
+
 
 app = Flask(__name__)
 
 
-db = mysql.connector.connect(host = "localhost",user="root",passwd="000000",database = "Alsaqifa")
+db = mysql.connector.connect(host = "192.168.1.70",user="python-connector",passwd="000000",database = "Alsaqifa")
 
 
 css = Bundle('css/general.css', output = "gen/main.css")
@@ -23,7 +26,7 @@ bundles = {
 assets = Environment(app)
 
 assets.register(bundles)
-
+api_host="http://rimawidell:5001"
 
 
 class Card:
@@ -64,6 +67,7 @@ editor_mode = False
 
 @app.route('/')
 def index():
+    print("test")
     filler= "لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو لار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور..."
     Widget.widgets=[]
     Widget.widgets.append(Widget(
@@ -92,7 +96,6 @@ def index():
         ],
         descriptive=True
     ))
-
     cur = db.cursor()
     cur.execute("select * from users where user_id = 1")
     for i in cur:
@@ -101,6 +104,8 @@ def index():
         
     Menu.active="/"
     return render_template("index.html",Menu=Menu,Widget=Widget,editor_mode=editor_mode)
+
+
 
 @app.route('/registration')
 def registration():
@@ -126,6 +131,8 @@ def podcast(playlist):
 def tags(tag):
     return "umm ahhh<br>we didn't finish this page yet!<br><img src='/static//assets/images/whoops.gif'>"
 
+
+
 @app.route("/test")
 def test():
     return render_template("test.html")
@@ -133,42 +140,17 @@ def test():
 @app.route("/playlist/<playlist_name>")
 def playlist(playlist_name):
 
-    playlist_name = parse_in(playlist_name)
-
     try:
-        cur = db.cursor(dictionary=True)
-        
-        playlist_name_sql = "select * from playlists where name = '"+playlist_name+"'"
-        cur.execute(playlist_name_sql)
-        playlist_name_result = list(cur)
-        
-        if len(playlist_name_result)>0:
-            
-            playlists_tracks_sql = "select * from playlists_tracks where playlist_id = "+str(playlist_name_result[0]['playlist_id'])    
-            cur.execute(playlists_tracks_sql)
-
-            playlists_tracks_results = list(cur)
-            
-            tracks_list=[]
-            
-            for i in playlists_tracks_results:
-                
-                tracks_list.append(str(i['track_id']))
-
-            
-            tracks_sql = "SELECT * FROM tracks WHERE track_id in ("+', '.join(tracks_list)+")"
-            cur.execute(tracks_sql)
-
-            tracks_results = list(cur)
-
-            cur.close()
-
-            return render_template("playlist.html",playlist_name=playlist_name,Menu=Menu,tracks_results=tracks_results)
-        else: 
-            cur.close()
-            return "whoops!, we didn't find playlist called "+playlist_name
+        response = requests.get(api_host+'/api/playlist/'+str(playlist_name))
     except:
-        cur.close()
+        return "API NOT AVAILABLE"
+        
+    if response.status_code == 200:
+        data = response.json()
+        return render_template("playlist.html",playlist_name=data["playlist_name"],Menu=Menu,tracks_results=data["data"])
+    elif response.status_code == 404:
+        return "whoops!, we didn't find playlist called "+playlist_name
+    else:
         return "oh no!, something went wrong while getting your playlist called "+playlist_name
 
 

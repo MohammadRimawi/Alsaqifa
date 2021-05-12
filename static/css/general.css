@@ -257,7 +257,7 @@ a {
   #main {
     width: 80%;
     background-color: #F7F7F7;
-    height: 2000px;
+    /* height: 2000px; */
     margin: auto;
     max-width: 1400px;
 }

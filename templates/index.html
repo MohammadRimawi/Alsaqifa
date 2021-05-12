@@ -14,6 +14,8 @@
     {% assets "general.js" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
     
     <!-- <link rel="stylesheet" href="../static/modules/ckeditor5/ck5.css"> -->
+
+    
     <script src="../static/modules/Sortable-1.13.0/Sortable.js"></script>
 
     {% assets "ckeditor.css" %}<link rel="stylesheet" href="{{ ASSET_URL }}">{% endassets %} 
@@ -32,7 +34,8 @@
       background-color: #777;
       color: white;
       cursor: pointer;
-      padding: 18px;
+      padding:18px;
+      height: fit-content;
       width: 100%;
       border: none;
       text-align: left;
@@ -45,7 +48,7 @@
     }
     
     .content {
-      padding: 0 18px;
+      padding: 0 ;
       max-height: 50px;
       overflow: hidden;
       transition: max-height 0.2s ease-out;
@@ -57,9 +60,16 @@
     }
     .toolbar{
         display:block !important;
+        max-height: 55px;
     }
-    .handle{
+    .handle,.toolbar-item{
+        margin-right: 10px;
         display:inline !important;
+    }
+    .toolbar-item>img{
+        display: inline-block;
+        width: 20px;
+        height: 100%;
     }
     .editor{
         width: 90%;
@@ -75,7 +85,7 @@
 
         <div class="item  {% if editor_mode %} content hide {% endif %}" {% if editor_mode %} style="width: 90%;"{% endif %}>
             {% if editor_mode %} 
-            <button class="collapsible toolbar"><span class="handle">#</span></button>  
+            <button class="collapsible toolbar"><span class="handle toolbar-item"><img src="static//assets/icons/move.svg"></span><span class="toolbar-item"><img src="static//assets/icons/delete.svg"></span></button>  
             {% endif %}
 <div class="editor ck-content">
 <h2>Bilingual Personality Disorder</h2>
@@ -145,7 +155,7 @@ of the brain become more active depending on the person’s activity at hand. Si
     
         <div class="item  {% if editor_mode %} content hide {% endif %}" {% if editor_mode %} style="width: 90%;"{% endif %}>
             {% if editor_mode %} 
-            <button class="collapsible toolbar"><span class="handle">#</span></button>  
+            <button class="collapsible toolbar"><span class="handle toolbar-item"><img src="static//assets/icons/move.svg"></span><span class="toolbar-item"><img src="static//assets/icons/delete.svg"></span></button>  
             {% endif %}
            <div class="">
                <a class="spreaker-player" href="https://www.spreaker.com/show/v_317" data-resource="show_id=3128564" data-theme="light" data-autoplay="false" data-playlist="show" data-width="100%" data-height="500px">Listen to "اغانينا" on Spreaker.</a><script async src="https://widget.spreaker.com/widgets.js"></script>
@@ -153,7 +163,7 @@ of the brain become more active depending on the person’s activity at hand. Si
         </div>
         <div class="item  {% if editor_mode %} content hide {% endif %}" {% if editor_mode %} style="width: 90%;"{% endif %}>
             {% if editor_mode %} 
-            <button class="collapsible toolbar"><span class="handle">#</span></button>  
+            <button class="collapsible toolbar"><span class="handle toolbar-item"><img src="static//assets/icons/move.svg"></span><span class="toolbar-item"><img src="static//assets/icons/delete.svg"></span></button>  
             {% endif %}
             <iframe src="/playlist/Test-playlist" width="100%" height="800" style="border:none;">
             </iframe>    

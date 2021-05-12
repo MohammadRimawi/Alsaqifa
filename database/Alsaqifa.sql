@@ -34,7 +34,7 @@ CREATE TABLE `authentication` (
   `password` tinytext NOT NULL,
   `email` tinytext NOT NULL,
   `role` tinytext
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -45,7 +45,7 @@ CREATE TABLE `authentication` (
 CREATE TABLE `playlists` (
   `playlist_id` int NOT NULL,
   `name` tinytext NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `playlists`
@@ -63,7 +63,7 @@ INSERT INTO `playlists` (`playlist_id`, `name`) VALUES
 CREATE TABLE `playlists_tracks` (
   `playlist_id` int NOT NULL,
   `track_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `playlists_tracks`
@@ -88,7 +88,7 @@ CREATE TABLE `posts` (
   `image_url` text NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `posted_by` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `posts`
@@ -121,7 +121,7 @@ CREATE TABLE `posts_comments` (
   `likes` int NOT NULL,
   `dislikes` int NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -132,7 +132,7 @@ CREATE TABLE `posts_comments` (
 CREATE TABLE `posts_tags` (
   `post_id` int NOT NULL,
   `tag_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `posts_tags`
@@ -170,7 +170,7 @@ CREATE TABLE `slider_widget` (
   `tag_id` int DEFAULT NULL,
   `preview_type` tinytext NOT NULL,
   `shuffle` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `slider_widget`
@@ -187,8 +187,8 @@ INSERT INTO `slider_widget` (`slider_id`, `widget_id`, `number_of_cards`, `order
 
 CREATE TABLE `tags` (
   `tag_id` int NOT NULL,
-  `tag_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `tag_name` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `tags`
@@ -211,7 +211,7 @@ CREATE TABLE `tracks` (
   `image_url` text NOT NULL,
   `track_url` text NOT NULL,
   `duration` tinytext
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `tracks`
@@ -232,7 +232,7 @@ CREATE TABLE `users` (
   `name` tinytext NOT NULL,
   `title` tinytext,
   `image_url` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `users`
@@ -250,7 +250,7 @@ INSERT INTO `users` (`user_id`, `name`, `title`, `image_url`) VALUES
 CREATE TABLE `users_tags` (
   `user_id` int NOT NULL,
   `tag_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -260,9 +260,9 @@ CREATE TABLE `users_tags` (
 
 CREATE TABLE `widgets` (
   `widget_id` int NOT NULL,
-  `name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `name` text  NOT NULL,
   `type` tinytext NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `widgets`
