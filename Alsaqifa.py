@@ -10,7 +10,6 @@ from utility import *
 app = Flask(__name__)
 
 
-db = mysql.connector.connect(host = "192.168.1.70",user="python-connector",passwd="000000",database = "Alsaqifa")
 
 
 css = Bundle('css/general.css', output = "gen/main.css")
@@ -96,11 +95,7 @@ def index():
         ],
         descriptive=True
     ))
-    cur = db.cursor()
-    cur.execute("select * from users where user_id = 1")
-    for i in cur:
-        print(i)
-    cur.close()
+
         
     Menu.active="/"
     return render_template("index.html",Menu=Menu,Widget=Widget,editor_mode=editor_mode)
