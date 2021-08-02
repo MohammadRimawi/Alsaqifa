@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+
+  {% include 'head.html' %}
+
+</head>
+<body>
+    {% include 'header.html' %}
+
+
+    <div id="main">
+
+        <div class = "flex-column rtl">
+          <div class = "flex-row">
+           
+            <form class="form-center flex-column" enctype="multipart/form-data" method="post"> 
+              <div class="form-title">انشاء حساب</div>
+              <input type="hidden" name="operation" value="signup">
+
+              <div class="flex-row">                
+                <div class="flex-row">
+                  <div class="flex-column input">
+                    <label for="firstname" class="form-label">اسم الاول</label>
+                    <input type="firstname" class="form-input" id="firstname" name = "firstname">
+                    <div class="form-text">تيست تيست.</div>
+                  </div>
+                </div>
+                
+                <div class="flex-row">
+                  <div class="flex-column input">
+                    <label for="lastname" class="form-label">اسم العائلة</label>
+                    <input type="lastname" class="form-input" id="lastname" name = "lastname">
+                    <div class="form-text">تيست تيست.</div>
+                  </div>
+                </div>
+              </div>
+                
+              <div class="flex-row">
+                <div class="flex-column input">
+                  <label for="email" class="form-label">البريد الاكتروني</label>
+                  <input type="email" class="form-input" id="email" name = "email" placeholder="Example@gmail.com">
+                  <div class="form-text">تيست تيست.</div>
+                </div>
+              </div>
+
+
+              <div class="flex-row">
+                <div class="flex-column input">
+                  <label for="password" class="form-label">كلمة المرور</label>
+                  <input type="password" name = "password" class="form-input" id="password">
+                </div>
+              </div>
+
+              <br>
+
+              <button type="submit" class="form-button">انشاء السحاب</button>
+            
+            
+            </form>
+          </div>
+        </div>
+
+    </div>
+</body>
+</html>

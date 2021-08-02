@@ -1,0 +1,30 @@
+<div class="page-numbers ltr">
+    <div class="flex-column">
+
+        <div class="flex-row">
+            <a  href='{{pages['location']}}?page={{1}}'   class="page-number {% if pages['current_page'] == 0 %} disabled {% endif %}" >
+                <div ><<</div>
+            </a>
+            <a  href='{{pages['location']}}?page={{pages["current_page"]}}'   class="page-number {% if pages['current_page'] == 0 %} disabled {% endif %}"   >
+                <div ><</div>
+        </a>
+        {% for i in range((pages['number_of_pages'])) %}
+        <a  href='{{pages['location']}}?page={{i+1}}'   class="page-number {% if i == pages['current_page'] %} active-page {% endif %}">
+            <div >{{i+1}}</div>
+        </a>
+        {% endfor %}
+        <a   href='{{pages['location']}}?page={{pages["current_page"]+2}}'  class="page-number {% if pages['current_page']+1 == pages['number_of_pages'] %} disabled {% endif %} "  >
+            <div >></div>
+        </a>
+        <a   href='{{pages['location']}}?page={{ pages['number_of_pages'] }}'  class="page-number {% if pages['current_page']+1 == pages['number_of_pages'] %} disabled {% endif %}"  >
+            <div >>></div>
+        </a>
+    </div>
+    <div class="flex-row rtl-imp justify-center">
+        
+        <p>
+            {{pages['number_of_pages']}}  صفحات
+        </p>
+    </div>
+</div>
+</div>

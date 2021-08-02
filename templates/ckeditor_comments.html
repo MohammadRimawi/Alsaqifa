@@ -1,0 +1,57 @@
+{% assets "ckeditor.js" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
+{% assets "ckeditor.css" %}<link rel="stylesheet" href="{{ ASSET_URL }}">{% endassets %} 
+
+<script>
+    const watchdog = new CKSource.Watchdog();
+    
+    window.watchdog = watchdog;
+    
+    watchdog.setCreator( ( element, config ) => {
+        return CKSource.Editor
+            .create( element, config )
+            .then( editor => {
+                // editor.state=ready;
+                // editor.isReadOnly = true;
+                // editor.previewData=true;
+                
+                return editor;
+
+            } )
+    } );
+    
+    watchdog.setDestructor( editor => {
+        return editor.destroy();
+    } );
+    
+    watchdog.on( 'error', handleError );
+    
+    watchdog
+        .create( document.querySelector( '.comment-editor' ), {
+            
+            toolbar: {
+                items: [
+                    'underline',
+                    'bold',
+                    'italic',
+                    'strikethrough',
+                    'removeFormat',
+                    
+                ]
+            },
+            language: 'ar',
+       
+            licenseKey: '',
+            
+            
+        } )
+        .catch(  );
+    
+    function handleError( error ) {
+        console.error( 'Oops, something went wrong!' );
+        console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
+        console.warn( 'Build id: 542cmi8mt16g-dexkzk5cw1y2' );
+        console.error( error );
+    }
+
+    
+</script>

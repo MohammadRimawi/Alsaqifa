@@ -1,0 +1,110 @@
+<div class="post-container flex-column">
+    <div class="flex-row">
+        <div class="post-image-container">
+            <img src="{{ url_for('static', filename=post['data']['image_url']) }}" alt=""> <!-- TODO Add Alt-->
+            <div class="post-image-gradient"></div>
+        </div>
+    </div>
+    <div class="post-content flex-row rtl">
+        <div class="flex-column">
+            <div class="flex-row">
+                <div class="post-meta flex-column">
+                    <p>الكاتب: <a href="#">{{post['data']['user_id']['name']}}</a></p>
+                    <p>الناشر: <a href="#">{{post['data']['posted_by']['name']}}</a></p>
+                    <p>تاريخ النشر: {{post['data']['timestamp']}}</p>
+                </div>
+            </div>
+            <div class="flex-row">
+                <div class=post-body>
+                    <div class="editor ck-content">
+
+                        {% autoescape false %}
+                        {{post["data"]["text"]}}
+                        {% endautoescape %}
+
+                    </div>
+
+
+                    <div class="comment-info  comment-row comment-v-center space-out">
+                        <div>
+                            <a onclick="show_comments()">
+                                <span>5</span>
+                                <span><img
+                                        src=" {{ url_for('static', filename='/assets/icons/comment-outline.svg') }}"></span>
+                            </a>
+                        </div>
+    
+                        <div>
+                            <a href="#">
+                                <span>5</span>
+                                <span><img src=" {{ url_for('static', filename='/assets/icons/like-outline.svg') }}"></span>
+                            </a>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+            <div class="flex-row">
+                <div class="post-actions flex-row">
+                    <div class="post-buttons space-out space-between flex-row">
+                        <button class="icon-button" type="button" onClick="likePostToggle(1,1)">
+                            <img src=" {{ url_for('static', filename='/assets/icons/like-outline.svg') }}">
+                        </button>
+                        <button class="icon-button" type="submit" onClick="show_comments()">
+                            <img src=" {{ url_for('static', filename='/assets/icons/comment-outline.svg') }}">
+                        </button>
+                        <button class="icon-button" type="submit">
+                            <img src=" {{ url_for('static', filename='/assets/icons/share-outline.svg') }}">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-row">
+
+                <div class="comments-container">
+                    <div class="comments flex-column">
+
+                      
+                        {% include 'view/posts/comments.html' %}
+
+                        {% include 'view/posts/comments.html' %}
+                        {% include 'view/posts/comments.html' %}
+
+                        {% include 'view/posts/comments.html' %}
+
+                    
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-row">
+                <div class="new-comment">
+                    <div class="comment-row">
+                        <div class="comment-column">
+                            <div class="user-info">
+                                <div class="user-image">
+                                    <img src="{{ url_for('static', filename=post['data']['image_url']) }}"
+                                        alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-column w-100">
+                            <div class="comment-editor ck-content"></div>
+                        </div>
+                        <div class="comment-column">
+
+                            <div class="comment-send-utility comment-row comment-v-end">
+                                <button class="send-comment" type="submit"><img
+                                        src=" {{ url_for('static', filename='/assets/icons/send.svg') }}"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>

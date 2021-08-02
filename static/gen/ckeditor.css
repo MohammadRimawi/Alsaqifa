@@ -335,3 +335,7 @@
         display: none;
     }
 }
+
+.ck-widget__type-around,.ck-widget__selection-handle{
+    display:none;
+}

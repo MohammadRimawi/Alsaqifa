@@ -1,0 +1,231 @@
+#nav_menu {
+    z-index: 999;
+    width: 100%;
+    height: 60px;
+    max-height: fit-content;
+    border: 0px solid #1E3661;
+    text-align: center;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    position: sticky !important;
+    top: -64px;
+    background-color: white;
+    
+    box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+    -webkit-box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+    -moz-box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+    /* overflow: hidden; */
+    position: relative;
+    transition: top .3s ease-in-out;
+} 
+
+.sticky_show{
+    top: 0px !important;
+}
+
+#nav_control{
+    position: absolute;
+    display: none;
+} 
+
+#nav_pages{
+    height: 100%;
+    width: 100%;
+}  
+
+
+.nav-container{
+    width:80%;
+    height: 100%;
+    margin: auto;
+    max-width:1400px;
+}
+
+.nav-item{
+    margin:0 20px;
+    /* padding-bottom: 2px; */
+    transition: border 0.05s linear, padding 0.05s linear;
+    border-bottom: 2px solid #1e356100;
+
+    white-space: nowrap;
+
+}
+
+.nav-item:hover , .nav-item.active , a:hover .nav-item{ 
+    /* padding-bottom: 0px; */
+    border-bottom: 2px solid #1E3661;
+    transition: border 0.05s linear, padding 0.05s linear;
+}
+
+
+.nav-logo{
+    width: fit-content !important;
+}
+.nav-logo .nav-item{
+    height: 50px;
+    border: none !important;
+    padding-bottom: 2px !important;
+
+}
+.nav-logo img{
+    height:50px;
+    width:50px;
+    object-fit: contain;
+}
+
+
+.nav-slider{
+    height: calc(100% - 77px);
+    justify-content: space-between;
+}
+
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+
+    right: 0;
+    background-color: #033855db;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+  }
+  
+  .sidenav a{
+    padding: 8px 30px;
+    /* width:100%; */
+    text-decoration: none;
+    font-size: 20px;
+    color: #ffffff;
+    display: block;
+    /* width: fit-content; */
+    transition: 0.3s;
+    white-space: nowrap;
+    text-align: right;
+    
+  }
+  
+  .sidenav li {
+
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    /* width: fit-content; */
+    transition: 0.3s;
+    white-space: nowrap;
+    width:100%;
+   
+    border: 0px solid #818181;
+    transition: ease-in-out 100ms;
+    padding:0;
+    padding-bottom: 11px;
+    
+    border-bottom-width: 0px
+  }
+  
+  .sidenav li:hover ,.sidenav li.active{
+    color: #f1f1f1;
+    padding-bottom: 8px;
+    border-bottom-width: 3px;
+  }
+  
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    padding: 0px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+
+  #side_nav_back{
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+
+    right: 0;
+    background-color: rgba(17, 17, 17, 0.563);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+  }
+
+/* Dropdown Button */
+.dropbtn {
+    /* background-color: #04AA6D; */
+    /* color: white; */
+    /* padding: 16px; */
+    font-size: 16px;
+    border: none;
+    background-color: white;
+  }
+  
+
+  
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    border-radius: 10px;
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    overflow: hidden;
+  }
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    margin: 0;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  /* Show the dropdown menu on hover */
+  .show {display: block;}
+  
+  /* Change the background color of the dropdown button when the dropdown content is shown */
+  /* .dropdown:hover .dropbtn {background-color: #3e8e41;} */
+
+@media (max-width: 1200px) {
+   
+    #nav_control{
+    
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        padding: 0;
+        margin: 0;
+        font-size: 30px;
+        right: 0;
+        cursor: pointer;
+        
+    }
+    .full-nav-bar{
+        display: none;
+    }
+    #nav_pages{
+        justify-content: center;
+    }
+}
+

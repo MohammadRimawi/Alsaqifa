@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+
+  {% include 'head.html' %}
+
+
+</head>
+<body>
+    {% include 'header.html' %}
+
+
+    <div id="main">
+
+        <div class = "flex-column rtl">
+          <div class = "flex-row">
+           
+            <form class="form-center flex-column" enctype="multipart/form-data" method="post"> 
+
+              <div class="form-title">تسجيل دخول</div>
+              <input type="hidden" name="operation" value="login">
+              <div class="flex-row">
+                <div class="flex-column">
+                  <label for="username" class="form-label">اسم المستخدم</label>
+                  <input type="username" class="form-input" id="username" name = "username">
+                  <div class="form-text">تيست تيست.</div>
+                </div>
+              </div>
+
+              <div class="flex-row">
+                <div class="flex-column">
+                  <label for="password" class="form-label">كلمة المرور</label>
+                  <input type="password"  name = "password" class="form-input" id="password">
+                </div>
+              </div>
+
+              <div class="flex-row flex-v-center">
+                  <input type="checkbox" class="form-check-input" name = "rememberMe" id="rememberMe">
+                  <label class="form-label" for="rememberMe">تذكرني</label>
+              </div>
+              <button type="submit" class="form-button">تسجيل دخول</button>
+              <button type="button" class="form-button" onclick="location.href='/registration/signup'">انشاء حساب</button>
+              <div class="flex-row form-link">
+                <a href = "#" class="center w-100"> نسيت كلمة المرور؟</a>
+              </div>
+              
+            
+            </form>
+          </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,27 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- breaking headers -->
-    {% assets "general.css" %}<link rel="stylesheet" href="{{ ASSET_URL }}">{% endassets %}
-    <!-- initial indentatoin -->
-    {% assets "home.css" %}<link rel="stylesheet" href="{{ ASSET_URL }}">{% endassets %} 
-    {% assets "slider.js" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
-    {% assets "general.js" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
-    
-    <!-- <link rel="stylesheet" href="../static/modules/ckeditor5/ck5.css"> -->
-
-    
-    <script src="../static/modules/Sortable-1.13.0/Sortable.js"></script>
-
-    {% assets "ckeditor.css" %}<link rel="stylesheet" href="{{ ASSET_URL }}">{% endassets %} 
-
+{% include 'head.html' %}
   
-
+  
 <style>
     .toolbar{
         height: 20px;
@@ -75,81 +58,89 @@
         width: 90%;
         margin: auto;
     }
+
+    {% if  editor_mode %} 
+    .ck-widget__type-around,.ck-widget__selection-handle{
+        display:block;
+    }
+    {% endif %}
     </style>
+
+<script>
+
+    function post(elm){
+
+
+
+        content = elm.parentElement.getElementsByClassName("ck-editor__editable")[0].innerHTML;
+        console.log(content)
+
+        e = elm.parentElement.getElementsByClassName("content")[0].value=content;
+
+
+        elm.parentElement.submit()
+        
+        // var clientId = "MohammadRimawi";
+        // var clientSecret = "000000";
+
+        // // var authorizationBasic = $.base64.btoa(clientId + ':' + clientSecret);
+        // var authorizationBasic = window.btoa(clientId + ':' + clientSecret);
+        // console.log(authorizationBasic)
+        // url = "http://rimawidell:5001/api/add_post"
+
+        // var xhr = new XMLHttpRequest();
+        // xhr.open("POST", url, true);
+        // xhr.setRequestHeader('Content-Type', 'application/json');
+        // xhr.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+        // xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+
+        // xhr.send(JSON.stringify({
+        //     // TODO add logged in user from session
+        //     "description": "hello",
+        //     "image_url": "",
+        //     "posted_by": 1, 
+        //     "text": content,
+        //     "title": "تيست 15",
+        //     "user_id": 1
+        
+        // }));
+        // document.getElementById("post").submit();
+    }
+
+
+
+
+
+
+</script>
 </head>
 
 <body onload="shuffle()">
-   {% include 'header.html' %}
-
+    {% include 'header.html' %}
+    
     <div id="main"  >
-
+        
         <div class="item  {% if editor_mode %} content hide {% endif %}" {% if editor_mode %} style="width: 90%;"{% endif %}>
             {% if editor_mode %} 
             <button class="collapsible toolbar"><span class="handle toolbar-item"><img src="static//assets/icons/move.svg"></span><span class="toolbar-item"><img src="static//assets/icons/delete.svg"></span></button>  
             {% endif %}
+            {% if editor_mode %} 
+            
+<form action="/post_handler" id = "post" method="POST"> 
+    {% endif %}
 <div class="editor ck-content">
-<h2>Bilingual Personality Disorder</h2>
-<figure class="image"><img src="https://c.cksource.com/a/1/img/docs/sample-image-bilingual-personality-disorder.jpg">
-<figcaption>One language, one person.</figcaption>
-</figure>
-<p>
-This may be the first time you hear about this made-up disorder but
-it actually isn’t so far from the truth. Even the studies that were conducted almost half a century show that
-<strong>the language you speak has more effects on you than you realise</strong>.
-</p>
-<p>
-One of the very first experiments conducted on this topic dates back to 1964.
-<a href="https://www.researchgate.net/publication/9440038_Language_and_TAT_content_in_bilinguals">In the experiment</a>
-designed by linguist Ervin-Tripp who is an authority expert in psycholinguistic and sociolinguistic studies,
-adults who are bilingual in English in French were showed series of pictures and were asked to create 3-minute stories.
-In the end participants emphasized drastically different dynamics for stories in English and French.
-</p>
-<p>
-Another ground-breaking experiment which included bilingual Japanese women married to American men in San Francisco were
-asked to complete sentences. The goal of the experiment was to investigate whether or not human feelings and thoughts
-are expressed differently in <strong>different language mindsets</strong>.
-<Here>is a sample from the the experiment:</Here>
-</p>
-<figure class="table">
+{% autoescape false %}                     
+{{post["data"]["text"]}}
+{% endautoescape %} 
+</div>
+    
+{% if editor_mode %} 
+<input type="hidden" class = "content"  name="content" value = "" >
+<button type="button" onclick="post(this)">submit</button>
+{% endif %}
+</form>
+</div>
 
-<table>
-<thead>
-<tr>
-<th></th>
-<th>English</th>
-<th>Japanese</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Real friends should</td>
-<td>Be very frank</td>
-<td>Help each other</td>
-</tr>
-<tr>
-<td>I will probably become</td>
-<td>A teacher</td>
-<td>A housewife</td>
-</tr>
-<tr>
-<td>When there is a conflict with family</td>
-<td>I do what I want</td>
-<td>It's a time of great unhappiness</td>
-</tr>
-</tbody>
-</table>
-</figure>
-<p>
-More recent <a href="https://books.google.pl/books?id=1LMhWGHGkRUC">studies</a> show, the language a person speaks affects
-their cognition, behaviour, emotions and hence <strong>their personality</strong>.
-This shouldn’t come as a surprise
-<a href="https://en.wikipedia.org/wiki/Lateralization_of_brain_function">since we already know</a> that different regions
-of the brain become more active depending on the person’s activity at hand. Since structure, information and especially
-<strong>the culture</strong> of languages varies substantially and the language a person speaks is an essential element of daily life.
-</p>
-</div>
-<button type="submit">submit</button>
-</div>
         {% include 'home_widgets.html' %}
     
     
@@ -191,6 +182,9 @@ of the brain become more active depending on the person’s activity at hand. Si
 
 
 <script>
+
+    
+
     var coll = document.getElementsByClassName("collapsible");
     var i;
     
@@ -218,7 +212,9 @@ of the brain become more active depending on the person’s activity at hand. Si
         });
         
     }
+
+
     </script>
-    {% endif %}
+{% endif %}
     </body>
 </html>

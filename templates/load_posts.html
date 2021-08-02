@@ -1,0 +1,36 @@
+<div class="flex-column rtl">
+    {% for post in posts['data'] %}
+    <div href="#" class="post-card flex-row flex-h-start">
+        <div class="post-image post-card-item flex-column ">
+            <a href="/posts/{{parse_out(post['title'])}}">
+
+                <img src="{{ url_for('static', filename=post['image_url']) }}" alt="">
+            </a>
+        </div>
+
+        <div class="post-card-info post-card-item flex-column ">
+
+            <div class="flex-column">
+                <div class="flex-row post-card-title"><a href="/posts/{{parse_out(post['title'])}}">{{post['title']}}</a></div>
+                <div class="flex-row post-card-tiny-text post-card-description">
+                    {{post['description']}}
+                </div>
+
+            </div>
+            <div class="flex-column h-100 flex-v-end">
+                <div class="flex-row flex-h-end">
+                    <div class="flex-row post-card-tiny-text w-fit">عدد السجلات 5</div>
+                    <div class="flex-row post-card-tiny-text w-fit">عدد الاستماعات 500</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+
+   
+    {% set pages = posts['pages'] %}
+    {% include 'page_numbers.html' %}
+
+
+</div>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'head.html' %}
+
+
+
+
+    <style>
+
+        :root{
+            --comment-section-mh : 50px;
+            --new-comment-mh:150px;
+        }
+
+        #main {
+            padding-top: 180px;
+            padding-bottom: 40px;
+            position: relative;
+        }
+
+        .post-container {
+            position: relative;
+            width: 90%;
+            height: fit-content;
+            margin: auto;
+            /* background-color: #bbbaba; */
+            /* padding :80px; */
+            /* padding-top: 120px; */
+        }
+
+        #commentContainer {
+            direction: rtl;
+            padding: 50px;
+            z-index: 5;
+            padding-top: 100px;
+            position: relative;
+
+            width: 100%;
+            height: fit-content;
+            background-color: #dfdfdf;
+            border: solid 5px #919191;
+            border-radius: 20px;
+            top: -100px;
+            padding-bottom: 15px;
+        }
+
+        #postBorder {
+            direction: rtl;
+            position: relative;
+            z-index: 6;
+
+            width: 100%;
+            height: fit-content;
+            border: solid 5px #033855db;
+            background-color: #F7F7F7;
+
+            border-radius: 50px;
+            /* margin:auto; */
+            padding: 80px;
+            padding-top: 120px;
+            width: auto;
+            
+        }
+
+        #postTitle {
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            padding-top: 20px;
+        }
+
+        #postImage {
+            position: relative;
+            z-index: 10;
+
+
+            /* outline: 25px solid #F7F7F7; */
+            width: 220px;
+            height: 220px;
+            background-color: #F7F7F7;
+            border-radius: 100%;
+            margin: auto;
+            border: solid 5px #033855db;
+            position: absolute;
+            top: -110px;
+            left: calc(50% - 110px);
+            overflow: hidden;
+
+            -webkit-box-shadow: 0px 9px 12px -7px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: 0px 9px 12px -7px rgba(0, 0, 0, 0.75);
+            box-shadow: 0px 9px 12px -7px rgba(0, 0, 0, 0.75);
+        }
+
+        .post-image-outline {
+            position: relative;
+            z-index: 10;
+            outline: 25px solid #F7F7F7;
+
+            width: 220px;
+            height: 220px;
+            /* background-color:#F7F7F7; */
+            border-radius: 100%;
+            margin: auto;
+            border: solid 5px #033855db;
+            position: absolute;
+            top: -110px;
+            left: calc(50% - 110px);
+        }
+
+        #postImage img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+        #postMeta p {
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .post-buttons{
+            margin-top:15px;
+            width: 100%;
+            border-radius: 5px;
+        }
+        .comment-send-utility {
+            /* background-color: #fafafa; */
+            /* border: #c4c4c4 solid 1px; */
+            /* border-top: none; */
+            /* height:70px;
+            width:70px; */
+            height: 100%;
+        }
+
+        .new-comment {
+            /* width: 80%; */
+        }
+
+        .comment-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 100%;
+            border: #c4c4c4 solid 5px;
+            overflow: hidden;
+            margin-left: 10px;
+        }
+
+        .user-image img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+        .comment-content {
+            padding: 20px;
+            background-color: #fafafa;
+            border-radius: 25px;
+            width: 100%;
+
+            margin-top: -8px;
+            margin-bottom: 10px;
+        }
+
+        .comment-row {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            /* margin-top: 10px; */
+        }
+
+        .comment {
+            margin: 40px 0px;
+            width: 100%;
+
+        }
+
+        .comment-row.end {
+            justify-content: flex-end;
+        }
+
+        .comment-v-center {
+            align-items: center;
+        }
+
+        .comment-v-stretch {
+            align-items: stretch;
+        }
+
+        .comment-v-end {
+            align-items: flex-end;
+        }
+
+        .comment-row.space-between {
+            justify-content: space-between;
+        }
+
+        .space-out>* {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        .comment-info {
+            white-space: nowrap;
+            width: fit-content;
+        }
+
+        .comment-utility button, .post-buttons button {
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .send-comment {
+            width: 50px;
+            height: 50px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 100%;
+            padding: 0px 10px;
+            padding-right: 15px;
+        }
+
+
+
+        .send-comment img {
+
+            object-fit: cover;
+            transform: scale(-1);
+        }
+
+        .icon-button {
+            border: none;
+            height: 35px;
+        }
+
+        .icon-button img {
+            width: 100%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .comment-info img {
+            width: 100%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .comment-info div {
+            /* height:35px; */
+            margin: 0 20px;
+        }
+
+        .comment-info span {
+            margin: 0 2px;
+        }
+
+        .comment-info {
+            width: 120px;
+        }
+
+        .comment-bottom {
+            padding: 0 25px;
+        }
+
+        .comment-toolbar {
+            width: 65px;
+        }
+
+        .comment-toolbar button {
+            background: none;
+        }
+
+        .comment-section-collapse{
+            display: flex;
+            justify-content: flex-end;
+            flex-direction: column;
+            max-height: 45px;
+            transition: max-height 1.5s ease-in-out;
+            /* max-height:fit-content; */
+
+        }
+
+        .expand-comments{
+            max-height: var(--comment-section-mh) !important;
+        }
+        
+        
+        .expand-new-comment{
+            max-height: var(--new-comment-mh);
+            transition: max-height 1.5s ease-in-out;
+        }
+
+
+
+        #commentContainer{
+            overflow : hidden;
+            width: auto;
+
+        }
+
+        /* .comment-section-expand{
+            display: flex;
+            justify-content: flex-end;
+            flex-direction: column;
+        } */
+        .w-100{
+            width:100% !important;
+        }
+        .w-50{
+            width:50% !important;
+        }
+    </style>
+
+
+<script>
+let root = document.documentElement;
+new_comment_mh = 200;
+comment_section_mh = 0;
+
+root.addEventListener("keyup", e => {
+    console.log(event.keyCode)
+    if (event.keyCode === 13 || event.keyCode === 8) {
+        new_comment_mh = document.getElementsByClassName("new-comment")[0].offsetHeight +70;
+        root.style.setProperty('--new-comment-mh', new_comment_mh + "px");
+
+
+        comment_section_mh = document.getElementsByClassName("comment-section")[0].offsetHeight + new_comment_mh;
+        console.log("comment-section height = "+comment_section_mh)
+        root.style.setProperty('--comment-section-mh', comment_section_mh + "px");
+    }
+
+});
+    function load(){
+        shuffle()
+
+        comment_section_mh = document.getElementsByClassName("comment-section")[0].offsetHeight + new_comment_mh;
+        console.log("comment-section height = "+comment_section_mh)
+        root.style.setProperty('--comment-section-mh', comment_section_mh + "px");
+    }
+
+
+    function new_comment(){
+        
+        h = document.getElementsByClassName("new-comment")[0].offsetHeight +70;
+        root.style.setProperty('--new-comment-mh', h + "px");    
+        document.getElementsByClassName("comment-section-collapse")[0].classList.toggle("expand-new-comment");
+
+    }
+
+    function show_comments(){
+        
+        h = document.getElementsByClassName("new-comment")[0].offsetHeight +70;
+        root.style.setProperty('--new-comment-mh', h + "px");    
+        document.getElementsByClassName("comment-section-collapse")[0].classList.toggle("expand-comments");
+
+    }
+
+
+</script>
+</head>
+
+<body onload="load()">
+    {% include 'header.html' %}
+
+
+    <div id="main">
+        <div class="post-container">
+            <div class=post-image-outline></div>
+            <div id="postImage">
+                <img src="{{ url_for('static', filename=post['data']['image_url']) }}" alt=""> <!-- TODO Add Alt-->
+            </div>
+
+            <div id="postBorder">
+
+                <p id="postTitle">
+                    {{post["data"]["title"]}}
+                </p>
+                <div id="postMeta">
+                    <p>الكاتب: <a href="#">{{post['data']['user_id']['name']}}</a></p>
+                    <p>الناشر: <a href="#">{{post['data']['posted_by']['name']}}</a></p>
+                    <p>تاريخ النشر: {{post['data']['timestamp']}}</p>
+                </div>
+
+                <br>
+                <br>
+                <div class="editor ck-content">
+
+                    {% autoescape false %}
+                    {{post["data"]["text"]}}
+                    {% endautoescape %}
+
+                </div>
+
+
+                <div class="comment-info  comment-row comment-v-center space-out">
+                    <div>
+                        <a  onclick="show_comments()">
+                            <span>5</span>
+                            <span><img
+                                    src=" {{ url_for('static', filename='/assets/icons/comment-outline.svg') }}"></span>
+                        </a>
+                    </div>
+
+                    <div>
+                        <a href="#">
+                            <span>5</span>
+                            <span><img
+                                    src=" {{ url_for('static', filename='/assets/icons/like-outline.svg') }}"></span>
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div id="commentContainer">
+                <div class="comment-column comment-section-collapse">
+                    <div class="comment-section">
+
+                        {% include 'view/posts/comments.html' %}
+
+                        {% include 'view/posts/comments.html' %}
+
+                    </div>
+                    <hr>
+
+
+                    <div class="new-comment">
+                        <div class="comment-row">
+                            <div class="comment-column">
+                                <div class="user-info">
+                                    <div class="user-image">
+                                        <img src="{{ url_for('static', filename=post['data']['image_url']) }}" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="comment-column w-100">
+                                <div class="comment-editor ck-content"></div>
+                            </div>
+                            <div class="comment-column">
+
+                                <div class="comment-send-utility comment-row comment-v-end">
+                                    <button class="send-comment" type="submit"><img
+                                            src=" {{ url_for('static', filename='/assets/icons/send.svg') }}"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="post-buttons comment-row space-out space-between">
+                        <button class="icon-button" type="submit" >
+                            <img src=" {{ url_for('static', filename='/assets/icons/like-outline.svg') }}">
+                        </button>
+                        <button class="icon-button" type="submit" onClick="new_comment()">
+                            <img src=" {{ url_for('static', filename='/assets/icons/comment-outline.svg') }}">
+                        </button>
+                        <button class="icon-button" type="submit">
+                            <img src=" {{ url_for('static', filename='/assets/icons/share-outline.svg') }}">
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        {% include 'home_widgets.html' %}
+
+
+    </div>
+    {% include 'ckeditor_comments.html' %}
+</body>
+
+</html>

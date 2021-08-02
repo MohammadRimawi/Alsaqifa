@@ -51,3 +51,18 @@ function openNav() {
     }
   }
   
+
+
+  function toggle_class(selector,item,elm = null){
+
+    if (elm != null){
+        elm.parentNode.getElementsByClassName(selector)[0].classList.toggle(item);
+    }
+    else{
+        document.getElementsByClassName(selector)[0].classList.toggle(item);
+    }
+    //   if(selector[0]=='.'){
+    //   }
+    //   else if (selector.)
+
+  }

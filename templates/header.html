@@ -1,22 +1,98 @@
-<nav>
-    <div id="nav_header">
-        <span class="helper"></span><a href="\"><img src="{{url_for('static', filename='assets/images/logo.svg')}}" height=350px /></a>
+<div id="nav_menu" class="big">
+    <div class="nav-container">
+
+        <div id="nav_pages" class="flex-row flex-v-center">
+            <div class="nav-logo flex-row flex-v-center flex-h-end">
+                <div class="nav-item">
+                    <a href="\"><img src="{{url_for('static', filename='assets/images/logo.svg')}}"></a>
+                </div>
+            </div>
+            <div class="flex-row full-nav-bar">
+
+                <div class="flex-row flex-v-center">
+                    {% for page in Menu['menu']['left'] %}
+                    <div class=" nav-item {% if Menu['menu']['left'][page].link == Menu['active'] %}active{% endif %}"><a href="{{ Menu['menu']['left'][page].link }}">{{ Menu['menu']['left'][page].name }}</a></div>
+                    {% endfor %}
+                </div>
+                <div class="flex-row flex-v-center flex-h-end">
+
+                    {% if session['name'] %}
+                    <div class="nav-item">
+                        <div class="dropdown">
+                            <a class="dropbtn"
+                                onclick="toggle_class('dropdown-content','show');toggle_class('fa-caret-down','fa-caret-up')">{{session['name']}}
+                                <i class="fa fa-caret-down"></i>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#">
+                                    <div class="menu-item nav-item">حسابي</div>
+                                </a>
+                                <a href="#">
+                                    <div class="menu-item nav-item">الاعدادات</div>
+                                </a>
+                                <a href="/registration/logout">
+                                    <div class="menu-item nav-item">تسجيل خروج</div>
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    {% for page in Menu['menu']['right'] %}
+                    <div class=" nav-item {% if Menu['menu']['right'][page].link == Menu['active'] %}active{% endif %}"><a href="{{ Menu['menu']['right'][page].link }}">{{ Menu['menu']['right'][page].name }}</a></div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div id="nav_control" onclick="openNav()">☰</div>
+        </div>
+
     </div>
-</nav>
-<div id="nav_menu" >
-    <div id="nav_control" onclick="openNav()">☰</div>
-    <ul>
-        {% for page in Menu.menu %}
-        <li class="{% if Menu.menu[page].link == Menu.active %}active{% endif %}"><span>★ </span><a href="{{ Menu.menu[page].link }}">{{ Menu.menu[page].name }}</a><span> ★</span></li>
-        {% endfor %}
-    </ul>
 </div>
 
-<div id ="side_nav_back" onclick="openNav()"></div>
+<div id="side_nav_back" onclick="openNav()"></div>
 <div id="mySidenav" class="sidenav">
+    
     <a href="javascript:void(0)" class="closebtn" onclick="openNav()">&times;</a>
-    {% for page in Menu.menu %}
-    <li class="{% if Menu.menu[page].link == Menu.active %}active{% endif %}"><a href="{{ Menu.menu[page].link }}">{{ Menu.menu[page].name }}</a></li>
-    {% endfor %}
-  </div>
-  
+    
+    <div class = "flex-column nav-slider"  >
+        <div class = "flex-column">
+
+            {% for page in Menu['menu']['left'] %}
+            <div class = "flex-row">
+                <li class="{% if Menu['menu']['left'][page].link == Menu['active'] %}active{% endif %}"><a href="{{ Menu['menu']['left'][page].link }}">{{ Menu['menu']['left'][page].name }}</a></li>
+            </div>
+            {% endfor %}
+            
+        </div>
+
+        <div class = "flex-column">
+            {% if session['name'] %}
+                <!-- <div class = "flex-row">
+                    <li> <a href="#"><div class="">{{session['name']}}</div> </a> </li> 
+                </div>
+                <div class='flex-row'>
+                    <hr class="w-100">
+                </div> -->
+                <div class = "flex-row">
+                   <li> <a href="#"><div class="">حسابي</div> </a> </li> 
+                </div>
+                <div class = "flex-row">
+                    <li> <a href="#"><div class="">الاعدادات</div> </a> </li> 
+
+                </div>
+                
+                   <div class = "flex-row">
+                       <li> <a href="/registration/logout"><div class="">تسجيل خروج</div> </a> </li> 
+                    </div>
+            {% else %}
+                {% for page in Menu['menu']['right'] %}
+                <div class = "flex-row">
+                    <li class="{% if Menu['menu']['right'][page].link == Menu['active'] %}active{% endif %}"><a href="{{ Menu['menu']['right'][page].link }}">{{ Menu['menu']['right'][page].name }}</a></li>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="flex-column rtl">
+    {% for playlist in playlists['data'] %}
+    <div href="#" class="playlist-card flex-row flex-h-start">
+        <div class="playlist-image playlist-card-item flex-column ">
+            <a href="/podcasts/{{parse_out(playlist['name'])}}">
+
+                <img src="/static/assets/images/ERTaFf3XYAEYQqs.jpg" alt="">
+            </a>
+        </div>
+
+        <div class="playlist-card-info playlist-card-item flex-column ">
+
+            <div class="flex-column">
+                <div class="flex-row playlist-card-title"><a href="/podcasts/{{parse_out(playlist['name'])}}">{{playlist['name']}}</a></div>
+                <div class="flex-row playlist-card-tiny-text playlist-card-description">
+                    <!-- هذا نص حصري مخصص لهذا الحلقة فقط، لا تفوته هذا نص حصري مخصص لهذا الحلقة فقط، لا تفوته هذا نص حصري مخصص لهذا الحلقةفقط، لا تفوته! -->
+                </div>
+
+            </div>
+            <div class="flex-column h-100 flex-v-end">
+                <div class="flex-row flex-h-end">
+                    <div class="flex-row playlist-card-tiny-text w-fit">عدد السجلات 5</div>
+                    <div class="flex-row playlist-card-tiny-text w-fit">عدد الاستماعات 500</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% set pages = playlists['pages'] %}
+    {% include 'page_numbers.html' %}
+</div>
