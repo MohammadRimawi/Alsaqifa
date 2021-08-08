@@ -66,3 +66,18 @@ function openNav() {
     //   else if (selector.)
 
   }
+
+
+  function append_to_class(className,item){
+      elm = document.createElement('div');
+      elm.innerHTML = item;
+      document.getElementsByClassName(className)[0].append(elm);
+  }
+
+
+
+  function prepend_to_class(className,item){
+    elm = document.createElement('div');
+    elm.innerHTML = item;
+    document.getElementsByClassName(className)[0].prepend(elm);
+}

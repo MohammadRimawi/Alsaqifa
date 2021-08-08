@@ -198,7 +198,19 @@ a.disabled{
     max-width: 1400px;
 }
 
-
+.loader {
+    border: 8px solid #f3f3f3;
+    border-top-color: #3498db;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 
 .item {
     position: relative;
@@ -433,12 +445,15 @@ box-shadow: inset 7px 10px 12px #f0f0f0;
   }
 
 
-
-
-
-
-
-
+.comments-top{
+    padding-top:30px;
+}
+.hidden{
+    display:none;
+}
+.comments-see-more{
+    cursor:pointer;
+}
 
 
 

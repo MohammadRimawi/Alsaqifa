@@ -233,20 +233,20 @@
         }
 
         .send-comment {
-            width: 50px;
-            height: 50px;
-            margin: 0 10px;
-            border: none;
             border-radius: 100%;
-            padding: 0px 10px;
-            padding-right: 15px;
+            padding-right: 10px;
+            padding-top: 8px;
+            border: none;
+        }
+        .send-comment:hover {
+            cursor: pointer;
+            background-color:#c8c8c8;
+            transition: all .2s ease-in-out;
         }
 
-
-
         .send-comment img {
-
-            object-fit: cover;
+            width: 20px;
+            height: 20px;
             transform: scale(-1);
         }
         
@@ -361,14 +361,17 @@
 
         }
 
-
+        function update_mh_value(){
+            comment_section_mh = document.getElementsByClassName("comments-container")[0].scrollHeight;
+            console.log("comments-container height = " + comment_section_mh)
+            root.style.setProperty('--comments-container-mh', comment_section_mh + "px");
+        }
 
         function show_comments() {
 
 
-            comment_section_mh = document.getElementsByClassName("comments-container")[0].scrollHeight;
-            console.log("comments-container height = " + comment_section_mh)
-            root.style.setProperty('--comments-container-mh', comment_section_mh + "px");
+             update_mh_value()
+
             document.getElementsByClassName("comments-container")[0].classList.toggle("expand-comments");
 
         }
@@ -449,14 +452,16 @@
             
         }
         .replies{
-            box-shadow: 0px 25px 15px -20px rgb(0 0 0 / 16%) inset ,0px -25px 15px -20px rgb(0 0 0 / 16%) inset;
+            box-shadow:-22px 12px 0px 0px rgb(222 222 222) inset, -24px 0px 0px 0px rgb(154 154 154) inset;
 
-            padding: 0 5px;
-            background-color: #eaeaea;
+            padding-right: 40px;
+            /* background-color: #eaeaea; */
             
         }
         .comments {
             padding-bottom: 40px;
+            /* padding-top: 30px; */
+
             /* background-color:indigo; */
         }
 
@@ -475,6 +480,10 @@
             height:50px;
             align-items:center;
             background-color:#e4e4e4;
+        }
+
+        .replies .comment{
+            box-shadow:92px 1px 0px -77px rgb(222 222 222), 90px 0px 0px -76px rgb(154 154 154);
         }
 
         *{
@@ -518,7 +527,6 @@
 
 
     <div id="main">
-
 
 
         {% include 'view/posts/post.html' %}

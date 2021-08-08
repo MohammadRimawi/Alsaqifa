@@ -13,10 +13,14 @@ import os
 
 from modules import *
 from datetime import datetime,timedelta
+from flaskext.markdown import Markdown
 
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SESSION_KEY")
+
+Markdown(app)
+# md = Markdown(app, extensions=['fenced_code'])
 
 comments = [
     {   
@@ -88,7 +92,7 @@ def get_widgets(data,separated = True):
     tags_posts = requests.post(api_host+"/api/get/posts_by_tag",headers = headers,data=data)
     tags_posts = tags_posts.json()  
 
-    pprint(tags_posts)
+    # pprint(tags_posts)
 
     widgets_list=[]
 
@@ -130,7 +134,7 @@ def index():
         post = post.json()
         post['data']['text']= post['data']['text'].replace("contenteditable='true'","contenteditable='false'")
 
-        pprint(post["data"]["text"])
+        # pprint(post["data"]["text"])
     except Exception as e:
         post = {}
         post["data"] = {}
@@ -171,7 +175,7 @@ def tags(tag):
     posts = requests.post(api_host+"/api/get/posts_by_tag",headers = headers,data=data,params=params)
     posts = posts.json()
     
-    pprint(posts)
+    # pprint(posts)
 
     menu = Menu.load_menu()
     menu['active'] = "/posts"
@@ -209,7 +213,7 @@ def all_posts():
     posts = requests.post(api_host+"/api/get/all_posts",headers = headers,params=params)
     posts = posts.json()  
 
-    pprint(posts)
+    # pprint(posts)
 
 
     data = {
@@ -260,9 +264,19 @@ def posts(title):
         post = post.json()
 
         post['data']['text']= post['data']['text'].replace("contenteditable='true'","contenteditable='false'")
-        post['data']['posted_by'] = requests.get("http://rimawidell:5001/api/get/user?user_id="+str(post['data']['posted_by'])).json()['data']
-        post['data']['user_id'] = requests.get("http://rimawidell:5001/api/get/user?user_id="+str(post['data']['user_id'])).json()['data']
-        pprint(post["data"])
+
+ 
+        url = "http://rimawidell:5001/api/get/comments/"+str(post['data']['post_id'])
+        post['data']['comments'] = requests.get(url).json()
+
+
+        # post['data']['posted_by'] = requests.get("http://rimawidell:5001/api/get/user?user_id="+str(post['data']['posted_by'])).json()['data']
+        # post['data']['user_id'] = requests.get("http://rimawidell:5001/api/get/user?user_id="+str(post['data']['user_id'])).json()['data']
+        pprint(post["data"]) 
+
+
+
+        #TODO Get tags based on user_id and post_id
     except Exception as e:
         post = {}
         post["data"] = {}
@@ -321,8 +335,8 @@ def playlists():
     tracks = tracks.json()    
 
 
-    pprint(playlists)
-    pprint(tracks)  
+    # pprint(playlists)
+    # pprint(tracks)  
 
     if(request.form):
         if request.form['operation'] == "select_playlist":
@@ -333,7 +347,7 @@ def playlists():
             response = r.json()
             
             response['status_code'] = r.status_code
-            pprint(response)
+            # pprint(response)
             pass
         
         elif request.form['operation'] == "create_playlist":
@@ -348,7 +362,7 @@ def playlists():
 
             response = r.json()
             response['status_code'] = r.status_code
-            pprint(response)
+            # pprint(response)
 
         elif request.form['operation'] == "update_playlist":
             
@@ -370,9 +384,9 @@ def playlists():
                 filename =   secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                                 
-                print(filename)
+                # print(filename)
                 path = "/audio/"+str(filename)
-                print(path)
+                # print(path)
                 imgpath = "static/"+path
 
             pass
@@ -394,7 +408,7 @@ def playlists():
             pass
 
 
-    print(response['server message'])
+    # print(response['server message'])
     return render_template(
         "control/playlist_controls.html",
         Menu=menu,
@@ -428,7 +442,7 @@ def playlist(playlist_name):
 @app.route('/registration')
 def registration():
     menu = Menu.load_menu()
-    pprint(request.__dict__)
+    # pprint(request.__dict__)
     menu['active']="/registration"
     return render_template("registration.html",Menu=menu,session=session)
 
@@ -448,6 +462,7 @@ def login():
             data = {
                 "username": str(request.form['username']),
                 "password": str(request.form['password']), #TODO HASH MEE!!!!!
+                "token":"hello"
             }
             data = json.dumps(data)
 
@@ -462,6 +477,8 @@ def login():
             if response['status_code'] == 200:
                 session["user_id"] = response['data']['user_id']
                 session["name"] =  response['data']['name']
+                session["image_url"] =  response['data']['image_url']
+
                 token = make_token()
                 session["session_id"] = token
 
@@ -484,7 +501,7 @@ def login():
 
                 r = requests.post(url, data=data, headers=headers)
 
-                pprint(r)
+                # pprint(r)
                 response['token'] = r.json()
                 response['token']['status_code'] = r.status_code
 
@@ -504,7 +521,8 @@ def logout():
     session.pop("user_id",None)
     session.pop("name",None)
     session.pop("session_id",None)
-    
+    session.pop("image_url",None)
+
     # menu['active']="/"
     return redirect("/")
 
@@ -526,7 +544,7 @@ def post_handler():
     if("HTTP_REFERER" in request.__dict__["environ"].keys()):
         page = request.__dict__["environ"]["HTTP_REFERER"]
         host = request.__dict__["environ"]["HTTP_HOST"]
-        print(host)
+        # print(host)
 
     if (request.form or True): #TODO what is this?
 
@@ -535,7 +553,7 @@ def post_handler():
         # print("TESSST")
         content = request.form["content"]
         content = content.replace("\"","\'")
-        print(content)
+        # print(content)
         # content = content.encode("utf-8")
         url = "http://rimawidell:5001/api/add_post"
 
@@ -549,10 +567,10 @@ def post_handler():
         }
         data = json.dumps(data)
 
-        pprint(data)
+        # pprint(data)
         headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
         response = requests.post(url, data=data, headers=headers)
-        print(response.text)
+        # print(response.text)
 
 
         return response.text
@@ -562,6 +580,72 @@ def post_handler():
     # return redirect(return_to_path)
     return "hello?"
 
+
+@app.route("/comment_handler" ,methods=['POST'])
+def comment_handler():
+
+    response = {}
+
+    if request and request.form:
+        try:
+            content = request.form["content"]
+            content = content.replace("\"","\'")
+
+            url = "http://rimawidell:5001/api/add_post_comment"
+
+            data = {
+                "post_id":str(request.form['post_id']),
+                "text": str(content),
+                "user_id": session['user_id'],
+            }
+            data = json.dumps(data)
+
+
+            headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+            response = requests.post(url, data=data, headers=headers)
+
+
+
+            return response.text
+        except Exception as e :
+            response["server message"] = 'Server Error!\n"'+str(e)+'"' 
+            return response,500
+            pass
+
+    return response,404 #FIXME not 404
+
+
+
+@app.route("/get/comments/<post_id>")
+def get_comments(post_id):
+    response = {}
+    try:
+        if request.args.get('page'):
+            page = int(request.args.get('page'))
+        else:
+            page = 1
+
+
+        if request.args.get('offset'):
+            offset = int(request.args.get('offset'))
+        else:
+            offset = 5
+
+
+        params = {}
+        params["page"]=page,
+        params["offset"]=offset
+
+        url = api_host+"/api/get/comments/"
+        data = requests.get(url+str(post_id),params=params).json()
+        pprint(data)
+        response['data']=render_template("view/posts/comments.html",comments = data)
+        response['pages']=data['pages']
+        return response,200
+    except Exception as e :
+        response["server message"] = 'Server Error!\n"'+str(e)+'"' 
+        return response,500
+        pass
 
 #--------------------- -[ API Redirect ]----------------------#
 
@@ -580,6 +664,22 @@ def like_post_redirect():
         return response,500
         pass
 
+
+@app.route("/add_post_comment" ,methods=['POST'])
+def add_post_comment_redirect():
+    response = {}
+    try:
+        data = request.get_json()
+        data = json.dumps(data)
+        headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+        response = requests.post(api_host+"/api/add_post_comment",headers = headers,data=data).json()
+        response['data']=render_template('view/posts/comments.html',comments = response)
+        return response,200
+    except Exception as e :
+        
+        response["server message"] = 'Server Error!\n"'+str(e)+'"' 
+        return response,500
+        pass
 
 
 

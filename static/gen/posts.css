@@ -82,4 +82,12 @@
         max-height: 70px;
 
     }
+
+    .new-comment>.comment-row{
+        flex-direction: column;
+    }
+
+    .new-comment>.comment-row>.comment-column:last-child{
+    align-items: flex-end;
+    }
 }

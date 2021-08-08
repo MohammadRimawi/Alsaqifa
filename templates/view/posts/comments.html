@@ -1,8 +1,9 @@
+
+{% for comment in comments['data']%}
+
 <div class="comment-row">
     <div class="comment">
         <div class="comment-row">
-
-
 
             <div class="comment-column w-100 justify-content-center">
                 <div class="comment-row">
@@ -14,8 +15,12 @@
                                     <div class="user-image">
 
                                         <a href="#">
-                                            <img src="{{ url_for('static', filename=post['data']['image_url']) }}"
-                                                alt="">
+                                            {% if comment['user_image_url'] %}
+                                            <img src="{{ url_for('static', filename= comment['user_image_url'] ) }}"alt="">
+                                            {% else %}
+                                            <img src=""alt="">
+
+                                            {% endif %}
                                         </a>
                                     </div>
                                 </div>
@@ -23,20 +28,17 @@
                             <div class="comment-column w-100">
 
                                 <div class="comment-name">
-                                    <a href="#">
-                                        محمد الريماوي
+                                    <a href="/profile/{{comment['user_id']}}">
+                                        {{comment['username']}}
                                     </a>
                                 </div>
                                 <div class="comment-time">
-                                    الان
+                                    {{comment['timestamp']}}
                                 </div>
                             </div>
                             <div class="comment-column">
                                 <div class="comment-row comment-toolbar flex-h-end">
-                                    <!-- <button class="icon-button" type="submit"><img
-                                            src=" {{ url_for('static', filename='/assets/icons/delete.svg') }}"></button>
-                                    <button class="icon-button" type="submit"><img
-                                            src=" {{ url_for('static', filename='/assets/icons/delete.svg') }}"></button> -->
+
 
                                     <a onclick="toggle_class('more-options-dropdown','show',this);">
                                         <img height="20"
@@ -62,149 +64,25 @@
                         </div>
                         <hr>
                         <div class="comment-textarea">
-                            هذا تيست ثاني مخصص للتستتة، وليس مجرد تيست وحسب.هذا تيست ثاني مخصص للتستتة، وليس مجرد تيست
-                            وحسب.هذا تيست ثاني مخصص للتستتة، وليس مجرد تيست وحسب.هذا تيست ثاني مخصص للتستتة، وليس مجرد
-                            تيست وحسب.
-
+                            <!-- {% autoescape false %} -->
+                            {{comment['text']|markdown}}
+                            <!-- {% endautoescape %} -->
                         </div>
-                        <br>
                         <div class="comment-info comment-row comment-v-center space-out">
                             <div>
                                 <a href="#">
-                                    <span>5</span>
+                                    <span>{{comment['likes_count']}}</span>
                                     <span><img
                                             src=" {{ url_for('static', filename='/assets/icons/like-outline.svg') }}"></span>
                                 </a>
                             </div>
 
-                            <!-- <div>
-                                <a href="#">
-                                    <span>5</span>
-                                    <span><img
-                                            src=" {{ url_for('static', filename='/assets/icons/comment-outline.svg') }}"></span>
-                                </a>
-                            </div> -->
+  
                         </div>
                     </div>
                 </div>
 
                
-                
-                <div class="comment-row replies">
-                <!-- 
-                    <div class="comments">
-
-                    
-                    <div class="comment-row">
-                        <div class="comment">
-                            <div class="comment-row">
-                    
-                    
-                    
-                                <div class="comment-column w-100 justify-content-center">
-                                    <div class="comment-row">
-                    
-                                        <div class="comment-content">
-                                            <div class="comment-row">
-                                                <div class="comment-column">
-                                                    <div class="user-info">
-                                                        <div class="user-image">
-                    
-                                                            <a href="#">
-                                                                <img src="{{ url_for('static', filename=post['data']['image_url']) }}"
-                                                                    alt="">
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="comment-column w-100">
-                    
-                                                    <div class="comment-name">
-                                                        <a href="#">
-                                                            محمد الريماوي
-                                                        </a>
-                                                    </div>
-                                                    <div class="comment-time">
-                                                        الان
-                                                    </div>
-                                                </div>
-                                                <div class="comment-column">
-                                                    <div class="comment-row comment-toolbar flex-h-end">
-                                                       
-                                                        <a onclick="toggle_class('more-options-dropdown','show',this);">
-                                                            <img height="20"
-                                                                src=" {{ url_for('static', filename='/assets/icons/more.svg') }}">
-                                                        </a>
-                    
-                                                        <div class="more-options-dropdown">
-                                                            <a href="#">
-                                                                <div class="menu-item nav-item">ابلاغ</div>
-                                                            </a>
-                                                            <hr>
-                                                            <a href="#">
-                                                                <div class="menu-item nav-item">تعديل</div>
-                                                            </a>
-                                                            <a href="#">
-                                                                <div class="menu-item nav-item">حذف</div>
-                                                            </a>
-                    
-                                                        </div>
-                    
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="comment-textarea">
-                                                هذا تيست ثاني مخصص للتستتة، وليس مجرد تيست وحسب.هذا تيست ثاني مخصص للتستتة، وليس مجرد تيست
-                                                وحسب.هذا تيست ثاني مخصص للتستتة، وليس مجرد تيست وحسب.هذا تيست ثاني مخصص للتستتة، وليس مجرد
-                                                تيست وحسب.
-                    
-                                            </div>
-                                            <br>
-                                            <br>
-                                            <div class="comment-info  comment-row comment-v-center space-out">
-                                                <div>
-                                                    <a href="#">
-                                                        <span>5</span>
-                                                        <span><img
-                                                                src=" {{ url_for('static', filename='/assets/icons/like-outline.svg') }}"></span>
-                                                    </a>
-                                                </div>
-                    
-                                                <div>
-                                                    <a href="#">
-                                                        <span>5</span>
-                                                        <span><img
-                                                                src=" {{ url_for('static', filename='/assets/icons/comment-outline.svg') }}"></span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                    
-                                    <div class="comment-bottom">
-                                        <div class="comment-utility comment-row space-out space-between">
-                                            <button class="icon-button" type="submit"><img
-                                                    src=" {{ url_for('static', filename='/assets/icons/like-outline.svg') }}"></button>
-                                            <button class="icon-button" type="submit"><img
-                                                    src=" {{ url_for('static', filename='/assets/icons/comment-outline.svg') }}"></button>
-                                        </div>
-                    
-                                    </div>
-                    
-                                    <div class="comment-row replies">
-                    
-                    
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div> -->
-                </div>
-
-
                 <div class="comment-bottom">
                     <div class="comment-utility comment-row space-out space-between">
                         <button class="icon-button" type="submit"><img
@@ -214,10 +92,21 @@
                     </div>
 
                 </div>
+                
+                <div class="comment-row replies">
+                    
+                        <!-- mn -->
+                            <div class = "flex-column">
+                                
+                            </div>
+                        <!-- hon -->
+                </div>
+
+
             </div>
         </div>
     </div>
 </div>
 
-
+{% endfor %}
 <!-- <hr> -->

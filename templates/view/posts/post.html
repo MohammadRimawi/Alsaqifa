@@ -9,8 +9,8 @@
         <div class="flex-column">
             <div class="flex-row">
                 <div class="post-meta flex-column">
-                    <p>الكاتب: <a href="#">{{post['data']['user_id']['name']}}</a></p>
-                    <p>الناشر: <a href="#">{{post['data']['posted_by']['name']}}</a></p>
+                    <p>الكاتب: <a href="/profile/{{post['data']['user_id']}}">{{post['data']['username']}}</a></p>
+                    <p>الناشر: <a href="/profile/{{post['data']['posted_by']}}">{{post['data']['posted_by_name']}}</a></p>
                     <p>تاريخ النشر: {{post['data']['timestamp']}}</p>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                     <div class="comment-info  comment-row comment-v-center space-out">
                         <div>
                             <a onclick="show_comments()">
-                                <span>5</span>
+                                <span>{{post['data']['comments_count']}}</span>
                                 <span><img
                                         src=" {{ url_for('static', filename='/assets/icons/comment-outline.svg') }}"></span>
                             </a>
@@ -36,7 +36,7 @@
     
                         <div>
                             <a href="#">
-                                <span>5</span>
+                                <span>{{post['data']['likes_count']}}</span>
                                 <span><img src=" {{ url_for('static', filename='/assets/icons/like-outline.svg') }}"></span>
                             </a>
                         </div>
@@ -47,7 +47,7 @@
             <div class="flex-row">
                 <div class="post-actions flex-row">
                     <div class="post-buttons space-out space-between flex-row">
-                        <button class="icon-button" type="button" onClick="likePostToggle(1,1)">
+                        <button class="icon-button" type="button" onClick="likePostToggle({{session['user_id']}},{{post['data']['post_id']}})">
                             <img src=" {{ url_for('static', filename='/assets/icons/like-outline.svg') }}">
                         </button>
                         <button class="icon-button" type="submit" onClick="show_comments()">
@@ -62,40 +62,46 @@
             <div class="flex-row">
 
                 <div class="comments-container">
+                    <div class="comments-top comment-column flex-v-center">
+                        <p class="comments-count">{{ post['data']['comments']['pages']['number_of_comments_shown']}} / {{ post['data']['comments']['pages']['number_of_comments']}}</p>
+                        <div class= "loader hidden"></div>
+                        <a onclick='get_comments({{post['data']['post_id']}},this)' class="comments-see-more {%if post['data']['comments']['pages']['current_page'] >= post['data']['comments']['pages']['number_of_pages']-1 %} hidden {% endif %}">see more </a>
+                    </div>
                     <div class="comments flex-column">
+                        
 
-                      
-                        {% include 'view/posts/comments.html' %}
-
-                        {% include 'view/posts/comments.html' %}
-                        {% include 'view/posts/comments.html' %}
-
+                        {% set comments = post['data']['comments'] %}
                         {% include 'view/posts/comments.html' %}
 
                     
                     </div>
                 </div>
             </div>
-
             <div class="flex-row">
                 <div class="new-comment">
                     <div class="comment-row">
                         <div class="comment-column">
                             <div class="user-info">
                                 <div class="user-image">
-                                    <img src="{{ url_for('static', filename=post['data']['image_url']) }}"
+                                    <img src="{{ url_for('static', filename=session['image_url']) }}"
                                         alt="">
                                 </div>
                             </div>
                         </div>
                         <div class="comment-column w-100">
-                            <div class="comment-editor ck-content"></div>
+                            <div class="comment-editor ck-content">
+
+                            </div>
                         </div>
                         <div class="comment-column">
 
                             <div class="comment-send-utility comment-row comment-v-end">
-                                <button class="send-comment" type="submit"><img
-                                        src=" {{ url_for('static', filename='/assets/icons/send.svg') }}"></button>
+
+                                <!-- <form action="/post_handler" id = "post" method="POST">  -->
+                                    
+                                    <!-- <input type="hidden" name = "post_id" value = "{{post['data']['post_id']}}"> -->
+                                    <button class="send-comment" type="submit" onclick="add_post_comment({{post['data']['post_id']}})"><img src=" {{ url_for('static', filename='/assets/icons/send.svg') }}"></button>
+                                <!-- </form> -->
                             </div>
                         </div>
                     </div>

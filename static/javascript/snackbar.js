@@ -29,21 +29,30 @@ function load_snackbar(){
 
 }
 
-function remove_snackbar(elm,trigger){
+function remove_snackbar(elm,trigger=null){
 
     // console.log(elm)
     if (trigger == "button"){
         elm = elm.parentElement.parentElement.parentElement.parentElement;
-        elm.removeEventListener('mouseover', changeDefOver);
-        elm.removeEventListener('mouseout', changeDefOut);
+     
+ 
     }
-    elm.getElementsByClassName('snackbar')[0].classList.remove('show')
-    x = setTimeout(()=>{
-        elm.remove();
-        snackbar = document.querySelectorAll('.snackbar');
+    else if(trigger == "function"){
         console.log(elm)
-    },1000);
 
+        elm = document.querySelectorAll("[data-timer='"+elm+"']")[0];
+        console.log(elm)
+    }
+    
+    elm.removeEventListener('mouseover', changeDefOver);
+    elm.removeEventListener('mouseout', changeDefOut);
+    elm.getElementsByClassName('snackbar')[0].classList.remove('show')
+    
+    x = setTimeout(()=>{
+    elm.remove();
+    snackbar = document.querySelectorAll('.snackbar');
+    console.log(elm)
+    },1000);
 }
 
 function add_snackbar(content,type,actions= null){
