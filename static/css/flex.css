@@ -62,7 +62,7 @@
     width: 50%;
   }
   .w-75{
-    width: 75%;
+    width: 75% !important;
   }
   .nowrap *{
     white-space: nowrap;
@@ -75,4 +75,7 @@
 
   .justify-space-between{
     justify-content: space-between;
+  }
+  .flex-warp{
+    flex-wrap: wrap;
   }

@@ -1,0 +1,56 @@
+<a href="/tags/{{item.widget_title}}">
+    <p class="widget-title">{{parse_out(item.widget_title)}}</p>
+</a>
+<div class="frame">
+
+
+<div class="previous" onclick="previous(this)">
+    <span ><</span>
+</div>
+<div class="next" onclick="next(this)">
+    <span >></span>
+</div> 
+<div class="slider shuffle">
+   
+
+    {% for card in item.cards %}
+    <a href="/posts/{{parse_out(card.title)}}">
+        <div class="card {% if item.descriptive %} card-descriptive {% else %} card-brief {% endif %}">
+            <div class="card_img">
+                <!-- <img src="{{card.image_url}} "  alt="" srcset=""> -->
+
+                 <img src="{{ url_for('static', filename = card.image_url)}}" alt="" onerror="this.style.display='none'">  <!-- TODO Add Alt-->
+                <img src="/{{card.image_url}}" alt="" onerror="this.style.display='none'"> <!-- TODO Add Alt-->
+
+            </div>
+            <p>
+                {% if item.descriptive %}
+                 <p class="card-title">
+                    {% autoescape false %} 
+                    {{card.title}} 
+                    {% endautoescape %} 
+                 </p>
+                 <p class="card-description">
+                    {% autoescape false %}
+                    {{card.description}} 
+                    {% endautoescape %}
+                 </p>
+                {% else %}
+                <p class="card-title">
+                    {% autoescape false %} 
+                    {{card.title}} 
+                    {% endautoescape %}
+                </p>
+                <p class="card-description">
+                    {% autoescape false %}
+                    {{card.description}} 
+                    {% endautoescape %}
+                </p>
+                {% endif %}
+            </p>
+        </div>
+    </a>
+    {% endfor %}
+
+</div>
+</div>

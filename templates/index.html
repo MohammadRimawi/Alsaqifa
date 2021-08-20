@@ -119,48 +119,9 @@
     {% include 'header.html' %}
     
     <div id="main"  >
-        
-        <div class="item  {% if editor_mode %} content hide {% endif %}" {% if editor_mode %} style="width: 90%;"{% endif %}>
-            {% if editor_mode %} 
-            <button class="collapsible toolbar"><span class="handle toolbar-item"><img src="static//assets/icons/move.svg"></span><span class="toolbar-item"><img src="static//assets/icons/delete.svg"></span></button>  
-            {% endif %}
-            {% if editor_mode %} 
-            
-<form action="/post_handler" id = "post" method="POST"> 
-    {% endif %}
-<div class="editor ck-content">
-{% autoescape false %}                     
-{{post["data"]["text"]}}
-{% endautoescape %} 
-</div>
-    
-{% if editor_mode %} 
-<input type="hidden" class = "content"  name="content" value = "" >
-<button type="button" onclick="post(this)">submit</button>
-{% endif %}
-</form>
-</div>
 
         {% include 'home_widgets.html' %}
     
-    
-        <div class="item  {% if editor_mode %} content hide {% endif %}" {% if editor_mode %} style="width: 90%;"{% endif %}>
-            {% if editor_mode %} 
-            <button class="collapsible toolbar"><span class="handle toolbar-item"><img src="static//assets/icons/move.svg"></span><span class="toolbar-item"><img src="static//assets/icons/delete.svg"></span></button>  
-            {% endif %}
-           <div class="">
-               <a class="spreaker-player" href="https://www.spreaker.com/show/v_317" data-resource="show_id=3128564" data-theme="light" data-autoplay="false" data-playlist="show" data-width="100%" data-height="500px">Listen to "اغانينا" on Spreaker.</a><script async src="https://widget.spreaker.com/widgets.js"></script>
-            </div>
-        </div>
-        <div class="item  {% if editor_mode %} content hide {% endif %}" {% if editor_mode %} style="width: 90%;"{% endif %}>
-            {% if editor_mode %} 
-            <button class="collapsible toolbar"><span class="handle toolbar-item"><img src="static//assets/icons/move.svg"></span><span class="toolbar-item"><img src="static//assets/icons/delete.svg"></span></button>  
-            {% endif %}
-            <iframe src="/playlist/Test-playlist" width="100%" height="800" style="border:none;">
-            </iframe>    
-        </div>
-
-        
         
         {% if editor_mode %} 
 

@@ -1,10 +1,37 @@
 <div class="post-container flex-column">
     <div class="flex-row">
         <div class="post-image-container">
-            <img src="{{ url_for('static', filename=post['data']['image_url']) }}" alt=""> <!-- TODO Add Alt-->
+            <img src="/{{post['data']['image_url'] }}" alt="" onerror="this.style.display='none'"> <!-- TODO Add Alt-->
+
             <div class="post-image-gradient"></div>
         </div>
     </div>
+    <div class="flex-column">
+        <div class="flex-row post-toolbar flex-h-end">
+
+
+            <a onclick="toggle_class('more-options-dropdown','show',this);">
+                <img height="20"
+                    src=" {{ url_for('static', filename='/assets/icons/more.svg') }}">
+            </a>
+
+            <div class="more-options-dropdown">
+                <a href="#">
+                    <div class="menu-item nav-item">ابلاغ</div>
+                </a>
+                {% if session['user_id'] == post['data']['posted_by'] or session['user_id'] == post['data']['user_id']  %}
+                <hr>
+                <a href="#">
+                    <div class="menu-item nav-item" onclick = "ckeditor_init('.editor','full')">تعديل</div>
+                </a>
+                <a href="#">
+                    <div class="menu-item nav-item">حذف</div>
+                </a>
+                {% endif %}
+
+            </div>
+
+        </div>
     <div class="post-content flex-row rtl">
         <div class="flex-column">
             <div class="flex-row">
@@ -12,18 +39,29 @@
                     <p>الكاتب: <a href="/profile/{{post['data']['user_id']}}">{{post['data']['username']}}</a></p>
                     <p>الناشر: <a href="/profile/{{post['data']['posted_by']}}">{{post['data']['posted_by_name']}}</a></p>
                     <p>تاريخ النشر: {{post['data']['timestamp']}}</p>
+                   
+                    <div class="flex-row flex-warp tag-box justify-center" >
+                        {% for tag in post['data']['tags'] %}
+                        <a href="/tags/{{parse_out(tag)}}">{{tag}}</a>
+                        {% endfor %}
+                    </div>
+
                 </div>
             </div>
             <div class="flex-row">
                 <div class=post-body>
-                    <div class="editor ck-content">
 
-                        {% autoescape false %}
-                        {{post["data"]["text"]}}
-                        {% endautoescape %}
+                    <div class="post-text">  
 
+                        <div class="editor ck-content">
+                            
+{% autoescape false %}
+{{post["data"]["text"]}}
+{% endautoescape %}
+                            
+                        </div>
+                        
                     </div>
-
 
                     <div class="comment-info  comment-row comment-v-center space-out">
                         <div>
@@ -97,14 +135,11 @@
 
                             <div class="comment-send-utility comment-row comment-v-end">
 
-                                <!-- <form action="/post_handler" id = "post" method="POST">  -->
-                                    
-                                    <!-- <input type="hidden" name = "post_id" value = "{{post['data']['post_id']}}"> -->
                                     <button class="send-comment" type="submit" onclick="add_post_comment({{post['data']['post_id']}})"><img src=" {{ url_for('static', filename='/assets/icons/send.svg') }}"></button>
-                                <!-- </form> -->
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
 

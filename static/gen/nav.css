@@ -68,10 +68,26 @@
 
 }
 .nav-logo img{
+  height:10px;
+  width:10px;
+  object-fit: contain;
+  transition: all .5s ease;
+  margin-left: 20px;
+  margin-top: 20px;
+
+
+}
+.sticky_show .nav-logo img{
     height:50px;
     width:50px;
     object-fit: contain;
+    margin-left: 0px;
+    margin-top: 0px;
+
+    transition: all .5s ease;
+
 }
+
 
 
 .nav-slider{
@@ -226,6 +242,14 @@
     }
     #nav_pages{
         justify-content: center;
+    }
+
+    .nav-logo img{
+
+      margin-left: 0px;
+      margin-top: 0px;
+    
+    
     }
 }
 

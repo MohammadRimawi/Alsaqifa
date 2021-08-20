@@ -1,8 +1,10 @@
+// ele = null
 function next(elm,user=1){
+    //  ele = elm.getElementsByClassName("slider")[0];
+    var ele = elm
     
-    const ele = elm.parentElement.getElementsByClassName("slider")[0];
-
     if(user){
+        ele = elm.parentElement.getElementsByClassName("slider-body")[0];
         ele.classList.remove("shuffle");
     }
 
@@ -13,16 +15,19 @@ function next(elm,user=1){
 
         var temp = ele.scrollLeft ;
         
-        var card = ele.getElementsByClassName("card")[0].parentElement;
-        ele.getElementsByClassName("card")[0].parentElement.remove();
+        var card = ele.getElementsByClassName("card")[0]
+        // .parentElement;
+        ele.getElementsByClassName("card")[0].remove();
+        // .parentElement
         ele.append(card);
             
         // ele.scrollLeft= temp-200;
-
+        
         // offset= ele.scrollWidth/ele.children.length
         // slider = (ele.scrollWidth-ele.scrollLeft)-ele.offsetWidth;
-
+        
         ele.scrollLeft-= offset;
+        console.log(ele.scrollLeft)
         setTimeout(()=>{
 
             ele.scroll({
@@ -30,7 +35,7 @@ function next(elm,user=1){
                 behavior: 'smooth'
             });
             
-        },50*!user+user*20);
+        },500*!user+user*20);
         return 0;
     }
     
@@ -49,8 +54,8 @@ function next(elm,user=1){
 
 function previous(elm,user=1){
         
-    const ele = elm.parentElement.getElementsByClassName("slider")[0];
-
+    const ele = elm.parentElement.getElementsByClassName("slider-body")[0];
+    console.log(ele)
     if(user){
         ele.classList.remove("shuffle");
     }
@@ -62,14 +67,15 @@ function previous(elm,user=1){
 
         var temp = ele.scrollLeft+offset;
         var cards = ele.getElementsByClassName("card");
-        var card = cards[cards.length-1].parentElement;
-        ele.getElementsByClassName("card")[cards.length-1].parentElement.remove();
+        var card = cards[cards.length-1];
+        ele.getElementsByClassName("card")[cards.length-1].remove();
         ele.prepend(card);
 
         ele.scrollLeft+= offset;
         
         // offset= ele.scrollWidth/ele.children.length
         // slider =ele.scrollWidth-(ele.scrollWidth-ele.scrollLeft);
+
         setTimeout(() => {
             ele.scroll({
                 left: 0,
@@ -79,7 +85,7 @@ function previous(elm,user=1){
         }, 20);
          return 0;
         
-        }
+    }
         offset= slider%offset;
         
         offset=ele.scrollLeft-1 - offset;
@@ -95,8 +101,21 @@ function previous(elm,user=1){
 
 }
 
+
+function load_sliders(){
+
+}
 function shuffle(){
 
+    var sliders = document.getElementsByClassName("shuffle");
+
+    for(var i=0;i<sliders.length;i++){5
+       sliders[i].scroll({
+        left: sliders[i].scrollWidth,
+        behavior: 'smooth'
+        
+    });
+    }
     
     setInterval(()=>{
         var sliders = document.getElementsByClassName("shuffle");
@@ -105,7 +124,7 @@ function shuffle(){
             next(sliders[i],0);
         }
         
-    },5000);
+    },7000);
 }
 
 

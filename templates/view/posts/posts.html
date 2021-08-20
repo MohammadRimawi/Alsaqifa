@@ -1,10 +1,23 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <title>
+        {{post['data']['title']}}
+    </title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="{{post['data']['title']}}">
+    <meta property="og:description" content="{{post['data']['description']}}">
+    <meta property="og:image" content="http://217.23.42.105:5000/posts/{{post['data']['image_url']}}">
+    <meta property="og:url" content="http://217.23.42.105:5000/posts/{{parse_out(post['data']['title'])}}">
+    <meta property="og:type"               content="article" />
+    <meta property="og:image:width" content="1920" /> 
+    <meta property="og:image:height" content="1080" />
+
     {% include 'head.html' %}
-
-
 
 
     <style>
@@ -293,6 +306,11 @@
             position: relative;
         }
 
+        .post-toolbar {
+            margin-top: 20px;
+            width: 65px;
+            position: relative;
+        }
         .comment-toolbar a {
            cursor:pointer;
         }
@@ -519,6 +537,22 @@
     .show{
         display: block !important;
     }
+
+    .editor-bottom-toolbar{
+
+    background-color: #fafafa;
+    padding: 10px;
+    border: 1px solid #c4c4c4;
+    border-top-width: 0px;
+    border-radius: 0px 0px 7px 7px;
+
+    }
+
+    /* {% if  editor_mode %}  */
+    /* .ck-widget__type-around,.ck-widget__selection-handle{
+        display:block;
+    } */
+    /* {% endif %} */
 </style>
 </head>
 
@@ -530,15 +564,18 @@
 
 
         {% include 'view/posts/post.html' %}
-
-
+        
+        
         {% include 'home_widgets.html' %}
-
-
+        
+        
     </div>
     {% include 'utility/snackbar.html' %}
-
+    
+    
+    {% include 'ckeditor_run.html' %}
     {% include 'ckeditor_comments.html' %}
+    <!-- {% include 'ckeditor_post.html' %} -->
 
 </body>
 

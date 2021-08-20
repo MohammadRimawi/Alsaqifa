@@ -4,7 +4,10 @@
         <div class="post-image post-card-item flex-column ">
             <a href="/posts/{{parse_out(post['title'])}}">
 
-                <img src="{{ url_for('static', filename=post['image_url']) }}" alt="">
+                <!-- <img src="{{ url_for('static', filename=post['image_url']) }}" alt="" onerror="this.style.display='none'"> TODO Add Alt -->
+                <img src="/{{post['image_url']}}" alt="" onerror="this.style.display='none'"> <!-- TODO Add Alt-->
+
+
             </a>
         </div>
 
@@ -12,8 +15,18 @@
 
             <div class="flex-column">
                 <div class="flex-row post-card-title"><a href="/posts/{{parse_out(post['title'])}}">{{post['title']}}</a></div>
+                
                 <div class="flex-row post-card-tiny-text post-card-description">
-                    {{post['description']}}
+{% autoescape false %}
+{{post['description']}}
+{% endautoescape %}
+                </div>
+
+                <div class="flex-row post-card-tiny-text flex-warp tag-box">
+                    
+                    {% for tag in post['tags'] %}
+                    <a href="/tags/{{parse_out(tag)}}">{{tag}}</a>
+                    {% endfor %}
                 </div>
 
             </div>

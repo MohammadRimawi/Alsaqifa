@@ -1,0 +1,109 @@
+
+
+<script>
+    const post_wd = new CKSource.Watchdog();
+    
+    // window.watchdog = watchdog;
+    
+    post_wd.setCreator( ( element, config ) => {
+        return CKSource.Editor
+            .create( element, config )
+            .then( editor => {
+
+                return editor;
+
+            } )
+    } );
+    
+    post_wd.setDestructor( editor => {
+
+        return editor.destroy();
+    } );
+    
+    post_wd.on( 'error', handleError );
+
+
+ 
+    post_wd
+        .create( document.querySelector( '.editor' ), {
+            
+            toolbar: {
+                items: [
+                    'fontFamily',
+                    '|',
+                    'fontColor',
+                    'fontSize',
+                    'fontBackgroundColor',
+                    'heading',
+                    '|',
+                    'underline',
+                    'bold',
+                    'italic',
+                    'alignment',
+                    'indent',
+                    'outdent',
+                    'bulletedList',
+                    'blockQuote',
+                    '|',
+                    'CKFinder',
+                    'link',
+                    'imageUpload',
+                    'imageInsert',
+                    'mediaEmbed',
+                    '|',
+                    'undo',
+                    'redo',
+                    '|',
+                    'todoList',
+                    '|',
+                    'strikethrough',
+                    'subscript',
+                    'superscript',
+                    'removeFormat',
+                    'highlight',
+                    'horizontalLine',
+                    'htmlEmbed',
+                    'insertTable'
+                ]
+            },
+            language: 'ar',
+            image: {
+                styles: [
+            'alignLeft', 'alignCenter', 'alignRight'
+        ],
+                toolbar: [
+                    'imageTextAlternative',
+                    // 'imageStyle:full',
+                    // 'imageStyle:side',
+                    'imageStyle:alignRight',
+                    'imageStyle:alignCenter',
+                    'imageStyle:alignLeft',
+                    
+                    'linkImage'
+                ]
+                
+            },
+            table: {
+                contentToolbar: [
+                    'tableColumn',
+                    'tableRow',
+                    'mergeTableCells',
+                    'tableCellProperties',
+                    'tableProperties'
+                ]
+            },
+            licenseKey: '',
+            
+            
+        } )
+        .catch( handleError );
+    
+    function handleError( error ) {
+        console.error( 'Oops, something went wrong!' );
+        console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
+        console.warn( 'Build id: 542cmi8mt16g-dexkzk5cw1y2' );
+        console.error( error );
+    }
+
+    
+</script>

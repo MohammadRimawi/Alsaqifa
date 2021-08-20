@@ -1,4 +1,4 @@
-<div id="nav_menu" class="big">
+<div id="nav_menu" class="big sticky_show">
     <div class="nav-container">
 
         <div id="nav_pages" class="flex-row flex-v-center">
@@ -17,6 +17,8 @@
                 <div class="flex-row flex-v-center flex-h-end">
 
                     {% if session['name'] %}
+                    <div class=" nav-item "><a href="/new_post">منشور جديد</a></div>
+
                     <div class="nav-item">
                         <div class="dropdown">
                             <a class="dropbtn"
@@ -69,12 +71,16 @@
 
         <div class = "flex-column">
             {% if session['name'] %}
+            
                 <!-- <div class = "flex-row">
                     <li> <a href="#"><div class="">{{session['name']}}</div> </a> </li> 
                 </div>
                 <div class='flex-row'>
                     <hr class="w-100">
                 </div> -->
+                <div class = "flex-row">
+                    <li> <a href="/new_post"><div class="">منشور جديد</div> </a> </li> 
+                 </div>
                 <div class = "flex-row">
                    <li> <a href="#"><div class="">حسابي</div> </a> </li> 
                 </div>

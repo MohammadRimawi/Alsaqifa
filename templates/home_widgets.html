@@ -3,53 +3,23 @@
     {% if editor_mode %} 
     <button class="collapsible toolbar"><span class="handle toolbar-item"><img src="static//assets/icons/move.svg"></span><span class="toolbar-item"><img src="static//assets/icons/delete.svg"></span></button>  
     {% endif %}
-    <a href="/tags/{{item.widget_title}}">
-        <p class="widget-title">{{parse_out(item.widget_title)}}</p>
-    </a>
-    <div class="frame">
 
-    
-    <div class="previous" onclick="previous(this)">
-        <span ><</span>
-    </div>
-    <div class="next" onclick="next(this)">
-        <span >></span>
-    </div> 
-    <div class="slider shuffle">
-       
 
-        {% for card in item.cards %}
-        <a href="/posts/{{parse_out(card.title)}}">
-            <div class="card {% if item.descriptive %} card-descriptive {% else %} card-brief {% endif %}">
-                <div class="card_img">
-                    <img src="{{card.image_url}} " alt="" srcset="">
-                </div>
-                <p>
-                    {% if item.descriptive %}
-                     <p>
-                        {% autoescape false %} 
-                        {{card.title}} 
-                        {% endautoescape %} 
-                     </p>
-                     <p>
-                         {{card.description}} 
-                     </p>
-                    {% else %}
-                    <p>
-                        {% autoescape false %} 
-                        {{card.title}} 
-                        {% endautoescape %}
-                    </p>
-                    <p>
-                        {{card.description}} 
-                    </p>
-                    {% endif %}
-                </p>
-            </div>
-        </a>
-        {% endfor %}
+{% if item.type == "slider" %}
 
-    </div>
+    {% include 'utility/fake_cards.html' %}
+
+
+{% elif item.type == "post" %}
+<div class="editor ck-content">
+{% autoescape false %}                     
+{{item.code_block}}
+{% endautoescape %} 
 </div>
+{% elif item.type == "embeded" %}
+    {% autoescape false %}                     
+    {{item.code_block}}
+    {% endautoescape %} 
+{% endif %}
 </div>
 {% endfor %}

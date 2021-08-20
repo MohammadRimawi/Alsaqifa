@@ -49,6 +49,7 @@
                                         <a href="#">
                                             <div class="menu-item nav-item">ابلاغ</div>
                                         </a>
+                                        {% if session['user_id'] == comment['user_id'] %}
                                         <hr>
                                         <a href="#">
                                             <div class="menu-item nav-item">تعديل</div>
@@ -56,6 +57,7 @@
                                         <a href="#">
                                             <div class="menu-item nav-item">حذف</div>
                                         </a>
+                                        {% endif %}
 
                                     </div>
 

@@ -46,6 +46,7 @@
   border-radius: 5px;
   padding: 5px;
   margin-top: 10px;
+  text-align: center;s
 }
 .form-button:hover{
     background-color: #01486f;

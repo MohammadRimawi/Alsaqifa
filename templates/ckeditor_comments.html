@@ -1,31 +1,29 @@
-{% assets "ckeditor.js" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
-{% assets "ckeditor.css" %}<link rel="stylesheet" href="{{ ASSET_URL }}">{% endassets %} 
+
 
 <script>
-    const watchdog = new CKSource.Watchdog();
+    const comment_wd = new CKSource.Watchdog();
     
-    window.watchdog = watchdog;
-    comment_editor = null;
-    watchdog.setCreator( ( element, config ) => {
+    // window.watchdog = watchdog;
+    
+    comment_wd.setCreator( ( element, config ) => {
         return CKSource.Editor
             .create( element, config )
             .then( editor => {
-                // editor.state=ready;
-                // editor.isReadOnly = true;
-                // editor.previewData=true;
-                comment_editor =editor;
+
                 return editor;
 
             } )
     } );
     
-    watchdog.setDestructor( editor => {
+    comment_wd.setDestructor( editor => {
+
         return editor.destroy();
     } );
     
-    watchdog.on( 'error', handleError );
+    comment_wd.on( 'error', handleError );
+ 
     
-    watchdog
+    comment_wd
         .create( document.querySelector( '.comment-editor' ), {
             
             toolbar: {
@@ -35,7 +33,6 @@
                     'italic',
                     'strikethrough',
                     'removeFormat',
-                    
                 ]
             },
             language: 'ar',

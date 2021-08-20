@@ -1,0 +1,41 @@
+
+<div class= "flex-row widget-title" >
+<a href="/tags/{{item.widget_title}}" >{{parse_out(item.widget_title)}}</a>    
+</div>
+<div class='flex-row slider'>
+    <div class='slider-button left' onclick="previous(this)"><</div>
+    <div class='flex-row slider-body shuffle'>
+        {% for card in item.cards %}
+        <a href="/posts/{{parse_out(card.title)}}" class="card {% if item.descriptive %} card-descriptive {% else %} card-brief {% endif %} flex-column">
+            <div class= "card-image">
+                <!-- <img src="{{ url_for('static', filename = card.image_url)}}" alt="" onerror="this.style.display='none'">  TODO Add Alt -->
+                <img src="/{{card.image_url}}" alt="" onerror="this.style.display='none'"> <!-- TODO Add Alt-->
+
+            </div>
+            
+            <div class= "card-content flex-column">
+                <div class="slider-card-title">
+                    <p>
+                        {% autoescape false %} 
+                        {{card.title}} 
+                        {% endautoescape %} 
+                    </p>
+                </div>
+                {% if item.descriptive %}
+                <div class="slider-card-description">
+                    {% autoescape false %} 
+                    {{card.description}} 
+                    {% endautoescape %} 
+                </div>
+
+                {% endif %}
+                <div class="">
+                    <p class="card-button">الذهاب للمنشور</p>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    <div class='slider-button right' onclick="next(this)">></div>
+
+</div>

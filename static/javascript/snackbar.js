@@ -56,6 +56,17 @@ function remove_snackbar(elm,trigger=null){
 }
 
 function add_snackbar(content,type,actions= null){
+    
+    
+    if ( type != null && !(typeof type === 'string' || type instanceof String)){
+        if(type >= 400){
+            type = "warning";
+        }
+        else{
+            type="ok"
+        }
+
+    }
     snacks.push(document.createElement('div'));
     snacks[snacks.length-1].classList.add('flex-row');
 
