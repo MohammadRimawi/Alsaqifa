@@ -51,7 +51,9 @@ function openNav() {
     }
   }
   
-
+function disaster_prevention() {
+    return confirm('هل انت متاكد؟');
+}
 
   function toggle_class(selector,item,elm = null){
 

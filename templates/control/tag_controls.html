@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    {% include 'head.html' %}
+
+
+<script>
+
+  </script>
+</head>
+<body>
+
+
+    {% include 'header.html' %}
+
+
+    <div id="main">
+      <br><br>
+      <h1 class= "form-title">Tag Controls</h1>
+      <div class = "table control-table">
+  
+        <div class="table-row table-header">
+          <div class= "table-cell">الرقم</div>
+          <div class= "table-cell">الاسم</div>
+          <div class= "table-cell">الخيارات</div>
+        </div>
+
+
+        {% for tag in tags['data'] %}
+        <form method="post" class= "control-form" id = "tag_{{tag['tag_id']}}">
+          <div class="table-row">
+            <div class= "table-cell">{{tag['tag_id']}}
+              <input class="form-input" type="hidden" value = "{{tag['tag_id']}}" name = "tag_id">
+            </div>
+            <div class= "table-cell"><input class="form-input" type="text" value = "{{tag['tag_name']}}" name = "tag_name"></div>
+            <div class= "table-cell">
+              <button type="submit" name = "action" value = "delete" class = "form-button warning" onclick="return disaster_prevention(this);">حذف</button>
+              <button type="submit" name = "action" value = "update" class = "form-button">تعديل</button>
+            </div>
+          </div>
+        </form>
+        {% endfor %}
+       
+
+        <form method = "post" class= "control-form" id = "new-row" >
+          <div class="table-row">
+            <div class= "table-cell">{{tags['data']|length + 1}}</div>
+            <div class= "table-cell"><input class="form-input" type="text"  name = "tag_name"></div>
+            <div class= "table-cell">
+              <button type="submit" name = "action" value = "insert" class = "form-button">اضافة</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+    {% include 'utility/snackbar.html' %}
+</body>
+</html>

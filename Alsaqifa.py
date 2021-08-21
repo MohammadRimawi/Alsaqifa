@@ -55,6 +55,8 @@ bundles = {
     "requests.js": Bundle("javascript/requests.js", output = "gen/requests.js"),
     "general.css": Bundle('css/general.css', output = "gen/general.css"),
     "general.js": Bundle('javascript/general.js', output = "gen/general.js"),
+    "control_panel.js": Bundle('javascript/control_panel.js', output = "gen/control_panel.js"),
+
     "home.css": Bundle('css/home.css', output = "gen/home.css"),
     "ckeditor.css": Bundle('modules/ckeditor5/ckeditor.css', output = "gen/ckeditor.css"),
     "flex.css": Bundle('css/flex.css', output = "gen/flex.css"),
@@ -62,8 +64,7 @@ bundles = {
     "nav.css": Bundle('css/nav.css', output = "gen/nav.css"),
     "media.css": Bundle('css/media.css', output = "gen/media.css"),
     "posts.css": Bundle('css/posts.css', output = "gen/posts.css"),
-
-
+    "table.css": Bundle('css/table.css', output = "gen/table.css"),
 
 }
 
@@ -213,6 +214,320 @@ def index():
 def test():
     return render_template("test.html")
     
+#----------------------[ Control Panel ]-----------------------#
+@app.route('/control_panel')
+def control_panel():
+    menu = Menu.load_menu()
+
+    return render_template("control/control_panel.html",Menu=menu,session=session )
+
+@app.route('/control_panel/tags',methods=['GET','POST'])
+def tag_controls():
+    menu = Menu.load_menu()
+
+
+    if request.form and request.form['action']:
+        if request.form['action'] == "delete":
+            url = api_host+"/api/delete/tag"
+            headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+            data = {
+                "tag_id":str(request.form['tag_id'])
+            }
+            data = json.dumps(data)
+            response = requests.delete(url,headers=headers,data=data).json()
+            pprint(response)
+        
+
+        elif request.form['action'] == "update":
+
+            url = api_host+"/api/update/tag"
+            headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+            data = {
+                "tag_id":str(request.form['tag_id']),
+                "tag_name":str(request.form['tag_name'])
+
+            }
+            data = json.dumps(data)
+            response = requests.put(url,headers=headers,data=data).json()
+            pprint(response)
+
+
+        elif request.form['action'] == "insert":
+            url = api_host+"/api/create/tag"
+            headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+            data = {
+                "tag_name":str(request.form['tag_name'])
+            }
+            data = json.dumps(data)
+            response = requests.post(url,headers=headers,data=data).json()
+            pprint(response)
+
+    
+
+    url = "http://rimawidell:5001/api/get/all_tags"
+
+    headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+    tags = requests.post(url, headers=headers).json()
+
+
+
+    return render_template("control/tag_controls.html",Menu=menu,session=session,tags=tags)
+  
+
+@app.route('/control_panel/users')
+def user_controls():
+    menu = Menu.load_menu()
+
+
+    return render_template("control/user_controls.html",Menu=menu,session=session )
+
+
+@app.route('/control_panel/pages', methods=['POST','GET'])
+def page_controls():
+
+    if request.form and request.form['action']:
+        if request.form['action'] == "delete":
+
+            url = api_host+"/api/delete/page_widget"
+            headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+            data = {
+                "widget_id":str(request.form['widget_id'])
+            }
+            data = json.dumps(data)
+            print(data)
+            response = requests.delete(url,headers=headers,data=data).json()
+            pprint(response)
+
+        elif request.form['action'] == "update":
+
+            url = api_host+"/api/update/page_widget"
+            headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+            data = {
+                "widget_id":str(request.form['widget_id']),
+                "page":str(request.form['page']),
+                "order_by":str(request.form['order_by'])
+            }
+            data = json.dumps(data)
+            print(data)
+            response = requests.put(url,headers=headers,data=data).json()
+            pprint(response)
+
+
+        elif request.form['action'] == "insert":
+
+            url = api_host+"/api/create/page_widget"
+            headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+            data = {
+                "widget_id":str(request.form['widget_id']),
+                "page":str(request.form['page']),
+                "order_by":str(request.form['order_by'])
+            }
+            data = json.dumps(data)
+            print(data)
+            response = requests.post(url,headers=headers,data=data).json()
+            pprint(response)
+
+    menu = Menu.load_menu()
+
+    url = api_host+"/api/get/page_widgets?all=true"
+    headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+    page_widgets = requests.post(url,headers=headers).json()
+
+    url = api_host+"/api/get/all_widgets"
+    headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+    widgets = requests.post(url, headers=headers).json()
+
+  
+    return render_template("control/page_controls.html",Menu=menu,session=session,page_widgets=page_widgets,widgets=widgets)
+
+@app.route('/control_panel/playlists')
+def playlist_controls():
+    menu = Menu.load_menu()
+
+  
+    return render_template("control/playlist_controls.html",Menu=menu,session=session )
+
+
+
+@app.route('/control_panel/widgets',methods=['GET','POST'])
+def widget_controls():
+
+    if request.form:
+        if 'action' in request.form:
+            if request.form['action'] == "insert":
+                url = api_host+"/api/create/widget"
+                headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+                
+                if request.form['type'] == "slider":
+
+                    if 'shuffle' in request.form: shuffle = 1
+                    else: shuffle = 0
+
+                    if 'descriptive' in request.form: descriptive = 1
+                    else: descriptive = 0
+
+                    data = {
+                        "name":str(request.form['widget_name']),
+                        "type":str(request.form['type']),
+                        "descriptive":str(descriptive),
+                        "tag_id":str(request.form['tag_id']),
+                        "shuffle":str(shuffle),
+                        "number_of_cards":str(request.form['number_of_cards']),
+                        "order_by":str(request.form['order_by']),
+                    }
+
+                    data = json.dumps(data)
+                    response = requests.post(url,headers=headers,data=data).json()
+                    pprint(response)
+
+                elif request.form['type'] == "post":
+                    url = api_host+"/api/create/widget"
+                    headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+                    data = {
+                        "name":str(request.form['widget_name']),
+                        "type":str(request.form['type']),   
+                        "post_id":str(request.form['post_id']),
+                    }
+                    data = json.dumps(data)
+                    response = requests.post(url,headers=headers,data=data).json()
+                    pprint(response)
+
+                elif request.form['type'] == "embeded":
+                    url = api_host+"/api/create/widget"
+                    headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+
+                    code_block = str(request.form['code_block']).strip()
+                    data = {
+                        "name":str(request.form['widget_name']),
+                        "type":str(request.form['type']),   
+                        "code_block":str(request.form['code_block']),
+                        }
+                    data = json.dumps(data)
+                    response = requests.post(url,headers=headers,data=data).json()
+                    pprint(response)
+
+        if 'slider_action' in request.form:
+            if request.form['slider_action'] == "delete":
+
+                url = api_host+"/api/delete/widget"
+                headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+                data = {
+                    "widget_id":str(request.form['widget_id'])
+                }
+                data = json.dumps(data)
+                print(data)
+                response = requests.delete(url,headers=headers,data=data).json()
+                pprint(response)
+                pass
+            
+            if request.form['slider_action'] == "update":
+                
+                if 'shuffle' in request.form: shuffle = 1
+                else: shuffle = 0
+
+                if 'descriptive' in request.form: descriptive = 1
+                else: descriptive = 0
+
+                url = api_host+"/api/update/widget"
+                headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+                data = {
+                    "widget_id":str(request.form['widget_id']),
+                    "name":str(request.form['name']),
+                    "type":"slider",
+                    "descriptive":str(descriptive),
+                    "tag_id":str(request.form['tag_id']),
+                    "shuffle":str(shuffle),
+                    "number_of_cards":str(request.form['number_of_cards']),
+                    "order_by":str(request.form['order_by']),
+                }
+                data = json.dumps(data)
+                print(data)
+                response = requests.put(url,headers=headers,data=data).json()
+                pprint(response)
+
+                pass
+
+
+        if 'post_action' in request.form:
+            if request.form['post_action'] == "delete":
+
+                url = api_host+"/api/delete/widget"
+                headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+                data = {
+                    "widget_id":str(request.form['widget_id'])
+                }
+                data = json.dumps(data)
+                print(data)
+                response = requests.delete(url,headers=headers,data=data).json()
+                pprint(response)
+                pass
+            if request.form['post_action'] == "update":
+                
+                url = api_host+"/api/update/widget"
+                headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+                data = {
+                    "widget_id":str(request.form['widget_id']),
+                    "name":str(request.form['name']),
+                    "type":"post",
+                    "post_id":str(request.form['post_id'])
+                }
+                data = json.dumps(data)
+                print(data)
+                response = requests.put(url,headers=headers,data=data).json()
+                pprint(response)
+
+                pass
+
+
+        if 'embeded_action' in request.form:
+            if request.form['embeded_action'] == "delete":
+                url = api_host+"/api/delete/widget"
+                headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+                data = {
+                    "widget_id":str(request.form['widget_id'])
+                }
+                data = json.dumps(data)
+                print(data)
+                response = requests.delete(url,headers=headers,data=data).json()
+                pprint(response)
+                pass
+            if request.form['embeded_action'] == "update":
+                url = api_host+"/api/update/widget"
+                headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+                data = {
+                    "widget_id":str(request.form['widget_id']),
+                    "name":str(request.form['name']),
+                    "type":"embeded",
+                    "code_block":str(request.form['code_block'])
+                }
+                data = json.dumps(data)
+                print(data)
+                response = requests.put(url,headers=headers,data=data).json()
+                pprint(response)
+
+                pass
+
+
+    menu = Menu.load_menu()
+
+
+    url = api_host+"/api/get/all_tags"
+    headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+    tags = requests.post(url, headers=headers).json()
+
+    url = api_host+"/api/get/all_posts?all=true"
+    headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+    posts = requests.post(url, headers=headers).json()
+
+    url = api_host+"/api/get/all_widgets"
+    headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+    widgets = requests.post(url, headers=headers).json()
+
+
+    return render_template("control/widget_controls.html",Menu=menu,session=session ,tags = tags, posts = posts ,widgets = widgets)
+
+
+
 
 #--------------------------[ Tags ]---------------------------#
 

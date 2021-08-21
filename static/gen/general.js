@@ -51,7 +51,9 @@ function openNav() {
     }
   }
   
-
+function disaster_prevention() {
+    return confirm('هل انت متاكد؟');
+}
 
   function toggle_class(selector,item,elm = null){
 
@@ -84,26 +86,9 @@ function openNav() {
 
 
 function ckeditor_init(className,type){
-    const post_wd = new CKSource.Watchdog();
-    // const comment_wd = new CKSource.Watchdog();
-    post_wd.setCreator( ( element, config ) => {
-        return CKSource.Editor
-            .create( element, config )
-            .then( editor => {
-
-                return editor;
-
-            } )
-    } );
-    
-    post_wd.setDestructor( editor => {
-
-        return editor.destroy();
-    } );
-    
-    post_wd.on( 'error', handleError );
     if (type == "full"){
-        post_wd
+
+        watchdog
         .create( document.querySelector( className ), {
             
             toolbar: {
@@ -196,7 +181,7 @@ function ckeditor_init(className,type){
 
     }
     else{
-        post_wd
+        watchdog
         .create( document.querySelector( className ), {
             
             toolbar: {

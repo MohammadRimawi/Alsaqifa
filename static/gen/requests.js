@@ -2,6 +2,11 @@
 
 var host = window.location.host
 
+
+function is_logged_in(){
+ // TODO add me
+}
+
 const sendHttpRequest = (method,url,data,header=true) => {
     const promise = new Promise( (resolve,reject) => {
         const xhr = new XMLHttpRequest();

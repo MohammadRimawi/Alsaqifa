@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    {% include 'head.html' %}
+
+
+<script>
+  function update_table_view(elm){
+    var table = document.getElementsByClassName('select-table')[0];
+
+    if(elm.value == "slider"){
+      table.classList.add('slider-selected');
+      table.classList.remove('post-selected');
+      table.classList.remove('embeded-selected');
+    }
+    else if(elm.value == "post"){
+      table.classList.remove('slider-selected');
+      table.classList.add('post-selected');
+      table.classList.remove('embeded-selected');
+    }
+    else if(elm.value == "embeded"){
+      table.classList.remove('slider-selected');
+      table.classList.remove('post-selected');
+      table.classList.add('embeded-selected');
+    }
+  }
+  </script>
+
+<style>
+
+.slider-option,.post-option,.embeded-option{
+    display:none;
+}
+
+.slider-selected .slider-option,.post-selected .post-option,.embeded-selected .embeded-option{
+  display:table-cell;  
+}
+</style>
+
+
+</head>
+<body>
+
+
+    {% include 'header.html' %}
+
+
+    <div id="main">
+      <br><br>
+      <h1 class= "form-title">Add Widget</h1>
+      <div class = "table control-table select-table">
+  
+        <div class="table-row table-header">
+          <div class= "table-cell">الرقم</div>
+          <div class= "table-cell">الاسم</div>
+          <div class= "table-cell">النوع</div>
+
+          <div class= "table-cell slider-option">عدد المنشورات</div>
+          <div class= "table-cell slider-option">الترتيب</div>
+          <div class= "table-cell slider-option">المحتوى</div>
+          <div class= "table-cell slider-option">ملخص</div>
+          <div class= "table-cell slider-option">دوران تلقائي</div>
+
+          <div class= "table-cell post-option">المنشور</div>
+
+          <div class= "table-cell embeded-option">المحتوى</div>
+
+
+          <div class= "table-cell">الخيارات</div>
+        </div>
+
+        <form method = "post" class= "control-form" id = "new-row" >
+          <div class="table-row">
+            <div class= "table-cell"></div>
+
+
+
+            <div class= "table-cell"><input class="form-input" required type="text"  name = "widget_name"></div>
+
+            <div class= "table-cell">
+              <select onChange = "update_table_view(this)"required class = "form-input" name = "type">
+                <option disabled selected value> -- select an option -- </option>
+                <option value = "post" >post</option>
+                <option value = "slider">slider</option>
+                <option value = "embeded">embeded</option>
+              </select>
+            </div>
+
+
+
+
+
+
+
+            <div class= "table-cell slider-option"><input class="form-input" name = "number_of_cards" type="number" min = "0" ></div>
+            <div class= "table-cell slider-option">   
+            <select class = "form-input" name = "order_by" value = "latest">
+              <option value = "latest" >latest</option>
+            </select></div>
+            
+            <div class= "table-cell slider-option">
+              <select class = "form-input" name = "tag_id">
+                    <option disabled selected value> -- select an option -- </option>
+                      {% for tag in tags['data'] %}
+                        <option value = "{{tag['tag_id']}}" >{{tag['tag_name']}}</option>
+                      {% endfor %}
+              </select>
+            </div>
+            <div class= "table-cell slider-option">
+              <input type = "checkbox" name="descriptive" >
+            </div>
+            <div class= "table-cell slider-option">
+              <input type = "checkbox" name="shuffle" >
+            </div>
+
+
+
+
+            <div class= "table-cell post-option">
+                <select class = "form-input" name = "post_id" >
+                  <option disabled selected value> -- select an option -- </option>
+                    {% for post in posts['data'] %}
+                        <option value = "{{post['post_id']}}" >{{post['title']}}</option>
+                    {% endfor %}
+              </select>
+            </div>
+
+
+
+            <div class= "table-cell embeded-option">
+              <textarea name="code_block" class="form-input" cols="30" rows="5"></textarea>  
+            </div>
+
+
+
+
+
+            
+            <div class= "table-cell">
+              <button type="submit" name = "action" value = "insert" class = "form-button" onclick="return validate_widget();" >اضافة</button>
+            </div>
+          </div>
+   
+        </form>
+      </div>
+
+
+
+
+      <br><br>
+      <h1 class= "form-title">Slider Widgets</h1>
+      <div class = "table control-table">
+  
+        <div class="table-row table-header">
+          <div class= "table-cell">الرقم</div>
+          <div class= "table-cell">الاسم</div>
+          <div class= "table-cell">النوع</div>
+
+          <div class= "table-cell">عدد المنشورات</div>
+          <div class= "table-cell">الترتيب</div>
+          <div class= "table-cell">المحتوى</div>
+          <div class= "table-cell">ملخص</div>
+          <div class= "table-cell">دوران تلقائي</div>
+          <div class= "table-cell">الخيارات</div>
+
+
+        </div>
+
+
+
+        {% for widget in widgets['data'] %}
+        {% if widget['type'] == "slider" %}
+        <form method="post" class= "control-form" id = "widget_{{widget['widget_id']}}">
+          <div class="table-row">
+            <div class= "table-cell">{{widget['widget_id']}}
+              <input class="form-input" type="hidden" value = "{{widget['widget_id']}}" name = "widget_id">
+            </div>
+            <div class= "table-cell"><input class="form-input" required type="text"  name = "name" value = "{{widget['name']}}"></div>
+
+            <div class= "table-cell">{{widget['type']}}</div>
+
+            <div class= "table-cell "><input class="form-input" name = "number_of_cards" type="number" min = "0"  value = "{{widget['number_of_cards']}}" ></div>
+            <div class= "table-cell ">   
+            <select class = "form-input" name = "order_by" value = "latest">
+              <option value = "latest" >latest</option>
+            </select></div>
+            
+            <div class= "table-cell ">
+              <select class = "form-input" name = "tag_id" value = "{{widget['tag_id']}}">
+                    <option disabled selected value> -- select an option -- </option>
+                      {% for tag in tags['data'] %}
+                        <option {% if widget['tag_id'] == tag['tag_id'] %} selected {% endif %} value = "{{tag['tag_id']}}" >{{tag['tag_name']}}</option>
+                      {% endfor %}
+              </select>
+            </div>
+            <div class= "table-cell ">
+              <input type = "checkbox" {% if widget['descriptive'] %} checked {% endif %} name="descriptive" value = "{{widget['descriptive']}}">
+            </div>
+            <div class= "table-cell">
+              <input type = "checkbox" {% if widget['shuffle'] %} checked {% endif %} name="shuffle"  value = "{{widget['shuffle']}}"  >
+            </div>
+
+
+            <div class= "table-cell">
+              <button type="submit" name = "slider_action" value = "delete" class = "form-button warning" onclick="return disaster_prevention(this);">حذف</button>
+              <button type="submit" name = "slider_action" value = "update" class = "form-button">تعديل</button>
+            </div>
+          </div>
+        </form>
+        {% endif %}
+        {% endfor %}
+       
+
+
+
+      </div>
+
+
+      <br><br>
+      <h1 class= "form-title">Post Widgets</h1>
+      <div class = "table control-table">
+  
+        <div class="table-row table-header">
+          <div class= "table-cell">الرقم</div>
+          <div class= "table-cell">الاسم</div>
+          <div class= "table-cell">النوع</div>
+
+          <div class= "table-cell">المنشور</div>
+          <div class= "table-cell">الخيارات</div>
+
+
+
+        </div>
+
+
+
+        {% for widget in widgets['data'] %}
+        {% if widget['type'] == "post" %}
+        <form method="post" class= "control-form" id = "widget_{{widget['widget_id']}}">
+          <div class="table-row">
+            <div class= "table-cell">{{widget['widget_id']}}
+              <input class="form-input" type="hidden" value = "{{widget['widget_id']}}" name = "widget_id">
+            </div>
+            <div class= "table-cell"><input class="form-input" required type="text"  name = "name" value = "{{widget['name']}}"></div>
+
+            <div class= "table-cell">{{widget['type']}}</div>
+
+ 
+            
+            <div class= "table-cell ">
+              <select class = "form-input" name = "post_id" >
+                <option disabled selected value> -- select an option -- </option>
+                  {% for post in posts['data'] %}
+                      <option {% if widget['post_id'] == post['post_id'] %} selected {% endif %} value = "{{post['post_id']}}" >{{post['title']}}</option>
+                  {% endfor %}
+            </select>
+          </div>
+
+
+
+            <div class= "table-cell">
+              <button type="submit" name = "post_action" value = "delete" class = "form-button warning" onclick="return disaster_prevention(this);">حذف</button>
+              <button type="submit" name = "post_action" value = "update" class = "form-button">تعديل</button>
+            </div>
+          </div>
+        </form>
+        {% endif %}
+        {% endfor %}
+       
+
+
+
+      </div>
+      <br><br>
+      <h1 class= "form-title">Embeded Widgets</h1>
+      <div class = "table control-table">
+  
+        <div class="table-row table-header">
+          <div class= "table-cell">الرقم</div>
+          <div class= "table-cell">الاسم</div>
+          <div class= "table-cell">النوع</div>
+
+          <div class= "table-cell">المنشور</div>
+          <div class= "table-cell">الخيارات</div>
+
+
+
+        </div>
+
+
+
+        {% for widget in widgets['data'] %}
+        {% if widget['type'] == "embeded" %}
+        <form method="post" class= "control-form" id = "widget_{{widget['widget_id']}}">
+          <div class="table-row">
+            <div class= "table-cell">{{widget['widget_id']}}
+              <input class="form-input" type="hidden" value = "{{widget['widget_id']}}" name = "widget_id">
+            </div>
+            <div class= "table-cell"><input class="form-input" required type="text"  name = "name" value = "{{widget['name']}}"></div>
+
+            <div class= "table-cell">{{widget['type']}}</div>
+
+ 
+            
+            <div class= "table-cell">
+              <textarea name="code_block" class="form-input" cols="30" rows="5">{{widget['code_block']}}</textarea>  
+            </div>
+
+
+            <div class= "table-cell">
+              <button type="submit" name = "embeded_action" value = "delete" class = "form-button warning" onclick="return disaster_prevention(this);">حذف</button>
+              <button type="submit" name = "embeded_action" value = "update" class = "form-button">تعديل</button>
+            </div>
+          </div>
+        </form>
+        {% endif %}
+        {% endfor %}
+       
+
+
+
+      </div>
+    </div>
+
+    {% include 'utility/snackbar.html' %}
+</body>
+</html>

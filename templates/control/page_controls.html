@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    {% include 'head.html' %}
+
+
+
+</head>
+<body>
+
+
+    {% include 'header.html' %}
+
+
+    <div id="main">
+      <br><br>
+      <h1 class= "form-title">Page Controls</h1>
+      <div class = "table control-table">
+  
+        <div class="table-row table-header">
+          <div class= "table-cell">الرقم</div>
+          <div class= "table-cell">الاسم</div>
+          <div class= "table-cell">المكان</div>
+          <div class= "table-cell">الترتيب</div>
+          <div class= "table-cell">الخيارات</div>
+
+        </div>
+
+
+        {% for widget in page_widgets['data'] %}
+        <form method="post" class= "control-form" id = "widget_{{widget['widget_id']}}">
+          <div class="table-row">
+            <div class= "table-cell">{{widget['widget_id']}}
+              <input class="form-input" type="hidden" value = "{{widget['widget_id']}}" name = "widget_id">
+            </div>
+            <div class= "table-cell">{{widget['name']}}</div>
+            <div class= "table-cell ">   
+                <select class = "form-input" name = "page" value = "home">
+                  <option value = "home" >home</option>
+                </select>
+            </div>
+
+                <div class= "table-cell "><input class="form-input" name = "order_by" type="number"  value = "{{widget['order_by']}}" ></div>
+          
+                <div class= "table-cell">
+              <button type="submit" name = "action" value = "delete" class = "form-button warning" onclick="return disaster_prevention(this);">حذف</button>
+              <button type="submit" name = "action" value = "update" class = "form-button">تعديل</button>
+            </div>
+          </div>
+        </form>
+        {% endfor %}
+       
+
+        <form method = "post" class= "control-form" id = "new-row" >
+          <div class="table-row">
+            <div class= "table-cell">{{page_widgets['data']|length + 1}}</div>
+            <div class= "table-cell ">
+                <select class = "form-input" required name = "widget_id">
+                      <option disabled selected value> -- select an option -- </option>
+                        {% for widget in widgets['data'] %}
+                          <option value = "{{widget['widget_id']}}" >{{widget['type']}} : {{widget['name']}}</option>
+                        {% endfor %}
+                </select>
+              </div>            <div class= "table-cell ">   
+                <select class = "form-input" name = "page" value = "home">
+                  <option value = "home" >home</option>
+                </select>
+            </div>
+
+                <div class= "table-cell "><input  required class="form-input" name = "order_by" type="number"  ></div>
+          
+            <div class= "table-cell">
+              <button type="submit" name = "action" value = "insert" class = "form-button">اضافة</button>
+            </div>
+
+            
+          </div>
+          
+        </form>
+
+      </div>
+    </div>
+
+    {% include 'utility/snackbar.html' %}
+</body>
+</html>

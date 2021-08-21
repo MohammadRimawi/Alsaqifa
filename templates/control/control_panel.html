@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    {% include 'head.html' %}
+
+</head>
+<body>
+
+
+    {% include 'header.html' %}
+
+
+    <div id="main">
+        <div class="flex-row  justify-center">
+            <div class=" nav-item "><a href="/control_panel/tags">tags</a></div>
+            <div class=" nav-item "><a href="/control_panel/widgets">widgets</a></div>
+            <div class=" nav-item "><a href="/control_panel/playlists">playlists</a></div>
+            <div class=" nav-item "><a href="/control_panel/users">users</a></div>
+            <div class=" nav-item "><a href="/control_panel/pages">pages</a></div>
+        </div>
+    </div>
+
+    {% include 'utility/snackbar.html' %}
+</body>
+</html>

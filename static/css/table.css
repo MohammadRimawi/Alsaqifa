@@ -1,0 +1,46 @@
+.table,.table-row,.table-cell {
+    border: 1px solid black;
+    border-collapse: collapse;
+  
+  }
+  
+  .table{
+    
+    width:90%;
+    margin:auto;
+    direction:rtl;
+    display:table;
+  }
+  
+  .table-header{
+    font-weight:bold;
+  }
+  .table-row{
+    display:table-row;
+    
+  }
+  .table-cell{
+    vertical-align:middle;
+    display:table-cell;
+    padding: 5px;
+  }
+  
+  .table-header .table-cell{
+    padding-bottom: 15px;
+  }
+  .control-form .form-button{
+      margin:0 !important;
+      width:48%;
+      white-space: nowrap;;
+  }
+  .control-form .form-input{
+    width: 90%;
+  }
+  .control-form{
+    display:table-row-group;
+  }#new-row .form-button{
+  width:98%;
+}
+#new-row .form-button{
+    width:98%;
+  }
