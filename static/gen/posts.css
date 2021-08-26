@@ -153,6 +153,23 @@
     background-color: #ccc;
 
 }
+
+
+.liked{
+    display: none;
+}
+
+.unliked{
+    display: block;
+}
+
+.comment-liked .liked,.post-liked .liked{
+    display: block;
+}
+
+.comment-liked .unliked,.post-liked .unliked{
+    display: none;
+}
 @media (max-width: 1200px) {
     .post-card{
         height: 250px;
@@ -193,3 +210,4 @@
     align-items: flex-end;
     }
 }
+

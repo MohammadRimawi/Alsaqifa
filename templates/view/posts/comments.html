@@ -46,16 +46,16 @@
                                     </a>
 
                                     <div class="more-options-dropdown">
-                                        <a href="#">
+                                        <!-- <a href="#">
                                             <div class="menu-item nav-item">ابلاغ</div>
-                                        </a>
+                                        </a> -->
                                         {% if session['user_id'] == comment['user_id'] %}
-                                        <hr>
-                                        <a href="#">
-                                            <div class="menu-item nav-item">تعديل</div>
+                                        <!-- <hr> -->
+                                        <a >
+                                            <div class="menu-item nav-item" onclick = "edit_comment({{comment['comment_id']}})">تعديل</div>
                                         </a>
-                                        <a href="#">
-                                            <div class="menu-item nav-item">حذف</div>
+                                        <a>
+                                            <div class="menu-item nav-item" onclick = "delete_comment({{comment['comment_id']}})">حذف</div>
                                         </a>
                                         {% endif %}
 
@@ -66,16 +66,17 @@
                         </div>
                         <hr>
                         <div class="comment-textarea">
-                            <!-- {% autoescape false %} -->
-                            {{comment['text']|markdown}}
-                            <!-- {% endautoescape %} -->
+                            {% autoescape false %}
+                            {{comment['text']}}
+                            {% endautoescape %}
                         </div>
                         <div class="comment-info comment-row comment-v-center space-out">
                             <div>
-                                <a href="#">
-                                    <span>{{comment['likes_count']}}</span>
-                                    <span><img
-                                            src=" {{ url_for('static', filename='/assets/icons/like-outline.svg') }}"></span>
+
+                                
+                                <a>
+                                    <span id = "comment_{{comment['comment_id']}}">{{comment['likes_count']}}</span>
+                                    <span><img src=" {{ url_for('static', filename='/assets/icons/like-outline.svg') }}"></span>
                                 </a>
                             </div>
 
@@ -87,8 +88,13 @@
                
                 <div class="comment-bottom">
                     <div class="comment-utility comment-row space-out space-between">
-                        <button class="icon-button" type="submit"><img
-                                src=" {{ url_for('static', filename='/assets/icons/like-outline.svg') }}"></button>
+                        <button class="icon-button {% if comment['liked']=="1" %} comment-liked {% endif %}" type="button" onClick="like_comment_toggle({{comment['comment_id']}},this)">
+
+                            <img class="unliked" src=" {{ url_for('static', filename='/assets/icons/like-outline.svg') }}">
+                            <img class ="liked" src=" {{ url_for('static', filename='/assets/icons/like-fill.svg') }}">
+
+                        </button>
+
                         <!-- <button class="icon-button" type="submit"><img
                                 src=" {{ url_for('static', filename='/assets/icons/comment-outline.svg') }}"></button> -->
                     </div>

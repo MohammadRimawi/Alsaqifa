@@ -88,7 +88,7 @@ function disaster_prevention() {
 function ckeditor_init(className,type){
     if (type == "full"){
 
-        watchdog
+        post_wd
         .create( document.querySelector( className ), {
             
             toolbar: {
@@ -171,17 +171,16 @@ function ckeditor_init(className,type){
 
 
         b = `<div class='editor-bottom-toolbar'>
-        <button onclick='location.reload()'>تراجع</button>
-        <button>تعديل</button>
-
+        <button onclick = "exit_modal()">تراجع</button>
+        <button onclick="update_post(event)">تعديل</button>
         
         </div>`
-        append_to_class("post-text",b)
+        append_to_class("edit-post",b)
 
 
     }
     else{
-        watchdog
+        post_wd
         .create( document.querySelector( className ), {
             
             toolbar: {
@@ -201,6 +200,14 @@ function ckeditor_init(className,type){
             
         } )
         .catch(  );
+
+
+        b = `<div class='editor-bottom-toolbar'>
+        <button onclick = "exit_modal()">تراجع</button>
+        <button  onclick="update_comment(event)">تعديل</button>
+        
+        </div>`
+        append_to_class("edit-post",b)
     
     function handleError( error ) {
         console.error( 'Oops, something went wrong!' );

@@ -1,7 +1,6 @@
 import json
 from flask import Flask,flash, render_template, request, session, jsonify,url_for,redirect
 from flask_assets import Environment, Bundle
-import requests
 import requests, json
 from datetime import datetime,timedelta
 from werkzeug.utils import secure_filename
@@ -56,6 +55,7 @@ bundles = {
     "general.css": Bundle('css/general.css', output = "gen/general.css"),
     "general.js": Bundle('javascript/general.js', output = "gen/general.js"),
     "control_panel.js": Bundle('javascript/control_panel.js', output = "gen/control_panel.js"),
+    "modal.js": Bundle('javascript/modal.js', output = "gen/modal.js"),
 
     "home.css": Bundle('css/home.css', output = "gen/home.css"),
     "ckeditor.css": Bundle('modules/ckeditor5/ckeditor.css', output = "gen/ckeditor.css"),
@@ -145,9 +145,20 @@ def get_widgets(data):
                 ))
 
         elif item['type'] == "post":
-            post = requests.get("http://rimawidell:5001/api/get/post/"+str(item['title']))
+            user_id = -1
+            if "user_id" in session:
+                user_id = session['user_id']
+
+            user_data = {
+                "user_id":str(user_id)
+            }
+            # print(user_data)
+            user_data = json.dumps(user_data)
+            headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+
+            post = requests.post("http://rimawidell:5001/api/get/post/"+str(item['title']),headers = headers)
             post = post.json()
-            post['data']['text']= post['data']['text'].replace("contenteditable='true'","contenteditable='false'")
+            post['data']['text']= post['data']['text'].replace('contenteditable="true"',"contenteditable='false'")
         
             widgets_list.append(Widget(
                     widget_type = "post",
@@ -191,14 +202,15 @@ def index():
     #             },
     #         ]
     #     }
-    data = page_widgets()
-
-    widgets_list = get_widgets(data)
 
     try:
-        post = requests.get("http://rimawidell:5001/api/get/post/تيستت-اااااصلي")
-        post = post.json()
-        post['data']['text']= post['data']['text'].replace("contenteditable='true'","contenteditable='false'")
+        data = page_widgets()
+
+        widgets_list = get_widgets(data)
+        # headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+        # post = requests.post("http://rimawidell:5001/api/get/post/تيستت-اااااصلي",headers=headers,data[])
+        # post = post.json()
+        # post['data']['text']= post['data']['text'].replace('contenteditable="true"',"contenteditable='false'")
 
         # pprint(post["data"]["text"])
     except Exception as e:
@@ -207,7 +219,7 @@ def index():
         post["data"]["text"] = "api is off"
         
     menu['active']="/"
-    return render_template("index.html",Menu=menu,widgets_list=widgets_list,editor_mode=editor_mode,post= post,session=session,parse_out=parse_out)
+    return render_template("index.html",Menu=menu,widgets_list=widgets_list,editor_mode=editor_mode,session=session,parse_out=parse_out)
 
 
 @app.route("/test")
@@ -675,23 +687,42 @@ def posts(title):
 
 
     menu['active']="" 
-
+    # data = {}
     title = parse_in(title)
     try:
-        post = requests.get("http://rimawidell:5001/api/get/post/"+title)
+        user_id = -1
+        if "user_id" in session:
+            user_id = session['user_id']
+
+        user_data = {
+            "user_id":str(user_id)
+        }
+        # print(user_data)
+        user_data = json.dumps(user_data)
+
+        headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+        post = requests.post("http://rimawidell:5001/api/get/post/"+title,headers = headers ,data=user_data)
         post = post.json()
 
-        post['data']['text'] = post['data']['text'].replace("contenteditable='true'","contenteditable='false'")
+        post['data']['text'] = post['data']['text'].replace('contenteditable="true"',"contenteditable='false'")
+      
+        user_id = -1
+        if "user_id" in session:
+            user_id = session['user_id']
 
- 
+        user_data = {
+            "user_id":str(user_id)
+        }
+        user_data = json.dumps(user_data)
+        pprint(user_data)
         url = "http://rimawidell:5001/api/get/comments/"+str(post['data']['post_id'])
-        post['data']['comments'] = requests.get(url).json()
+        headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
 
+        post['data']['comments'] = requests.post(url,headers=headers,data=user_data).json()
 
-        # post['data']['posted_by'] = requests.get("http://rimawidell:5001/api/get/user?user_id="+str(post['data']['posted_by'])).json()['data']
-        # post['data']['user_id'] = requests.get("http://rimawidell:5001/api/get/user?user_id="+str(post['data']['user_id'])).json()['data']
-        pprint(post["data"]) 
-        print(post['data']['tags'],"************************************")
+        
+        pprint(post["data"]['comments']) 
+        # print(post['data']['tags'],"************************************")
         if post['data']['tags']:
             post['data']['tags'] = post['data']['tags'].split(',')
             for i in post['data']['tags']:
@@ -705,15 +736,14 @@ def posts(title):
         else:
             post['data']['tags'] = ""
 
-
-
+       
         #TODO Get tags based on user_id and post_id
     except Exception as e:
         post = {}
+        print(e)
         post["data"] = {}
         post["data"]["text"] = "api is off"
     return render_template("view/posts/posts.html",title=title,Menu=menu,post=post,widgets_list=widgets_list,session=session,parse_out=parse_out)
-
 
 @app.route("/new_post")
 def new_posts():
@@ -723,7 +753,7 @@ def new_posts():
 
     menu['active'] = "/posts"
 
-
+    editor_data = {}
     url = "http://rimawidell:5001/api/get/all_users"
 
     data = {
@@ -734,16 +764,87 @@ def new_posts():
 
     headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
     authors = requests.post(url, data=data, headers=headers).json()
-
+    editor_data['authors'] = authors
 
     url = "http://rimawidell:5001/api/get/all_tags"
 
     headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
     tags = requests.post(url, headers=headers).json()
+    editor_data['tags'] = tags
+
+    return render_template("view/posts/add_new_post.html",Menu=menu,session=session,parse_out= parse_out, editor_data = editor_data)
+
+@app.route("/get/edit_post",methods=['POST','GET'])
+def edit_post():
+
+    data = request.get_json()
+ 
+    editor_data = {}
+    url = "http://rimawidell:5001/api/get/all_users"
+
+    author_data = {
+        "condition":"author"
+    }
+
+    author_data = json.dumps(author_data)
+
+    headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+    authors = requests.post(url, data=author_data, headers=headers).json()
+    editor_data['authors'] = authors
+
+    url = "http://rimawidell:5001/api/get/all_tags"
+    headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+    tags = requests.post(url, headers=headers).json()
+    editor_data['tags'] = tags
 
 
-    return render_template("view/posts/add_new_post.html",Menu=menu,session=session,parse_out= parse_out, authors= authors,tags=tags)
+    post_data = {
+        "post_id":str(data['post_id'])
+    }
 
+    post_data = json.dumps(post_data)
+
+    url = "http://rimawidell:5001/api/get/post_update_data"
+    headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+    post = requests.post(url,data=post_data, headers=headers).json()
+    if  post['data']['tags']:
+        post['data']['tags'] = post['data']['tags'].split(',')
+    else:
+        post['data']['tags'] = ""
+    editor_data['post'] = post
+    print(post)
+    pprint(post)
+    editor_data['type'] = "post"
+
+    return render_template('utility/modal.html',editor_data=editor_data)
+    
+
+@app.route("/get/edit_comment",methods=['POST','GET'])
+def edit_comment():
+
+    data = request.get_json()
+ 
+    editor_data = {}
+    url = "http://rimawidell:5001/api/get/all_users"
+
+   
+
+    comment_data = {
+        "comment_id":str(data['comment_id'])
+    }
+
+    comment_data = json.dumps(comment_data)
+
+    url = "http://rimawidell:5001/api/get/comment"
+    headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+    comment = requests.post(url,data=comment_data, headers=headers).json()
+
+    print(comment)
+    editor_data['comment'] = comment
+    editor_data['type'] = "comment"
+
+    return render_template('utility/modal.html',editor_data=editor_data)
+    
 #------------------------[ Playlists ]------------------------#
 
 @app.route("/podcasts")
@@ -939,6 +1040,8 @@ def login():
             if response['status_code'] == 200:
                 session["user_id"] = response['data']['user_id']
                 session["name"] =  response['data']['name']
+                session["role"] =  response['data']['role']
+
                 
                 if response['data']['image_url'] != None:
                     session["image_url"] = response['data']['image_url']
@@ -1172,10 +1275,15 @@ def page_widgets():
         return response,500
         pass
 
-@app.route("/get/comments/<post_id>")
+@app.route("/get/comments/<post_id>",methods=['POST','GET'])
 def get_comments(post_id):
     response = {}
     try:
+        if request.data:
+            data = request.get_json()
+            data = json.dumps(data)
+        else:
+            data = {}
         if request.args.get('page'):
             page = int(request.args.get('page'))
         else:
@@ -1193,7 +1301,8 @@ def get_comments(post_id):
         params["offset"]=offset
 
         url = api_host+"/api/get/comments/"
-        data = requests.get(url+str(post_id),params=params).json()
+        headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+        data = requests.post(url+str(post_id),data=data,headers = headers,params=params).json()
         pprint(data)
         response['data']=render_template("view/posts/comments.html",comments = data,session = session)
         response['pages']=data['pages']
@@ -1220,6 +1329,21 @@ def like_post_redirect():
         return response,500
         pass
 
+@app.route("/like_comment" ,methods=['POST'])
+def like_comment_redirect():
+    
+    try:
+        data = request.get_json()
+        data = json.dumps(data)
+        headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+        return requests.post(api_host+"/api/like_comment",headers = headers,data=data).json()
+
+    except Exception as e :
+
+        response["server message"] = 'Server Error!\n"'+str(e)+'"' 
+        return response,500
+        pass
+
 
 @app.route("/add_post_comment" ,methods=['POST'])
 def add_post_comment_redirect():
@@ -1237,6 +1361,25 @@ def add_post_comment_redirect():
         response["server message"] = 'Server Error!\n"'+str(e)+'"' 
         return response,500
         pass
+
+@app.route("/update_comment" ,methods=['PUT'])
+def update_comment_redirect():
+    response = {}
+    try:
+        data = request.get_json()
+        pprint(data)
+        data = json.dumps(data)
+        headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+        response = requests.put(api_host+"/api/update/update_comment",headers = headers,data=data).json()
+        # response['data']=render_template('view/posts/comments.html',comments = response)
+        pprint(response)
+        return response,200
+    except Exception as e :
+        
+        response["server message"] = 'Server Error!\n"'+str(e)+'"' 
+        return response,500
+        pass
+
 
 @app.route("/add_new_post", methods=['POST','OPTIONS'])
 def add_new_post():
@@ -1308,6 +1451,146 @@ def add_new_post():
         print(e)
         return response,500
         pass
+
+
+@app.route("/update_post", methods=['PUT'])
+def update_post():
+    response = {}
+    image_url = ""
+    up = {}
+    tags=[]
+    try:
+        if request.form:
+            if request.files['image_file']:
+                up = uploader(request.files['image_file'],'image')[0]
+                # response['uploader message'] = up['uploader message'] 
+                if up['uploader status'] != 200:
+                    return up['uploader message'] ,up['uploader status']
+                image_url = up['image_url']
+   
+            if request.form['tags_count']:
+                for i in range(int(request.form['tags_count'])):
+                    try:
+                        if request.form['tag_'+str(i)]:
+                            tags.append(int(request.form['tag_'+str(i)]))
+                            # print('tag_'+str(i))
+                    except :
+                        pass
+                        # pass
+
+            print(tags)
+            now = datetime.now()
+            creation_date = now.strftime('%Y-%m-%d %H:%M:%S')
+
+            url = "http://rimawidell:5001/api/update/update_post"
+            print("************************")
+            # print(str(request.form['text']))
+            data = {
+                "title":str(request.form['title']),
+                "post_id":str(request.form['post_id']),
+                "user_id":str(request.form['author']),
+                "image_url":str(image_url),
+                "text":str(request.form['text']),
+                "token":str(request.form['token']),
+                "date":str(creation_date),
+                "tags":tags
+            }
+
+            # #TODO add desctiption 
+            data = json.dumps(data)
+            pprint(data)
+
+            headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+            response = requests.put(url, data=data, headers=headers)
+            pprint(response.status_code)
+
+            if response.status_code >=400:
+                # response = 
+
+                return response.json(),response.status_code
+
+            response = response.json()
+            print("hello?")
+
+            # response['uploader message'] = up['uploader message'] 
+            # response['uploader status'] =  up['uploader status']
+
+        response["server message"] = 'received!<br>at '+image_url 
+        pprint(response)
+        return response,200
+    except Exception as e :
+        response["server message"] = 'Server Error!\n"'+str(e)+'"' 
+        print(e)
+        return response,500
+        pass
+
+
+@app.route('/delete/delete_post',methods=['DELETE'])
+def delete_post():
+    response = {}
+    try:
+        data = request.get_json()
+        data = json.dumps(data)
+        headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+        return requests.delete(api_host+"/api/delete/delete_post",headers = headers,data=data).json()
+        pass
+    except Exception as e :
+        response["server message"] = 'Server Error!\n"'+str(e)+'"' 
+        print(e)
+        return response,500
+        pass
+
+
+@app.route('/delete/delete_comment',methods=['DELETE'])
+def delete_comment():
+    response = {}
+    try:
+        data = request.get_json()
+        data = json.dumps(data)
+        headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+        return requests.delete(api_host+"/api/delete/delete_comment",headers = headers,data=data).json()
+        pass
+    except Exception as e :
+        response["server message"] = 'Server Error!\n"'+str(e)+'"' 
+        print(e)
+        return response,500
+        pass
+######################################################################
+#-------------------------[ Control Panel ]--------------------------#
+######################################################################
+
+###################################
+#[ Get ]--------------------------#
+###################################
+
+###################################
+#[ Utility ]----------------------#
+###################################
+
+###################################
+#[ Redirect ]---------------------#
+###################################
+
+ 
+######################################################################
+#----------------------------[ Template ]----------------------------#
+######################################################################
+
+###################################
+#[ Create ]-----------------------#
+###################################
+
+###################################
+#[ Get ]--------------------------#
+###################################
+
+###################################
+#[ Update ]-----------------------#
+###################################
+
+###################################
+#[ Delete ]-----------------------#
+###################################
 
 
 if __name__ == '__main__':

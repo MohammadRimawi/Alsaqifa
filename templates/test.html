@@ -7,170 +7,18 @@
     <title>Document</title>
 
 <style>
-
-    .flex-row{
-        display: flex;
-        flex-direction: row;
+    div{
+        width:300px;
+        height:300px;
+        background-image: url("/static/assets/icons/comment-fill.svg");
     }
-
-    .flex-column{
-        display: flex;
-        flex-direction: column;
-    }
-
-    *{
-        --brief-card-width : 200px;
-        --brief-card-height : 300px;
-        --brief-card-drop : 50px;
-        --card-button-width : 30px;
-    }
-    .card {
-     
-        transition: ease-in-out 200ms;
-        transform-origin: bottom;
-
-        border: 4px solid white;
-        width:var(--brief-card-width);
-        height:var(--brief-card-height);
-
-        background-color:rgb(221, 221, 221);
-        margin: 0 8px;
-        flex-shrink: 0;
-        border-radius:10px;
-        overflow:hidden;
-        box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
-        -webkit-box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
-        -moz-box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
-        position:relative;
-    }
-    .slider-button{
-        transition: all .5s ease;
-        filter:opacity(0);
-        height:var(--brief-card-height);
-
-        background-color:rgba(194, 194, 194, .6);
-        width:var(--card-button-width);
-        cursor:pointer;
-
-    }
-    .slider:hover .slider-button{
-        filter:opacity(100);        
-    }
-
-    .slider-button.left{
-        position:absolute;
-        left: calc(-1*var(--card-button-width));
-        z-index:1;
-    }
-    
-    .slider:hover .slider-button.left{    
-        left:0;
-    }
-
-
-    .slider:hover .slider-button.right{
-        right:0;
-    }
-    
-    .slider-button.right{
-        right:calc(-1*var(--card-button-width));
-        position:absolute;
-    }
-    .slider{
-        overflow-x: hidden;
-        overflow-y:visible;
-        position: relative;
-        width:100%;
-        height:calc(30px + var(--brief-card-height));
-       
-        justify-content: space-between;
-    }
-    .slider-body{
-        height: var(--brief-card-height);
-        overflow: hidden;
-        overflow-x: scroll;
-        flex-flow: nowrap;
-        padding-bottom: 30px;
-        width: 100%;}
-    }
-    .slider-body>div{
-       display:inline-block; 
-    }
-
-    .card-image{
-        width:100%;
-        height:250px;
-        background-color: blue;
-        transition: all .7s ease;
-    }
-    .card-image img{
-        width:100%;
-        height:100%;
-        object-fit: cover;
-    }
-    .card-content{
-        justify-content:space-between;
-        width:100%;
-        height:calc(200px);
-        direction:rtl;
-        transition: all .3s ease;
-        position: absolute;
-        bottom: calc(-1*var(--brief-card-drop));
-        
-        background: rgba(221, 221, 221,1);
-       
-    }
-
-    .card:hover .card-content{
-        bottom: 0;
-        box-shadow: 0px -4px 9px -4px rgba(0, 0, 0, 0.83);
-
-    }
-
-    .card:hover .card-image{
-        height:230px;
-        filter: blur(2px);
-    }
-
-    .card:hover{
-        transform: scale(1.04);
-        border-width: 3px;
-        border-color: #1E3661;
-    }
-    
 </style>
-
-
-{% assets "slider.js" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
-
 </head>
-<body onload="shuffle()">
-    <div class='flex-row slider'>
-        <div class='slider-button left'><</div>
-        <div class='flex-row slider-body shuffle'>
-            {% for i in [1,2,3,4,5,6,7,8,9,10,11] %}
-            <a href = "#" class="card flex-column">
-                <div class= "card-image">
-                    <img src="static/assets/images/ERTaFf3XYAEYQqs.jpg">
-                </div>
 
-                <div class= "card-content flex-column">
-                    <div class="">
-                        <p>Hello</p>
-       
-                    </div>
-
-                    <div class="">
+<body>
+    <!-- <img src="/static/assets/icons/comment-fill.svg" alt=""> -->
+    <object data="/static/assets/icons/comment-fill.svg" width="300" height="300"> </object>
     
-                        <p>الذهاب للمنشور</p>
-
-                    </div>
-                </div>
-            </a>
-            {% endfor %}
-        </div>
-        <div class='slider-button right'>></div>
-
-    </div>
+    <!-- </svg> -->
 </body>
 </html>

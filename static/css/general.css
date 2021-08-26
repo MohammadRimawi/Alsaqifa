@@ -21,6 +21,7 @@
 }
 
 body {
+    position: relative;
     margin: 0;
     /* height: 2000px; */
 }
@@ -508,7 +509,14 @@ box-shadow: inset 7px 10px 12px #f0f0f0;
     background-color:rgba(194, 194, 194, .6);
     width:var(--card-button-width);
     cursor:pointer;
-
+}
+.slider-button span {
+    position: absolute;
+    top: 42%;
+    text-align: center;
+    width: 100%;
+    font-size: 40px;
+    color: white;
 }
 .slider:hover .slider-button{
     filter:opacity(100);        
@@ -518,6 +526,7 @@ box-shadow: inset 7px 10px 12px #f0f0f0;
     position:absolute;
     left: calc(-1*var(--card-button-width));
     z-index:1;
+    border-radius: 0px 10px 10px 0px;
 }
 
 .slider:hover .slider-button.left{    
@@ -532,6 +541,7 @@ box-shadow: inset 7px 10px 12px #f0f0f0;
 .slider-button.right{
     right:calc(-1*var(--card-button-width));
     position:absolute;
+    border-radius: 10px 0px 0px 10px;
 }
 .slider{
     overflow-x: hidden;
@@ -558,7 +568,7 @@ box-shadow: inset 7px 10px 12px #f0f0f0;
 
 .card-image{
     width:100%;
-    height:250px;
+    height:150px;
     background-color: blue;
     transition: all .7s ease;
 }
@@ -588,7 +598,7 @@ box-shadow: inset 7px 10px 12px #f0f0f0;
 
 
 .card:hover .card-image,.card:last-child .card-image{
-    height:230px;
+    height:130px;
     filter: blur(2px);
 }
 

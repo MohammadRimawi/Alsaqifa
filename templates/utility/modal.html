@@ -1,0 +1,55 @@
+<style>
+    .modal{
+        top: 12vh;
+        width: 80%;
+        left: calc(50% - 40%);
+        height: 100%;
+        max-height: 80vh;
+        background-color: #e8e8e8;
+        border-radius:10px;
+        position: fixed;
+        z-index: 100;
+        overflow-y:scroll;
+        box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+        -webkit-box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+        -moz-box-shadow: 0px 4px 9px -4px rgba(0, 0, 0, 0.43);
+        display:none
+    }
+
+    .modal-visiable{
+        overflow: hidden;
+        background-color: #c6c6c6;
+
+    }
+
+    .modal-visiable .modal{
+        display: block;
+    }
+
+    .modal-visiable #main{
+        opacity: 0.4;
+    }
+</style>
+{% if editor_data['type'] %}
+<div class= "modal">
+<div class= "flex-column">
+    <div class="flex-row flex-end">
+        <button onclick = "exit_modal()">X</button>
+    </div>
+<div >
+
+    {% if editor_data['type'] == "post"%}
+    <div class="form-title">تعديل منشور</div>
+    {% include 'view/posts/post_controls.html'%}
+    {% else %}
+    <div class="form-title">تعديل منشور</div>
+    {% include 'view/posts/comment_controls.html'%}
+
+    {% endif %}
+    
+</div>
+
+</div>
+</div>
+{% endif %}
+

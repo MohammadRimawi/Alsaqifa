@@ -1,10 +1,10 @@
-.table,.table-row,.table-cell {
+div.table,.table-row,.table-cell {
     border: 1px solid black;
     border-collapse: collapse;
   
   }
   
-  .table{
+  div.table{
     
     width:90%;
     margin:auto;

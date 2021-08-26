@@ -3,7 +3,7 @@
 <a href="/tags/{{item.widget_title}}" >{{parse_out(item.widget_title)}}</a>    
 </div>
 <div class='flex-row slider'>
-    <div class='slider-button left' onclick="previous(this)"><</div>
+    <div class='slider-button left' onclick="previous(this)"><span><</span></div>
     <div class='flex-row slider-body shuffle'>
         {% for card in item.cards %}
         <a href="/posts/{{parse_out(card.title)}}" class="card {% if item.descriptive %} card-descriptive {% else %} card-brief {% endif %} flex-column">
@@ -36,6 +36,6 @@
         </a>
         {% endfor %}
     </div>
-    <div class='slider-button right' onclick="next(this)">></div>
+    <div class='slider-button right' onclick="next(this)"><span>></span></div>
 
 </div>

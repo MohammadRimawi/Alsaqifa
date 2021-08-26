@@ -1,0 +1,91 @@
+<div class="flex-column rtl">
+    <div class="flex-row">
+
+        <form id = "post_control_form" class="form-center w-75 flex-column" enctype="multipart/form-data" method="post">
+            {% if editor_data['type'] == "post" %}
+            <input value="{{editor_data['post']['data']['post_id']}}" name = "post_id" type="hidden" >
+            {% endif %}
+            <div class="flex-row">
+                <div class="flex-column">
+                    <label for="title" class="form-label">العنوان</label>
+                    <input type="text" class="form-input" id="title" name="title" required {% if editor_data['type'] == "post" %} value = "{{editor_data['post']['data']['title']}}" {% endif %}>
+                    <!-- <div class="form-text">تيست تيست.</div> -->
+                </div>
+            </div>
+
+            <div class="flex-row">
+                <div class="flex-column">
+                    <label for="author" class="form-label">الكاتب</label>
+                    <select name="author" class="form-input" id="author" required>
+                        {% for author in editor_data['authors']['data'] %}
+                            {% if editor_data['type'] == "post" %}
+                                <option value="{{author['user_id']}}" {% if author['user_id'] == editor_data['post']['data']['user_id'] %} selected {% endif %} >{{author['name']}}</option>
+                            {% else %}
+                                <option value="{{author['user_id']}}" {% if author['user_id'] == session['user_id'] %} selected {% endif %} >{{author['name']}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="flex-row">
+                <div class="flex-column">
+                    <label for="tags" class="form-label">اضافة تبويب:</label>
+                    <div class= "flex-row" style= "flex-wrap: wrap;">
+                        {% for tag in editor_data['tags']['data'] %}
+                        <label class="tag-container">
+                            {% if editor_data['type'] == "post" %}
+                                <input type="checkbox" {% if tag['tag_id']|string in editor_data['post']['data']['tags'] %} checked {% endif %} name = "tag_{{loop.index-1}}" value="{{tag['tag_id']}}" >
+                                <span class="checkmark"><span>{{tag['tag_name']}}</span></span>
+                            {% else %}
+                                <input type="checkbox" name = "tag_{{loop.index-1}}" value="{{tag['tag_id']}}" >
+                                <span class="checkmark"><span>{{tag['tag_name']}}</span></span>
+                            {% endif %}
+                        </label>
+                        {% endfor %}
+            
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-row">
+                <div class="flex-column">
+                    <label for="fileinput" class="form-label">الصورة</label>
+                    <input type="file" name = "image_file" class="form-input" id="fileinput">
+                </div>
+            </div>
+
+
+       
+
+
+
+            <div class="flex-row">
+                <div class="flex-column edit-post">
+                    <label for="editor">النص</label>
+                    <div class="editor ck-content" id="editor">
+                        {% if editor_data['type'] == "post" %}
+{% autoescape false %}
+{{editor_data['post']['data']['text']}}
+{% endautoescape %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex-row">
+                <div class="flex-column">
+                    <br>
+                    {% if editor_data['type'] == "post" %}
+                    
+                    {% else %}
+                    <button class="form-button" type = "submit" onclick="add_post(event)">نشر</button>
+                    {% endif %}
+
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>

@@ -19,76 +19,11 @@
 
     <div id="main">
 
-        <div class="flex-column rtl">
-            <div class="flex-row">
+        <div class="form-title">انشاء منشور</div>
+        {% include 'view/posts/post_controls.html' %}
 
-                <form id = "new_post_form" class="form-center w-75 flex-column" enctype="multipart/form-data" method="post">
+        
 
-                    <div class="form-title">انشاء منشور</div>
-                    <div class="flex-row">
-                        <div class="flex-column">
-                            <label for="title" class="form-label">العنوان</label>
-                            <input type="text" class="form-input" id="title" name="title" required>
-                            <!-- <div class="form-text">تيست تيست.</div> -->
-                        </div>
-                    </div>
-
-                    <div class="flex-row">
-                        <div class="flex-column">
-                            <label for="author" class="form-label">الكاتب</label>
-                            <select name="author" class="form-input" id="author" required>
-                                {% for author in authors['data'] %}
-                                <option value="{{author['user_id']}}" {% if author['user_id'] == session['user_id'] %} selected {% endif %}>{{author['name']}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-
-
-                    <div class="flex-row">
-                        <div class="flex-column">
-                            <label for="tags" class="form-label">اضافة تبويب:</label>
-                            <div class= "flex-row" style= "flex-wrap: wrap;">
-                                {% for tag in tags['data'] %}
-                                <label class="tag-container">
-                                    <input type="checkbox" name = "tag_{{loop.index-1}}" value="{{tag['tag_id']}}" >
-                                    <span class="checkmark"><span>{{tag['tag_name']}}</span></span>
-                                </label>
-                                {% endfor %}
-                    
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex-row">
-                        <div class="flex-column">
-                            <label for="fileinput" class="form-label">الصورة</label>
-                            <input type="file" name = "image_file" class="form-input" id="fileinput">
-                        </div>
-                    </div>
-
-
-               
-
-
-
-                    <div class="flex-row">
-                        <div class="flex-column">
-                            <label for="editor">النص</label>
-                            <div class="editor ck-content" id="editor"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="flex-row">
-                        <div class="flex-column">
-                            <br>
-                            <button class="form-button" type = "submit" onclick="add_post(event)">نشر</button>
-                        </div>
-                    </div>
-                    
-                </form>
-            </div>
-        </div>
 
        
     </div>

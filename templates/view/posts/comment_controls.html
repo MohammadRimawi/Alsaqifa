@@ -1,0 +1,23 @@
+<div class="flex-column rtl">
+    <div class="flex-row">
+
+        <form id = "comment_control_form" class="form-center w-75 flex-column" enctype="multipart/form-data" method="post">
+            <input value = "{{editor_data['comment']['data']['comment_id']}}" name = "comment_id" type="hidden">
+            <div class="flex-row">
+                <div class="flex-column edit-post">
+                    <label for="editor">النص</label>
+                    <div class="editor ck-content" id="editor">
+                        {% if editor_data['type'] == "comment" %}
+{% autoescape false %}
+{{editor_data['comment']['data']['text']}}
+{% endautoescape %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+          
+            
+        </form>
+    </div>
+</div>

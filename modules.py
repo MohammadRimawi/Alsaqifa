@@ -20,6 +20,24 @@ class Widget:
         
 
 
+# from pydantic import BaseModel
+# from typing import List
+
+
+# class Card(BaseModel):
+#     title: str
+#     description: str
+#     image_url: str
+#     link: str = ""
+
+
+# class Widget(BaseModel):
+#     widget_type: str
+#     widget_title: str = None
+#     cards: List[Card] = None
+#     code_block: str = None
+#     descriptive: bool = False
+#     shuffle: bool = True
 
 
 
