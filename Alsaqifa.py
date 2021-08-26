@@ -156,7 +156,7 @@ def get_widgets(data):
             user_data = json.dumps(user_data)
             headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
 
-            post = requests.post("http://rimawidell:5001/api/get/post/"+str(item['title']),headers = headers)
+            post = requests.post(api_host+"/api/get/post/"+str(item['title']),headers = headers)
             post = post.json()
             post['data']['text']= post['data']['text'].replace('contenteditable="true"',"contenteditable='false'")
         
@@ -208,7 +208,7 @@ def index():
 
         widgets_list = get_widgets(data)
         # headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-        # post = requests.post("http://rimawidell:5001/api/get/post/تيستت-اااااصلي",headers=headers,data[])
+        # post = requests.post(api_host+"/api/get/post/تيستت-اااااصلي",headers=headers,data[])
         # post = post.json()
         # post['data']['text']= post['data']['text'].replace('contenteditable="true"',"contenteditable='false'")
 
@@ -276,7 +276,7 @@ def tag_controls():
 
     
 
-    url = "http://rimawidell:5001/api/get/all_tags"
+    url = api_host+"/api/get/all_tags"
 
     headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
     tags = requests.post(url, headers=headers).json()
@@ -701,7 +701,7 @@ def posts(title):
         user_data = json.dumps(user_data)
 
         headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-        post = requests.post("http://rimawidell:5001/api/get/post/"+title,headers = headers ,data=user_data)
+        post = requests.post(api_host+"/api/get/post/"+title,headers = headers ,data=user_data)
         post = post.json()
 
         post['data']['text'] = post['data']['text'].replace('contenteditable="true"',"contenteditable='false'")
@@ -715,7 +715,7 @@ def posts(title):
         }
         user_data = json.dumps(user_data)
         pprint(user_data)
-        url = "http://rimawidell:5001/api/get/comments/"+str(post['data']['post_id'])
+        url = api_host+"/api/get/comments/"+str(post['data']['post_id'])
         headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
 
         post['data']['comments'] = requests.post(url,headers=headers,data=user_data).json()
@@ -754,7 +754,7 @@ def new_posts():
     menu['active'] = "/posts"
 
     editor_data = {}
-    url = "http://rimawidell:5001/api/get/all_users"
+    url = api_host+"/api/get/all_users"
 
     data = {
         "condition":"author"
@@ -766,7 +766,7 @@ def new_posts():
     authors = requests.post(url, data=data, headers=headers).json()
     editor_data['authors'] = authors
 
-    url = "http://rimawidell:5001/api/get/all_tags"
+    url = api_host+"/api/get/all_tags"
 
     headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
     tags = requests.post(url, headers=headers).json()
@@ -780,7 +780,7 @@ def edit_post():
     data = request.get_json()
  
     editor_data = {}
-    url = "http://rimawidell:5001/api/get/all_users"
+    url = api_host+"/api/get/all_users"
 
     author_data = {
         "condition":"author"
@@ -792,7 +792,7 @@ def edit_post():
     authors = requests.post(url, data=author_data, headers=headers).json()
     editor_data['authors'] = authors
 
-    url = "http://rimawidell:5001/api/get/all_tags"
+    url = api_host+"/api/get/all_tags"
     headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
     tags = requests.post(url, headers=headers).json()
     editor_data['tags'] = tags
@@ -804,7 +804,7 @@ def edit_post():
 
     post_data = json.dumps(post_data)
 
-    url = "http://rimawidell:5001/api/get/post_update_data"
+    url = api_host+"/api/get/post_update_data"
     headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
     post = requests.post(url,data=post_data, headers=headers).json()
     if  post['data']['tags']:
@@ -825,7 +825,7 @@ def edit_comment():
     data = request.get_json()
  
     editor_data = {}
-    url = "http://rimawidell:5001/api/get/all_users"
+    url = api_host+"/api/get/all_users"
 
    
 
@@ -835,7 +835,7 @@ def edit_comment():
 
     comment_data = json.dumps(comment_data)
 
-    url = "http://rimawidell:5001/api/get/comment"
+    url = api_host+"/api/get/comment"
     headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
     comment = requests.post(url,data=comment_data, headers=headers).json()
 
@@ -1017,7 +1017,7 @@ def login():
         if request.form['operation'] == "login":
             # /api/authenticate
 
-            url = "http://rimawidell:5001/api/authenticate"
+            url = api_host+"/api/authenticate"
             
             salt = str.encode(os.getenv("HASH_SALT"))
             password = hashlib.pbkdf2_hmac('sha256',request.form['password'].encode('utf-8'),salt,100000,dklen=64)
@@ -1065,7 +1065,7 @@ def login():
 
 
                 headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-                url = "http://rimawidell:5001//api/add_token"
+                url = api_host+"//api/add_token"
 
                 r = requests.post(url, data=data, headers=headers)
 
@@ -1087,7 +1087,7 @@ def signup():
 
     if request.form :
 
-        url = "http://rimawidell:5001/api/create/user"
+        url = api_host+"/api/create/user"
 
         data = {
             "name": str(request.form['firstname'])+" "+str(request.form['lastname']),
@@ -1098,7 +1098,7 @@ def signup():
         headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
         user = requests.post(url,headers=headers,data=data).json()
 
-        url = "http://rimawidell:5001/api/create/authentication"
+        url = api_host+"/api/create/authentication"
         salt = str.encode(os.getenv("HASH_SALT"))
         password = hashlib.pbkdf2_hmac('sha256',request.form['password'].encode('utf-8'),salt,100000,dklen=64)
 
@@ -1137,7 +1137,7 @@ def signup():
 
 
             headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-            url = "http://rimawidell:5001//api/add_token"
+            url = api_host+"//api/add_token"
 
             r = requests.post(url, data=data, headers=headers)
 
@@ -1190,7 +1190,7 @@ def post_handler():
         content = content.replace("\"","\'")
         # print(content)
         # content = content.encode("utf-8")
-        url = "http://rimawidell:5001/api/add_post"
+        url = api_host+"/api/add_post"
 
         data = {
             "description": "هذا تيست مخصص للتستتة،وليس تيست عادي وحسب",
@@ -1226,7 +1226,7 @@ def comment_handler():
             content = request.form["content"]
             content = content.replace("\"","\'")
 
-            url = "http://rimawidell:5001/api/add_post_comment"
+            url = api_host+"/api/add_post_comment"
 
             data = {
                 "post_id":str(request.form['post_id']),
@@ -1256,7 +1256,7 @@ def page_widgets():
     response = {}
 
     try:
-        url = "http://rimawidell:5001/api/get/page_widgets"
+        url = api_host+"/api/get/page_widgets"
 
         data = {
             "page":"home"
@@ -1410,7 +1410,7 @@ def add_new_post():
             now = datetime.now()
             creation_date = now.strftime('%Y-%m-%d %H:%M:%S')
 
-            url = "http://rimawidell:5001/api/add_new_post"
+            url = api_host+"/api/add_new_post"
 
 
             data = {
@@ -1482,7 +1482,7 @@ def update_post():
             now = datetime.now()
             creation_date = now.strftime('%Y-%m-%d %H:%M:%S')
 
-            url = "http://rimawidell:5001/api/update/update_post"
+            url = api_host+"/api/update/update_post"
             print("************************")
             # print(str(request.form['text']))
             data = {
