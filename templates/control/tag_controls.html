@@ -35,7 +35,7 @@
         {% for tag in tags['data'] %}
         <form method="post" class= "control-form" id = "tag_{{tag['tag_id']}}">
           <div class="table-row">
-            <div class= "table-cell">{{tag['tag_id']}}
+            <div class= "table-cell">{{loop.index}}
               <input class="form-input" type="hidden" value = "{{tag['tag_id']}}" name = "tag_id">
             </div>
             <div class= "table-cell"><input class="form-input" type="text" value = "{{tag['tag_name']}}" name = "tag_name"></div>

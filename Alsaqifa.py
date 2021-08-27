@@ -18,35 +18,11 @@ app = Flask(__name__)
 app.secret_key = os.getenv("SESSION_KEY")
 
 Markdown(app)
-# md = Markdown(app, extensions=['fenced_code'])
 
-comments = [
-    {   
-        "comment_id":"1",
-        "user":{
-            "name":"فتحي محسن",
-        },
-        "time":"4/5/2013",
-        "text":"مرحبا انا فتحي ارحب بالاعضاء الجدد.",
-        "likes":"3",
-        "replies":[
-            {
-                "comment_id":"2",
-                "user":{
-                "name":"تحسين محسن",
-                },
-                "time":"4/5/2013",
-                "text":"مرحبا بك فتحي.",
-                "likes":"1",
-                "replies":[]
-            },
-        ]
-    },
-]
 
 
 css = Bundle('css/general.css', output = "gen/main.css")
-# static//modules/ckeditor5/build/ckeditor.js
+
 bundles = {
     "ckeditor.js": Bundle("modules/ckeditor5/build/ckeditor.js", output = "gen/ckeditor.js"),
     "slider.js": Bundle("javascript/slider.js", output = "gen/slider.js"),
@@ -56,7 +32,6 @@ bundles = {
     "general.js": Bundle('javascript/general.js', output = "gen/general.js"),
     "control_panel.js": Bundle('javascript/control_panel.js', output = "gen/control_panel.js"),
     "modal.js": Bundle('javascript/modal.js', output = "gen/modal.js"),
-
     "home.css": Bundle('css/home.css', output = "gen/home.css"),
     "ckeditor.css": Bundle('modules/ckeditor5/ckeditor.css', output = "gen/ckeditor.css"),
     "flex.css": Bundle('css/flex.css', output = "gen/flex.css"),
@@ -65,7 +40,6 @@ bundles = {
     "media.css": Bundle('css/media.css', output = "gen/media.css"),
     "posts.css": Bundle('css/posts.css', output = "gen/posts.css"),
     "table.css": Bundle('css/table.css', output = "gen/table.css"),
-
 }
 
 assets = Environment(app)
@@ -110,7 +84,6 @@ def get_sliders(data):
     return widgets_list
 def get_widgets(data):
   
-    # pprint(data[0]['data'])
 
     widgets_list= []
     
@@ -174,15 +147,6 @@ def get_widgets(data):
                     code_block=item['code_block']
                 ))
             
-    #TODO Add option to be separated widgets or in one code
-
-
-
-  
-
-    # # pprint(tags_posts)
-
-    # print(widgets_list[0].widget_type,"$$$$$$$$$$$$$$$$$$$$$$$$$$")
 
     return widgets_list
 
@@ -190,29 +154,11 @@ def get_widgets(data):
 def index():
     menu = Menu.load_menu()
 
-    # data = {
-    #         "tags":[
-    #             {
-    #                 "name":"زوجي",
-    #                 "descriptive":"0",
-    #             },
-    #             {
-    #                 "name":"فردي",
-    #                 "descriptive":"1",
-    #             },
-    #         ]
-    #     }
-
     try:
         data = page_widgets()
 
         widgets_list = get_widgets(data)
-        # headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-        # post = requests.post(api_host+"/api/get/post/تيستت-اااااصلي",headers=headers,data[])
-        # post = post.json()
-        # post['data']['text']= post['data']['text'].replace('contenteditable="true"',"contenteditable='false'")
-
-        # pprint(post["data"]["text"])
+      
     except Exception as e:
         post = {}
         post["data"] = {}
@@ -577,19 +523,9 @@ def tags(tag):
         else:
             posts['data'][i]['tags'] = ""
     
-    # pprint(posts)
 
     menu = Menu.load_menu()
     menu['active'] = "/posts"
-
-    # params = {}
-    # params['page'] = request.args.get('page')
-    # if params['page'] == None:
-    #     params['page']=1
-
-    # headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-    # posts = requests.post(api_host+"/api/get/all_posts",headers = headers,params=params)
-    # posts = posts.json()  
 
     return render_template("view/tags.html",Menu=menu,session=session , posts=posts ,parse_out= parse_out)
 
@@ -618,8 +554,6 @@ def all_posts():
         posts = requests.post(api_host+"/api/get/all_posts",headers = headers,params=params)
         posts = posts.json()  
 
-        # pprint(posts)
-
         data = {}
         data['tags'] = []
         for i in range(len(posts['data'])):
@@ -628,13 +562,7 @@ def all_posts():
                 posts['data'][i]['tags'] = posts['data'][i]['tags'].split(',')
             else:
                 posts['data'][i]['tags'] = ""
-                # for tag in posts['data'][i]['tags']:
-                    # data['tags'].append({
-                    #     "name":str(tag),
-                    #     "descriptive":"0",
-                    # })
 
-        # widgets_list = get_widgets(data)
         data = {
             "tags":[
                 {
@@ -664,30 +592,12 @@ def all_posts():
 def posts(title):
 
     menu = Menu.load_menu()
+    menu['active']=""
 
-
-    # data = {
-    #     "tags":[
-    #         {
-    #             "name":"زوجي",
-    #             "descriptive":"0",
-    #         },
-    #         {
-    #             "name":"فردي",
-    #             "descriptive":"1",
-    #         },
-    #     ]
-    # }
     widgets_list = []
     data = {}
     data['tags'] = []
 
-    # widgets_list = get_widgets(data)
-# 
-
-
-    menu['active']="" 
-    # data = {}
     title = parse_in(title)
     try:
         user_id = -1
@@ -697,7 +607,7 @@ def posts(title):
         user_data = {
             "user_id":str(user_id)
         }
-        # print(user_data)
+
         user_data = json.dumps(user_data)
 
         headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
@@ -722,7 +632,6 @@ def posts(title):
 
         
         pprint(post["data"]['comments']) 
-        # print(post['data']['tags'],"************************************")
         if post['data']['tags']:
             post['data']['tags'] = post['data']['tags'].split(',')
             for i in post['data']['tags']:
@@ -862,13 +771,11 @@ def all_podcasts():
     playlists = requests.post(api_host+"/api/get/all_playlists",headers = headers ,params=params)
     playlists = playlists.json()   
 
-    # pprint(playlists)   
 
     return render_template("view/podcasts/all_podcasts.html",playlists=playlists,Menu=menu,parse_out=parse_out)
 
 @app.route("/podcasts/<playlist>")
 def podcast(playlist):
-    # playlists = {}
     menu = Menu.load_menu()
     menu['active']="/podcasts" 
 
@@ -895,10 +802,6 @@ def playlists():
     tracks = requests.post(api_host+"/api/get/all_tracks",headers = headers)
     tracks = tracks.json()    
 
-
-    # pprint(playlists)
-    # pprint(tracks)  
-
     if(request.form):
         if request.form['operation'] == "select_playlist":
 
@@ -908,7 +811,6 @@ def playlists():
             response = r.json()
             
             response['status_code'] = r.status_code
-            # pprint(response)
             pass
         
         elif request.form['operation'] == "create_playlist":
@@ -923,7 +825,6 @@ def playlists():
 
             response = r.json()
             response['status_code'] = r.status_code
-            # pprint(response)
 
         elif request.form['operation'] == "update_playlist":
             
@@ -945,9 +846,7 @@ def playlists():
                 filename =   secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_AUDIO_FOLDER'], filename))
                                 
-                # print(filename)
                 path = "/audio/"+str(filename)
-                # print(path)
                 imgpath = "static/"+path
 
             pass
@@ -969,7 +868,6 @@ def playlists():
             pass
 
 
-    # print(response['server message'])
     return render_template(
         "control/playlist_controls.html",
         Menu=menu,
@@ -982,7 +880,6 @@ def playlists():
 def playlist(playlist_name):
 
     menu = Menu.load_menu()
-
 
     try:
         response = requests.get(api_host+'/api/playlist/'+str(playlist_name))
@@ -1003,7 +900,6 @@ def playlist(playlist_name):
 @app.route('/registration')
 def registration():
     menu = Menu.load_menu()
-    # pprint(request.__dict__)
     menu['active']="/registration"
     return render_template("registration.html",Menu=menu,session=session)
 
@@ -1015,7 +911,6 @@ def login():
 
     if request.form :
         if request.form['operation'] == "login":
-            # /api/authenticate
 
             url = api_host+"/api/authenticate"
             
@@ -1029,13 +924,11 @@ def login():
             }
             data = json.dumps(data)
 
-            # pprint(data)
             headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
             r = requests.post(url, data=data, headers=headers)
 
             response = r.json()
             response['status_code'] = r.status_code
-            # pprint(response)
 
             if response['status_code'] == 200:
                 session["user_id"] = response['data']['user_id']
@@ -1069,7 +962,6 @@ def login():
 
                 r = requests.post(url, data=data, headers=headers)
 
-                # pprint(r)
                 response['token'] = r.json()
                 response['token']['status_code'] = r.status_code
 
@@ -1141,7 +1033,6 @@ def signup():
 
             r = requests.post(url, data=data, headers=headers)
 
-            # pprint(r)
             response['token'] = r.json()
             response['token']['status_code'] = r.status_code
 
@@ -1158,7 +1049,6 @@ def logout():
     session.pop("session_id",None)
     session.pop("image_url",None)
 
-    # menu['active']="/"
     return redirect("/")
 
 
@@ -1172,83 +1062,6 @@ def page_not_found(e):
 
     return s[i],404
 
-@app.route("/post_handler" ,methods=['POST'])
-def post_handler():
-
-    
-    if("HTTP_REFERER" in request.__dict__["environ"].keys()):
-        page = request.__dict__["environ"]["HTTP_REFERER"]
-        host = request.__dict__["environ"]["HTTP_HOST"]
-        # print(host)
-
-    if (request.form or True): #TODO what is this?
-
-
-        # print(request.form)
-        # print("TESSST")
-        content = request.form["content"]
-        content = content.replace("\"","\'")
-        # print(content)
-        # content = content.encode("utf-8")
-        url = api_host+"/api/add_post"
-
-        data = {
-            "description": "هذا تيست مخصص للتستتة،وليس تيست عادي وحسب",
-            "image_url": "",
-            "posted_by": 1,
-            "text": str(content),
-            "title": "تيستت اااااصلي",
-            "user_id": 1
-        }
-        data = json.dumps(data)
-
-        # pprint(data)
-        headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-        response = requests.post(url, data=data, headers=headers)
-        # print(response.text)
-
-
-        return response.text
-        # return data
-
-    # return_to_path = page[page.index(host)+len(host):]
-    # return redirect(return_to_path)
-    return "hello?"
-
-
-@app.route("/comment_handler" ,methods=['POST'])
-def comment_handler():
-
-    response = {}
-
-    if request and request.form:
-        try:
-            content = request.form["content"]
-            content = content.replace("\"","\'")
-
-            url = api_host+"/api/add_post_comment"
-
-            data = {
-                "post_id":str(request.form['post_id']),
-                "text": str(content),
-                "user_id": session['user_id'],
-                "token":str(request.form['token'])
-            }
-            data = json.dumps(data)
-
-
-            headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-            response = requests.post(url, data=data, headers=headers)
-
-
-
-            return response.text
-        except Exception as e :
-            response["server message"] = 'Server Error!\n"'+str(e)+'"' 
-            return response,500
-            pass
-
-    return response,404 #FIXME not 404
 
 
 @app.route('/get/page_widgets')
@@ -1294,7 +1107,6 @@ def get_comments(post_id):
             offset = int(request.args.get('offset'))
         else:
             offset = 5
-
 
         params = {}
         params["page"]=page,
@@ -1371,7 +1183,6 @@ def update_comment_redirect():
         data = json.dumps(data)
         headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
         response = requests.put(api_host+"/api/update/update_comment",headers = headers,data=data).json()
-        # response['data']=render_template('view/posts/comments.html',comments = response)
         pprint(response)
         return response,200
     except Exception as e :
@@ -1391,7 +1202,6 @@ def add_new_post():
         if request.form:
             if request.files['image_file']:
                 up = uploader(request.files['image_file'],'image')[0]
-                # response['uploader message'] = up['uploader message'] 
                 if up['uploader status'] != 200:
                     return up['uploader message'] ,up['uploader status']
                 image_url = up['image_url']
@@ -1401,10 +1211,9 @@ def add_new_post():
                     try:
                         if request.form['tag_'+str(i)]:
                             tags.append(int(request.form['tag_'+str(i)]))
-                            # print('tag_'+str(i))
                     except :
                         pass
-                        # pass
+                        
 
             print(tags)
             now = datetime.now()
@@ -1433,7 +1242,6 @@ def add_new_post():
             pprint(response.status_code)
 
             if response.status_code >=400:
-                # response = 
 
                 return response.json(),response.status_code
 
@@ -1463,7 +1271,6 @@ def update_post():
         if request.form:
             if request.files['image_file']:
                 up = uploader(request.files['image_file'],'image')[0]
-                # response['uploader message'] = up['uploader message'] 
                 if up['uploader status'] != 200:
                     return up['uploader message'] ,up['uploader status']
                 image_url = up['image_url']
@@ -1473,7 +1280,6 @@ def update_post():
                     try:
                         if request.form['tag_'+str(i)]:
                             tags.append(int(request.form['tag_'+str(i)]))
-                            # print('tag_'+str(i))
                     except :
                         pass
                         # pass
@@ -1484,7 +1290,6 @@ def update_post():
 
             url = api_host+"/api/update/update_post"
             print("************************")
-            # print(str(request.form['text']))
             data = {
                 "title":str(request.form['title']),
                 "post_id":str(request.form['post_id']),
@@ -1512,9 +1317,7 @@ def update_post():
             response = response.json()
             print("hello?")
 
-            # response['uploader message'] = up['uploader message'] 
-            # response['uploader status'] =  up['uploader status']
-
+  
         response["server message"] = 'received!<br>at '+image_url 
         pprint(response)
         return response,200

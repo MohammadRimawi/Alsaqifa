@@ -1,182 +1,20 @@
 <!DOCTYPE html>
-<html lang="ar">
-
+<html lang="en">
 <head>
-{% include 'head.html' %}
-  
-  
-<style>
-    .toolbar{
-        height: 20px;
-        background-color: aqua;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% include 'head.html' %}
 
-<style>
-    .collapsible {
-      background-color: #777;
-      color: white;
-      cursor: pointer;
-      padding:18px;
-      height: fit-content;
-      width: 100%;
-      border: none;
-      text-align: left;
-      outline: none;
-      font-size: 15px;
-    }
-    
-    .collapsible:hover {
-      background-color: #555;
-    }
-    
-    .content {
-      padding: 0 ;
-      max-height: 50px;
-      overflow: hidden;
-      transition: max-height 0.2s ease-out;
-      background-color: #f1f1f1;
-    }
-
-    .hide *{
-        display:none;
-    }
-    .toolbar{
-        display:block !important;
-        max-height: 55px;
-    }
-    .handle,.toolbar-item{
-        margin-right: 10px;
-        display:inline !important;
-    }
-    .toolbar-item>img{
-        display: inline-block;
-        width: 20px;
-        height: 100%;
-    }
-    .editor{
-        width: 90%;
-        margin: auto;
-    }
-
-    {% if  editor_mode %} 
-    .ck-widget__type-around,.ck-widget__selection-handle{
-        display:block;
-    }
-    {% endif %}
-    </style>
-
-<script>
-
-    function post(elm){
-
-
-
-        content = elm.parentElement.getElementsByClassName("ck-editor__editable")[0].innerHTML;
-        console.log(content)
-
-        e = elm.parentElement.getElementsByClassName("content")[0].value=content;
-
-
-        elm.parentElement.submit()
-        
-        // var clientId = "MohammadRimawi";
-        // var clientSecret = "000000";
-
-        // // var authorizationBasic = $.base64.btoa(clientId + ':' + clientSecret);
-        // var authorizationBasic = window.btoa(clientId + ':' + clientSecret);
-        // console.log(authorizationBasic)
-        // url = "http://rimawidell:5001/api/add_post"
-
-        // var xhr = new XMLHttpRequest();
-        // xhr.open("POST", url, true);
-        // xhr.setRequestHeader('Content-Type', 'application/json');
-        // xhr.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
-        // xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-
-        // xhr.send(JSON.stringify({
-        //     // TODO add logged in user from session
-        //     "description": "hello",
-        //     "image_url": "",
-        //     "posted_by": 1, 
-        //     "text": content,
-        //     "title": "تيست 15",
-        //     "user_id": 1
-        
-        // }));
-        // document.getElementById("post").submit();
-    }
-
-
-
-
-
-
-</script>
 </head>
-
 <body onload="shuffle()">
     {% include 'header.html' %}
-    
     <div id="main"  >
-
         {% include 'home_widgets.html' %}
-    
-        
-        {% if editor_mode %} 
 
-        {% include 'ckeditor_run.html' %}
-
-        {% endif %}
-        
     </div>
-
-        {% if editor_mode %} 
-        
-        <script>
-            var el = document.getElementById('main');
-            var sortable = new Sortable(el, {
-                animation: 150,
-                handle: '.handle', // handle's class
-                ghostClass: 'blue-background-class'
-            });            
-        </script>
-
-
-<script>
-
-    
-
-    var coll = document.getElementsByClassName("collapsible");
-    var i;
-    
-    for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function() {
-          if(this.parentNode.classList.contains("hide")==true){
-              this.parentNode.classList.toggle("hide");
-              this.classList.toggle("active");
-              
-            }
-            else{
-                timer = setTimeout(()=>{
-                    this.parentNode.classList.toggle("hide");
-                    clearTimeout(timer)
-                },200);
-                this.classList.toggle("active");
-            }
-            
-            var content = this.parentNode;
-            if (content.style.maxHeight){
-                content.style.maxHeight = null;
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-            } 
-        });
-        
-    }
-
-
-    </script>
-{% endif %}
-    </body>
+</body>
 </html>
+
+
