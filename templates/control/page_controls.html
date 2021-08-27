@@ -36,7 +36,7 @@
         {% for widget in page_widgets['data'] %}
         <form method="post" class= "control-form" id = "widget_{{widget['widget_id']}}">
           <div class="table-row">
-            <div class= "table-cell">{{widget['widget_id']}}
+            <div class= "table-cell">{{loop.index}}
               <input class="form-input" type="hidden" value = "{{widget['widget_id']}}" name = "widget_id">
             </div>
             <div class= "table-cell">{{widget['name']}}</div>

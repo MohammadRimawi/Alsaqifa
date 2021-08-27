@@ -173,12 +173,14 @@
         </div>
 
 
+        {% set i = namespace(value=0) %}
 
         {% for widget in widgets['data'] %}
         {% if widget['type'] == "slider" %}
+        {% set i.value = i.value + 1 %}
         <form method="post" class= "control-form" id = "widget_{{widget['widget_id']}}">
           <div class="table-row">
-            <div class= "table-cell">{{widget['widget_id']}}
+            <div class= "table-cell">{{i.value}}
               <input class="form-input" type="hidden" value = "{{widget['widget_id']}}" name = "widget_id">
             </div>
             <div class= "table-cell"><input class="form-input" required type="text"  name = "name" value = "{{widget['name']}}"></div>
@@ -239,12 +241,16 @@
         </div>
 
 
+        {% set i = namespace(value=0) %}
 
         {% for widget in widgets['data'] %}
         {% if widget['type'] == "post" %}
+
+        {% set i.value = i.value + 1 %}
+
         <form method="post" class= "control-form" id = "widget_{{widget['widget_id']}}">
           <div class="table-row">
-            <div class= "table-cell">{{widget['widget_id']}}
+            <div class= "table-cell">{{i.value}}
               <input class="form-input" type="hidden" value = "{{widget['widget_id']}}" name = "widget_id">
             </div>
             <div class= "table-cell"><input class="form-input" required type="text"  name = "name" value = "{{widget['name']}}"></div>
@@ -294,12 +300,16 @@
         </div>
 
 
+        {% set i = namespace(value=0) %}
 
         {% for widget in widgets['data'] %}
         {% if widget['type'] == "embeded" %}
+
+        {% set i.value = i.value + 1 %}
+
         <form method="post" class= "control-form" id = "widget_{{widget['widget_id']}}">
           <div class="table-row">
-            <div class= "table-cell">{{widget['widget_id']}}
+            <div class= "table-cell">{{i.value}}
               <input class="form-input" type="hidden" value = "{{widget['widget_id']}}" name = "widget_id">
             </div>
             <div class= "table-cell"><input class="form-input" required type="text"  name = "name" value = "{{widget['name']}}"></div>
