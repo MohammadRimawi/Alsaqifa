@@ -65,7 +65,7 @@ function like_post_toggle(post_id,elm){
     }).then(responseData => {
         console.log(responseData)
         let res = JSON.parse(responseData)
-        add_snackbar(res['server message'],'ok')
+        add_snackbar(res['response']['message'],'ok')
         if (res['liked']){
             elm.classList.add('post-liked');
             count = document.getElementById('post_likes')
@@ -95,7 +95,7 @@ function like_comment_toggle(comment_id,elm){
     }).then(responseData => {
         console.log(responseData)
         let res = JSON.parse(responseData)
-        add_snackbar(res['server message'],'ok')
+        add_snackbar(res['response']['message'],'ok')
         if (res['liked']){
             elm.classList.add('comment-liked');
             count = document.getElementById('comment_'+comment_id)
@@ -167,8 +167,9 @@ function get_comments(post_id,self){
     comments_count = parent.getElementsByClassName('comments-count')[0];
     
 
-    const res = sendHttpRequest("POST","http://"+host+"/get/comments/"+post_id+"?page="+comment_page,{
+    const res = sendHttpRequest("POST","http://"+host+"/get/comments"+"?page="+comment_page,{
         user_id : USER_ID,
+        post_id:post_id,
   
     }).then(responseData => {
         
@@ -277,7 +278,7 @@ function delete_post(post_id){
 
 
         let res = JSON.parse(responseData)
-        add_snackbar(res['server message'],"ok")
+        add_snackbar(res['response']['message'],"ok")
         // console.log(responseData)
         setTimeout(()=>{
             window.location.replace("/");

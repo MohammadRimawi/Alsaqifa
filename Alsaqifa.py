@@ -287,7 +287,7 @@ def page_controls():
 
     menu = Menu.load_menu()
 
-    url = api_host+"/api/get/page_widgets?all=true"
+    url = api_host+"/api/get/all_page_widgets"
     headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
     page_widgets = requests.post(url,headers=headers).json()
 
@@ -493,7 +493,7 @@ def widget_controls():
 def tags(tag):
 
     params = {}
-    params['cardless'] = 1
+    params['slider'] = 1
     params['page'] = request.args.get('page')
     if params['page'] == None:
         params['page']=1
@@ -513,9 +513,11 @@ def tags(tag):
     headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
     posts = requests.post(api_host+"/api/get/posts_by_tag",headers = headers,data=data,params=params)
     posts = posts.json()
+    pprint(posts)
     
     data = {}
     data['tags'] = []
+    pprint(posts['data'])
     for i in range(len(posts['data'])):
         print(posts['data'][i]['tags'])
         if  posts['data'][i]['tags']:
@@ -590,7 +592,7 @@ def all_posts():
 
 @app.route("/posts/<title>")
 def posts(title):
-
+    pprint(session)
     menu = Menu.load_menu()
     menu['active']=""
 
@@ -621,11 +623,12 @@ def posts(title):
             user_id = session['user_id']
 
         user_data = {
-            "user_id":str(user_id)
+            "user_id":str(user_id),
+            "post_id":str(post['data']['post_id'])
         }
         user_data = json.dumps(user_data)
         pprint(user_data)
-        url = api_host+"/api/get/comments/"+str(post['data']['post_id'])
+        url = api_host+"/api/get/comments"
         headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
 
         post['data']['comments'] = requests.post(url,headers=headers,data=user_data).json()
@@ -666,7 +669,7 @@ def new_posts():
     url = api_host+"/api/get/all_users"
 
     data = {
-        "condition":"author"
+        "role":"author"
     }
 
     data = json.dumps(data)
@@ -721,8 +724,8 @@ def edit_post():
     else:
         post['data']['tags'] = ""
     editor_data['post'] = post
-    print(post)
-    pprint(post)
+    # print(post)
+    # pprint(post)
     editor_data['type'] = "post"
 
     return render_template('utility/modal.html',editor_data=editor_data)
@@ -795,7 +798,7 @@ def playlists():
     response['server message'] = None
     response['status_code'] = 0
     headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-    playlists = requests.post(api_host+"/api/get/all_playlists",headers = headers)
+    playlists = requests.post(api_host+"/api/get/all_playlists?all=true",headers = headers)
     playlists = playlists.json()      
 
     headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
@@ -805,9 +808,12 @@ def playlists():
     if(request.form):
         if request.form['operation'] == "select_playlist":
 
+            data = {
+                "playlist_id" : str(request.form["select_playlist_id"])
+            }
+            data = json.dumps(data)
             headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-            r = requests.post(url=api_host+"/api/playlist/"+str(request.form["select_playlist_id"]),headers=headers)
-
+            r = requests.post(url=api_host+"/api/get/playlist",data=data,headers=headers)
             response = r.json()
             
             response['status_code'] = r.status_code
@@ -882,7 +888,14 @@ def playlist(playlist_name):
     menu = Menu.load_menu()
 
     try:
-        response = requests.get(api_host+'/api/playlist/'+str(playlist_name))
+        data = {
+            "name" : parse_in(str(playlist_name))
+        }
+
+        data = json.dumps(data)
+        headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+
+        response = requests.post(api_host+'/api/get/playlist',headers = headers, data=data)
     except:
         return "API NOT AVAILABLE"
         
@@ -958,7 +971,7 @@ def login():
 
 
                 headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-                url = api_host+"//api/add_token"
+                url = api_host+"/api/add/token"
 
                 r = requests.post(url, data=data, headers=headers)
 
@@ -989,13 +1002,13 @@ def signup():
 
         headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
         user = requests.post(url,headers=headers,data=data).json()
-
+        pprint(user)
         url = api_host+"/api/create/authentication"
         salt = str.encode(os.getenv("HASH_SALT"))
         password = hashlib.pbkdf2_hmac('sha256',request.form['password'].encode('utf-8'),salt,100000,dklen=64)
 
         data = {
-            "user_id":str(user['user_id']),
+            "user_id":str(user['data']['user_id']),
             "username": str(request.form['username']),
             "password": str(password),  
             "email": str(request.form['email']),           
@@ -1007,7 +1020,7 @@ def signup():
         auth_res = requests.post(url,headers=headers,data=data)
 
         if auth_res.status_code == 200:
-            session["user_id"] = str(user['user_id']),
+            session["user_id"] = str(user['data']['user_id'])
             session["name"] =  str(request.form['firstname'])+" "+str(request.form['lastname'])
             session["image_url"] = ""
 
@@ -1019,7 +1032,7 @@ def signup():
             expiration_date = (now + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M:%S')
 
             data = {
-                "user_id":str(user['user_id']),
+                "user_id":str(user['data']['user_id']),
                 "creation_date":str(creation_date),
                 "last_touched_date":str(creation_date),
                 "expiration_date":str(expiration_date),
@@ -1029,7 +1042,7 @@ def signup():
 
 
             headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-            url = api_host+"//api/add_token"
+            url = api_host+"/api/add/token"
 
             r = requests.post(url, data=data, headers=headers)
 
@@ -1088,15 +1101,13 @@ def page_widgets():
         return response,500
         pass
 
-@app.route("/get/comments/<post_id>",methods=['POST','GET'])
-def get_comments(post_id):
+@app.route("/get/comments",methods=['POST'])
+def get_comments():
     response = {}
     try:
-        if request.data:
-            data = request.get_json()
-            data = json.dumps(data)
-        else:
-            data = {}
+        data = request.get_json()
+        data = json.dumps(data)
+            
         if request.args.get('page'):
             page = int(request.args.get('page'))
         else:
@@ -1111,11 +1122,11 @@ def get_comments(post_id):
         params = {}
         params["page"]=page,
         params["offset"]=offset
-
-        url = api_host+"/api/get/comments/"
-        headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-        data = requests.post(url+str(post_id),data=data,headers = headers,params=params).json()
         pprint(data)
+        
+        url = api_host+"/api/get/comments"
+        headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
+        data = requests.post(url,data=data,headers = headers,params=params).json()
         response['data']=render_template("view/posts/comments.html",comments = data,session = session)
         response['pages']=data['pages']
         return response,200
@@ -1133,7 +1144,7 @@ def like_post_redirect():
         data = request.get_json()
         data = json.dumps(data)
         headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-        return requests.post(api_host+"/api/like_post",headers = headers,data=data).json()
+        return requests.post(api_host+"/api/toggle/like_post",headers = headers,data=data).json()
 
     except Exception as e :
 
@@ -1148,7 +1159,7 @@ def like_comment_redirect():
         data = request.get_json()
         data = json.dumps(data)
         headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-        return requests.post(api_host+"/api/like_comment",headers = headers,data=data).json()
+        return requests.post(api_host+"/api/toggle/like_comment",headers = headers,data=data).json()
 
     except Exception as e :
 
@@ -1164,7 +1175,7 @@ def add_post_comment_redirect():
         data = request.get_json()
         data = json.dumps(data)
         headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-        response = requests.post(api_host+"/api/add_post_comment",headers = headers,data=data).json()
+        response = requests.post(api_host+"/api/create/comment",headers = headers,data=data).json()
         response['data']=render_template('view/posts/comments.html',comments = response)
         pprint(response)
         return response,200
@@ -1182,7 +1193,7 @@ def update_comment_redirect():
         pprint(data)
         data = json.dumps(data)
         headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-        response = requests.put(api_host+"/api/update/update_comment",headers = headers,data=data).json()
+        response = requests.put(api_host+"/api/update/comment",headers = headers,data=data).json()
         pprint(response)
         return response,200
     except Exception as e :
@@ -1219,7 +1230,7 @@ def add_new_post():
             now = datetime.now()
             creation_date = now.strftime('%Y-%m-%d %H:%M:%S')
 
-            url = api_host+"/api/add_new_post"
+            url = api_host+"/api/create/post"
 
 
             data = {
@@ -1288,8 +1299,7 @@ def update_post():
             now = datetime.now()
             creation_date = now.strftime('%Y-%m-%d %H:%M:%S')
 
-            url = api_host+"/api/update/update_post"
-            print("************************")
+            url = api_host+"/api/update/post"
             data = {
                 "title":str(request.form['title']),
                 "post_id":str(request.form['post_id']),
@@ -1335,7 +1345,7 @@ def delete_post():
         data = request.get_json()
         data = json.dumps(data)
         headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-        return requests.delete(api_host+"/api/delete/delete_post",headers = headers,data=data).json()
+        return requests.delete(api_host+"/api/delete/post",headers = headers,data=data).json()
         pass
     except Exception as e :
         response["server message"] = 'Server Error!\n"'+str(e)+'"' 
@@ -1351,7 +1361,7 @@ def delete_comment():
         data = request.get_json()
         data = json.dumps(data)
         headers = {'Content-Type': 'application/json', 'charset':'UTF-8'}
-        return requests.delete(api_host+"/api/delete/delete_comment",headers = headers,data=data).json()
+        return requests.delete(api_host+"/api/delete/comment",headers = headers,data=data).json()
         pass
     except Exception as e :
         response["server message"] = 'Server Error!\n"'+str(e)+'"' 
