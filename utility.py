@@ -19,13 +19,44 @@ def parse_in(s):
         else: new_s.append(s[i])
     return "".join(new_s)
 
-def parse_out(s):
-    new_s=[]
-    for i in range(len(s)): 
-        if s[i]==' ':new_s.append('-')
-        else: new_s.append(s[i])
-    return "".join(new_s)
+# def parse_out(s):
+#     new_s=[]
 
+#     for i in range(len(s)): 
+#         if s[i]==' ':new_s.append('-')
+#         else: new_s.append(s[i])
+
+    
+#     return "".join(new_s)
+def parse_out(s):
+
+    new_s=[]
+    # s =  ""
+    
+    for i in range(len(s)): 
+        if s[i]=='/': pass
+        else: new_s.append(s[i])
+ 
+    f = "".join(new_s)
+    f = " ".join(f.split())
+
+    new_s = []
+    for i in range(len(f)): 
+        if f[i]==' ':new_s.append('-')
+        else: new_s.append(f[i])
+
+    f = "".join(new_s)
+    f = " ".join(f.split())
+    # print(f,"@@@@@@@@@@@@@@@@@@d")
+
+    # for i in range(len(s)): 
+    #     if new_s[i]==' ':new_s.append('-')
+    #     elif s[i]=='/': pass
+    #     else: new_s.append(s[i])
+
+
+
+    return f
 
 
 def allowed_audio_file(filename):
