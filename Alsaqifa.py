@@ -45,7 +45,10 @@ bundles = {
 assets = Environment(app)
 
 assets.register(bundles)
-api_host="http://rimawidell:5001"
+API_HOST = os.getenv("API_HOST")
+API_PORT = os.getenv("API_PORT")
+
+api_host="http://"+str(API_HOST)+":"+str(API_PORT)
 
 
 
@@ -695,7 +698,7 @@ def edit_post():
     url = api_host+"/api/get/all_users"
 
     author_data = {
-        "condition":"author"
+        "role":"author"
     }
 
     author_data = json.dumps(author_data)
@@ -725,7 +728,7 @@ def edit_post():
         post['data']['tags'] = ""
     editor_data['post'] = post
     # print(post)
-    # pprint(post)
+    pprint(post)
     editor_data['type'] = "post"
 
     return render_template('utility/modal.html',editor_data=editor_data)
@@ -1238,6 +1241,7 @@ def add_new_post():
                 "user_id":str(request.form['author']),
                 "image_url":str(image_url),
                 "text":str(request.form['text']),
+                "description":str(request.form['description']),
                 "posted_by":str(request.form['user_id']),
                 "token":str(request.form['token']),
                 "date":str(creation_date),
@@ -1306,6 +1310,7 @@ def update_post():
                 "user_id":str(request.form['author']),
                 "image_url":str(image_url),
                 "text":str(request.form['text']),
+                "description":str(request.form['description']),
                 "token":str(request.form['token']),
                 "date":str(creation_date),
                 "tags":tags

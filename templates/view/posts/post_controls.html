@@ -51,6 +51,13 @@
 
             <div class="flex-row">
                 <div class="flex-column">
+                    <label for="fileinput" class="form-label">الملخص</label>
+                   <textarea  class="form-input" name = "description">{% if editor_data['type'] == "post" %}{{editor_data['post']['data']['description']}}{% endif %}</textarea>
+                </div>
+            </div>
+
+            <div class="flex-row">
+                <div class="flex-column">
                     <label for="fileinput" class="form-label">الصورة</label>
                     <input type="file" name = "image_file" class="form-input" id="fileinput">
                 </div>

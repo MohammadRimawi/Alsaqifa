@@ -345,7 +345,7 @@ function update_post(event){
         add_snackbar(res['server message'],"ok")
         add_snackbar(res['uploader message'],res['uploader status'])
 
-        window.location.replace("/posts/"+document.querySelector('input[name="title"]').value.replace(new RegExp(' ', 'g'),'-'));
+        window.location.replace("/posts/"+document.querySelector('input[name="title"]').value.replace(new RegExp('/', 'g'),' ').replace(new RegExp(/ +/g, 'g'),'-'));
         
     }).catch(err => { 
         add_snackbar(err,'warning')
